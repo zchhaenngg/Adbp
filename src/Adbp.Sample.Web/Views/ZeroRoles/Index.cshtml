@@ -1,0 +1,304 @@
+﻿@using Adbp.Zero.Authorization.Roles.Dto
+@using Abp.Application.Services.Dto
+@{
+    ViewBag.Title = "Index";
+    ViewBag.ActiveMenu = PageNames.RoleManagement;
+}
+@model ListResultDto<PermissionDto>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb adbp-breadcrumb-background">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Roles</li>
+  </ol>
+</nav>
+<div class="card adbp-background">
+    <div class="card-body">
+        <div class="bd-highlight adbp-toolbar">
+            <div class="float-left">
+                <div class="input-group">
+                    <button type="button" class="btn btn-outline-info adbp-toolbar-btn" data-toggle="modal" data-target="#RoleCreateModal" title="添加角色">
+                        <i class="fas fa-plus fa-sm"></i>
+                    </button>
+                    <button id="btn-roleIndex_edit" type="button" class="btn btn-outline-info adbp-toolbar-btn" title="编辑角色" disabled="disabled">
+                        <i class="fas fa-pencil-alt fa-sm"></i>
+                    </button>
+                    <button id="btn-roleIndex_delete" type="button" class="btn btn-outline-info adbp-toolbar-btn" title="删除角色" disabled="disabled">
+                        <i class="fas fa-trash-alt fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="float-right">
+                <div class="input-group">
+                    <input id="table-search" type="text" class="form-control" placeholder="search all">
+                </div>
+            </div>
+        </div>
+        <table id="rolesIndex-table" class="display">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@L("RoleName")</th>
+                    <th>@L("DisplayName")</th>
+                    <th>最后修改时间</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="RoleCreateModal" tabindex="-1" role="dialog" aria-labelledby="RoleCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="roleCreateForm" action="/adbproles/CreateRoleAsync">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span>@L("CreateNewRole")</span>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#nav-basic">Role Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#nav-permissions">Role Permissions</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="nav-basic" role="tabpanel">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("RoleName")</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="Name" data-vd="{name:'role name', r:true, maxL:20}" class="form-control" placeholder="@L("RoleName")">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("DisplayName")</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="DisplayName" data-vd="{name:'display name', r:true, maxL:32}" class="form-control" placeholder="@L("DisplayName")">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea name="Description" class="form-control" rows="3" placeholder="Role Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-permissions" role="tabpanel">
+                            <div class="form-group row">
+                                @foreach (var item in Model.Items)
+                                {
+                                    var permissionId = "c_permission_" + item.Name;
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <input name="Permissions" class="form-check-input adbp-checkbox filled-in" type="checkbox" value="@item.Name" id="@permissionId">
+                                            <label class="form-check-label" for="@permissionId">
+                                                @item.DisplayName
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@L("Cancel")</button>
+                    <button type="submit" class="btn btn-primary">@L("Save")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="RoleEditModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="roleEditForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span>@L("EditRole")</span>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="Id" />
+                     <ul class="nav nav-tabs mb-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#nav-basic2">Role Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#nav-permissions2">Role Permissions</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="nav-basic2" role="tabpanel">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("RoleName")</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="Name" data-vd="{name:'role name', r:true, maxL:20}" class="form-control" placeholder="@L("RoleName")">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("DisplayName")</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="DisplayName" data-vd="{name:'display name', r:true, maxL:20}" class="form-control" placeholder="@L("DisplayName")">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea name="Description" class="form-control" rows="3" placeholder="Role Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-permissions2" role="tabpanel">
+                            <div class="form-group row">
+                                @foreach (var item in Model.Items)
+                                {
+                                    var permissionId = "e_permission_" + item.Name;
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <input name="Permissions" class="form-check-input adbp-checkbox filled-in" type="checkbox" value="@item.Name" id="@permissionId">
+                                            <label class="form-check-label" for="@permissionId">
+                                                @item.DisplayName
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@L("Cancel")</button>
+                    <button type="button" id="btn-editForm_submit" class="btn btn-primary">@L("Save")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        (function () {
+             //index页面
+            var selector = {
+                roleTable: "#rolesIndex-table",
+                createModal: "#RoleCreateModal",
+                createForm: "#roleCreateForm"
+            };
+
+            window.table = new abp.table.client(selector.roleTable, {
+                "order": [[3, "desc"]],
+                columns: [
+                    {
+                        render: function (data, type, full, meta) {
+                            return '';
+                        }
+                    },
+                    {
+                        data: 'name', render: function (data, type, full, meta) {
+                            return `<a href="/zeroroles/details?roleId=${full.id}">${data}</a>`;
+                        }
+                    },
+                    { data: 'displayName' },
+                    {
+                        data: 'lastModificationTime', render: function (data, type, full, meta) {
+                            return abp.timing.datetimeStr(data);
+                        }
+                    },
+                ]
+            }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-roleIndex_edit", function (e, dt, type, indexes) {
+                if (dt.isSingleSelected()) {
+                    $(this).removeAttr("disabled");
+                }
+                else {
+                    $(this).attr("disabled", true);
+                }
+            }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-roleIndex_delete", function (e, dt, type, indexes) {
+                if (dt.isSingleSelected()) {
+                    if (!dt.singleSelected().isStatic) {
+                        $(this).removeAttr("disabled");
+                    }
+                    else {
+                        $(this).attr("disabled", true);
+                    }
+                }
+                else {
+                    $(this).attr("disabled", true);
+                }
+            });
+            table.data = function () {
+                return abp.ajax({
+                    url: '/zeroRoles/GetRoles'
+                });
+            }
+            table.show();
+
+            $(selector.createModal).on("show.bs.modal", function () {
+                $(selector.createForm).resetForm();
+            });
+
+            $('#table-search').on('keyup', function () {
+                table.search(this.value);
+            });
+
+            function initEditModal({ id, name, displayName, description, permissions, isStatic }) {
+                $("#roleEditForm").resetForm();
+
+                $("#roleEditForm [name=Id]").val(id);
+                $("#roleEditForm [name=Name]").val(name);
+                $("#roleEditForm [name=DisplayName]").val(displayName);
+                $("#roleEditForm [name=Description]").val(description);
+                if (permissions != null) {
+                    for (var i in permissions) {
+                        $(`#roleEditForm [name=Permissions][value='${permissions[i]}']`).prop("checked", true);
+                    }
+                }
+                if (isStatic) {
+                    $("#roleEditForm [name=Permissions]").attr("disabled", true);
+                }
+            }
+
+            $("#btn-roleIndex_edit").on("click", function () {
+                var row = window.table.singleSelected();
+                initEditModal(row);
+                $("#RoleEditModal").modal("show");
+            });
+
+            $("#btn-roleIndex_delete").on("click", function () {
+                abp.message.confirm('', "确认删除角色！").done((value) => {
+                    if (value) {
+                        var row = window.table.singleSelected();
+                        abp.services.app.role.delete(row.id).done(function () {
+                            abp.notify.success("操作成功！");
+                            table.show();
+                        });
+                    }
+                }) 
+            });
+
+            $(selector.createForm).abpAjaxForm(function () {
+                $(selector.createForm).resetForm();
+                $(selector.createModal).modal("hide");
+
+                abp.notify.success("操作成功！");
+                table.show();
+            });
+            $("#btn-editForm_submit").on("click", function () {
+                if (abp.isDispatched(this, "click")) {
+                    return;
+                }
+                if (abp.validate("#roleEditForm") === false) {
+                    return false;
+                }
+                var role = $("#roleEditForm").deserialize();
+                abp.services.app.role.updateRole(role).done(function () {
+                    $("#RoleEditModal").modal("hide");
+                    abp.notify.success("操作成功！");
+                    table.show();
+                });
+            });
+        })();
+    </script>
+}

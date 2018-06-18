@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="en">
+  <texts>
+    <!--角色赋予权限时，权限的displayName-->
+    <text name="Permissions_Tenant" value="Tenants" />
+    <text name="Permissions_User" value="Users" />
+    <text name="Permissions_User_Create" value="Users.Create" />
+    <text name="Permissions_User_Retrieve" value="Users.Retrieve" />
+    <text name="Permissions_User_Update" value="Users.Update" />
+    <text name="Permissions_User_Delete" value="Users.Delete" />
+    
+    <text name="Permissions_Role" value="Roles" />
+    <text name="Permissions_Role_Create" value="Roles.Create" />
+    <text name="Permissions_Role_Retrieve" value="Roles.Retrieve" />
+    <text name="Permissions_Role_Update" value="Roles.Update" />
+    <text name="Permissions_Role_Delete" value="Roles.Delete" />
+    
+    <text name="Permissions_OrganizationUnit" value="OrganizationUnits" />
+    <text name="Permissions_OrganizationUnit_Create" value="OrganizationUnits.Create" />
+    <text name="Permissions_OrganizationUnit_Retrieve" value="OrganizationUnits.Retrieve" />
+    <text name="Permissions_OrganizationUnit_Update" value="OrganizationUnits.Update" />
+    <text name="Permissions_OrganizationUnit_Delete" value="OrganizationUnits.Delete" />
+    
+    <text name="Permissions_AuditLog" value="AuditLogs" />
+    <text name="Permissions_LoginAttemptLog" value="LoginAttemptLogs" />
+    <text name="Permissions_Home" value="Home" />
+    
+    <text name="Permissions_SystemSetting" value="SystemSettings" />
+    
+    
+    <!--页面左侧菜单栏，菜单的displayName-->
+    <text name="MENU_PersonalPortal" value="Personal Portal"/>
+    <text name="MENU_HomePage" value="Home page"/>
+    <text name="MENU_Administration" value="Administration"/>
+    <text name="MENU_OrganizationUnit" value="Organization Unit"/>
+    <text name="MENU_TenantManagement" value="Tenant Management"/>
+    <text name="MENU_UserManagement" value="User Management"/>
+    <text name="MENU_RoleManagement" value="Role Management"/>
+    <text name="MENU_AuditLog" value="Audit Log"/>
+    <text name="MENU_LoginAttemptLog" value="Login Attempts Log"/>
+    <text name="MENU_SystemSettings" value="System Settings"/>
+
+    <!--枚举类型，在UI上显示的displayName-->
+    <text name="ENUM_AbpLoginResultType_Success" value="Success"/>
+    <text name="ENUM_AbpLoginResultType_InvalidUserNameOrEmailAddress" value="Invalid User Name Or Email Address"/>
+    <text name="ENUM_AbpLoginResultType_InvalidPassword" value="Invalid Password"/>
+    <text name="ENUM_AbpLoginResultType_UserIsNotActive" value="User Is Not Active"/>
+    <text name="ENUM_AbpLoginResultType_InvalidTenancyName" value="Invalid Tenancy Name"/>
+    <text name="ENUM_AbpLoginResultType_TenantIsNotActive" value="Tenant Is Not Active"/>
+    <text name="ENUM_AbpLoginResultType_UserEmailIsNotConfirmed" value="User Email Is Not Confirmed"/>
+    <text name="ENUM_AbpLoginResultType_UnknownExternalLogin" value="Unknown External Login"/>
+    <text name="ENUM_AbpLoginResultType_LockedOut" value="Locked Out"/>
+    <text name="ENUM_AbpLoginResultType_UserPhoneNumberIsNotConfirmed" value="User Phone Number Is Not Confirmed"/>
+
+    <text name="ENUM_AccessLevel_Reject" value="Reject" />
+    <text name="ENUM_AccessLevel_Create" value="Create" />
+    <text name="ENUM_AccessLevel_Retrieve" value="Retrieve" />
+    <text name="ENUM_AccessLevel_Update" value="Update" />
+    <text name="ENUM_AccessLevel_Delete" value="Delete" />
+  </texts>
+</localizationDictionary>

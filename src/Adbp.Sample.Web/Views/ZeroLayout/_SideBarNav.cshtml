@@ -1,0 +1,90 @@
+﻿@using Abp.Collections.Extensions
+@using Adbp.Sample.Web.Views
+@model Adbp.Zero.MVC.Models.Layout.SideBarNavViewModel
+@{
+    var calculateMenuUrl = new Func<string, string>((url) =>
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return ApplicationPath;
+        }
+
+        if (UrlChecker.IsRooted(url))
+        {
+            return url;
+        }
+
+        return ApplicationPath + url;
+    });
+
+    var activeClass = new Func<string, string>((itemName) =>
+    {
+        return Model.ActiveMenuItemName == itemName ? "adbp-menu-item-selected" : "";
+    });
+}
+<ul class="adbp-menu adbp-menu-1">
+    @foreach (var menuItem in Model.MainMenu.Items)
+    {
+        if (menuItem.Items == null || menuItem.Items.Count == 0)
+        {
+            <li class="adbp-menu-item @(activeClass(menuItem.Name))">
+                <a href="@calculateMenuUrl(menuItem.Url)" class="adbp-menu-item-content">
+                    <span class="oi oi-@menuItem.Icon"></span>
+                    @menuItem.DisplayName
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="adbp-menu-item @(activeClass(menuItem.Name)) adbp-menu-item-group adbp-menu-item-open">
+                <div class="adbp-menu-item-content">
+                    <span class="oi oi-@menuItem.Icon"></span>
+                    <span>@menuItem.DisplayName</span>
+                    <i class="adbp-menu-arrow"></i>
+                </div>
+                <ul class="adbp-menu adbp-menu-2">
+                    @foreach (var subMenuItem in menuItem.Items)
+                    {
+                        if (subMenuItem == null || subMenuItem.Items.Count == 0)
+                        {
+                            <li class="adbp-menu-item @(activeClass(subMenuItem.Name))">
+                                <a href="@calculateMenuUrl(subMenuItem.Url)" class="adbp-menu-item-content">
+                                    <span class="oi oi-@subMenuItem.Icon"></span>
+                                    @subMenuItem.DisplayName
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="adbp-menu-item @(activeClass(subMenuItem.Name)) adbp-menu-item-group adbp-menu-item-open">
+                                <div class="adbp-menu-item-content">
+                                    <span class="oi oi-@subMenuItem.Icon"></span>
+                                    <span>@subMenuItem.DisplayName</span>
+                                    <i class="adbp-menu-arrow"></i>
+                                </div>
+                                <ul class="adbp-menu adbp-menu-3">
+                                    @foreach (var subsubMenuItem in subMenuItem.Items)
+                                    {
+                                        if (subsubMenuItem == null || subsubMenuItem.Items.Count == 0)
+                                        {
+                                            <li class="adbp-menu-item @(activeClass(subsubMenuItem.Name))">
+                                                <a href="@calculateMenuUrl(subsubMenuItem.Url)" class="adbp-menu-item-content">
+                                                    <span class="oi oi-@subsubMenuItem.Icon"></span>
+                                                    @subsubMenuItem.DisplayName
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("最多只支持3层");
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+        }
+    }
+</ul>

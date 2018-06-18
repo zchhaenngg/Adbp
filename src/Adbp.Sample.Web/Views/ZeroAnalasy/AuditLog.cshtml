@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "AuditLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenu = PageNames.AuditLog;
+
+    string AT = "@";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb adbp-breadcrumb-background">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">AuditLog</li>
+    </ol>
+</nav>
+<div class="card adbp-background">
+    <div class="card-body">
+        <div class="bd-highlight adbp-toolbar">
+            <div class="float-right">
+                <div class="input-group">
+                    <input id="table-search" type="text" class="form-control" placeholder="@(AT)001" value="@(AT)001">
+                </div>
+            </div>
+        </div>
+        <table id="auditLog-table" class="display">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>操作者</th>
+                    <th>调用服务</th>
+                    <th>方法</th>
+                    <th>参数</th>
+                    <th>持续时间</th>
+                    <th>IP地址</th>
+                    <th>客户端</th>
+                    <th>浏览器</th>
+                    <th>异常</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        var table = new abp.table.server("#auditLog-table", {
+            "columnDefs": null,
+            "order": [[0, "desc"]],
+            'ajax': {
+                url: '/zeroanalasy/getAuditLogs',
+                data: function (params) {
+                    params.search.value = $("#table-search").val();
+                    return params;
+                }
+            },
+            columns: [
+                {
+                    data: 'ExecutionTime', render: function (data, type, full, meta) {
+                        return abp.timing.datetimeStr(data);
+                    }
+                },
+                { data: 'UserStr' },
+                {
+                    data: 'ServiceName', render: function (data, type, full, meta) {
+                        return `<p class="text-body" data-toggle="popover" title="ServiceName" data-content="${data}">${data.split(".").reverse().shift()}</p>`;
+                    }
+                },
+                { data: 'MethodName' },
+                {
+                    data: 'Parameters', render: function (data, type, full, meta) {
+                        
+                        let htmlStr = `<p class="text-body" data-toggle="popover" title="Parameters" data-content=${abp.escapeHtml(data)}">${abp.maxDisplay(data, 20, "...")}</p>`;
+                        return htmlStr;
+                        
+                    }
+                },
+                {
+                    data: 'ExecutionDuration', render: function (data, type, full, meta) {
+                        return data + " ms";
+                    }
+                },
+                { data: 'ClientIpAddress' },
+                { data: 'ClientName' },
+                { data: 'BrowserInfo' },
+                {
+                    data: 'Exception', render: function (data, type, full, meta) {
+                        if (!data) {
+                            return data;
+                        }
+                        let htmlStr = `<p class="text-body" data-toggle="popover" title="Parameters" data-content=${abp.escapeHtml(data)}">${abp.maxDisplay(data, 30, "...")}</p>`;
+                        return htmlStr;
+                    }
+                },
+            ]
+        }).setStyle("rtip");
+        table.afterDraw = function () {
+            $('[data-toggle="popover"]').popover({ 'trigger': 'hover' });
+        };
+        table.show();
+        
+        //table-search
+        $("#table-search").on("change", function () {
+            table.show();
+        });
+    </script>
+}

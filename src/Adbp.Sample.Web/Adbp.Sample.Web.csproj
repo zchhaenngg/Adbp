@@ -1,0 +1,1021 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B17D343A-7018-497B-A8BD-CC6366529662}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Adbp.Sample.Web</RootNamespace>
+    <AssemblyName>Adbp.Sample.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Abp, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.3.6.2\lib\netstandard2.0\Abp.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.AutoMapper, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.AutoMapper.3.6.2\lib\netstandard2.0\Abp.AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Castle.Log4Net, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Castle.Log4Net.3.6.2\lib\netstandard2.0\Abp.Castle.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Owin, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Owin.3.6.2\lib\net461\Abp.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Web, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Web.3.6.2\lib\net461\Abp.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Web.Api, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Web.Api.3.6.2\lib\net461\Abp.Web.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Web.Common, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Web.Common.3.6.2\lib\netstandard2.0\Abp.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Web.Mvc">
+      <HintPath>..\..\packages\Abp.Web.Mvc.3.6.2\lib\net461\Abp.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Zero, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Zero.3.6.2\lib\net461\Abp.Zero.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Zero.Common, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Abp.Zero.Common.3.6.2\lib\netstandard2.0\Abp.Zero.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.LoggingFacility.4.1.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.3\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Options.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.FileSystems.4.0.0\lib\net451\Microsoft.Owin.FileSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.4.0.0\lib\net451\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.4.0.0\lib\net451\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.StaticFiles.4.0.0\lib\net451\Microsoft.Owin.StaticFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Coordination, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.Coordination.1.0.2\lib\net46\Nito.AsyncEx.Coordination.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.Tasks.1.1.0\lib\net46\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Collections.Deque, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.Collections.Deque.1.0.4\lib\netstandard2.0\Nito.Collections.Deque.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.Disposables.2.0.0\lib\netstandard2.0\Nito.Disposables.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Configuration.ConfigurationManager.4.5.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Linq.Dynamic.Core.1.0.8.9\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.0\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.Serialization.Formatters.4.3.0\lib\net46\System.Runtime.Serialization.Formatters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Claims, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Claims.4.3.0\lib\net46\System.Security.Claims.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Permissions.4.5.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.6\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XPath, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Xml.XPath.4.3.0\lib\net46\System.Xml.XPath.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Xml.XPath.XmlDocument.4.3.0\lib\net46\System.Xml.XPath.XmlDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="TimeZoneConverter, Version=2.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TimeZoneConverter.2.4.1\lib\net45\TimeZoneConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SampleNavigationProvider.cs" />
+    <Compile Include="App_Start\SampleWebModule.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\GuestsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SampleControllerBase.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\SampleWebViewPageBase.cs" />
+    <Compile Include="Views\UrlChecker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ES6\ZeroAnalasy\AuditLog.js" />
+    <Content Include="ES6\ZeroAnalasy\LoginAttemptLog.js" />
+    <Content Include="ES6\ZeroAnalasy\SelfLogins.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="gulpfile.js" />
+    <Content Include="log4net.config" />
+    <Content Include="Models\T4\CrudView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CrudView.cshtml</LastGenOutput>
+    </Content>
+    <Content Include="ES6\adbp\adbp.blockUI.js" />
+    <Content Include="ES6\adbp\adbp.jstree.js" />
+    <Content Include="wwwroot\libs\adbp\css\adbp.css" />
+    <Content Include="ES6\adbp\adbp.jquery.js" />
+    <Content Include="ES6\adbp\adbp.js" />
+    <Content Include="ES6\adbp\adbp.moment.js" />
+    <Content Include="ES6\adbp\adbp.spin.js" />
+    <Content Include="ES6\adbp\adbp.toastr.js" />
+    <Content Include="ES6\adbp\adbp.validate.js" />
+    <Content Include="wwwroot\libs\adbp\css\adbp.datatable.css" />
+    <Content Include="wwwroot\libs\adbp\css\adbp.layout.css" />
+    <Content Include="wwwroot\es5\adbp\adbp.ajaxForm.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.blockUI.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.datatables.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.jquery.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.jstree.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.moment.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.spin.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.sweetalert.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.toastr.js" />
+    <Content Include="wwwroot\es5\adbp\adbp.validate.js" />
+    <Content Include="wwwroot\es5\ZeroAnalasy\AuditLog.js" />
+    <Content Include="wwwroot\es5\ZeroAnalasy\LoginAttemptLog.js" />
+    <Content Include="wwwroot\es5\ZeroAnalasy\SelfLogins.js" />
+    <Content Include="wwwroot\libs\abp\abp.js" />
+    <Content Include="wwwroot\libs\babel-polyfill\polyfill.js" />
+    <Content Include="wwwroot\libs\babel-polyfill\polyfill.min.js" />
+    <Content Include="wwwroot\libs\daterangepicker\daterangepicker.css" />
+    <Content Include="wwwroot\libs\daterangepicker\daterangepicker.js" />
+    <Content Include="wwwroot\libs\font-awesome\css\fa-brands.css" />
+    <Content Include="wwwroot\libs\font-awesome\css\fa-regular.css" />
+    <Content Include="wwwroot\libs\font-awesome\css\fa-solid.css" />
+    <Content Include="wwwroot\libs\font-awesome\css\fontawesome-all.css" />
+    <Content Include="wwwroot\libs\font-awesome\css\fontawesome.css" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.svg" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-regular-400.svg" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.svg" />
+    <Content Include="wwwroot\libs\jquery.blockui\jquery.blockUI.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\autoFill.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\buttons.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\colReorder.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.material.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.material.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.uikit.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\dataTables.uikit.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedColumns.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\fixedHeader.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\jquery.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\jquery.dataTables_themeroller.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\keyTable.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\responsive.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowGroup.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\rowReorder.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\scroller.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.bootstrap.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.bootstrap.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.bootstrap4.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.bootstrap4.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.dataTables.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.dataTables.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.foundation.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.foundation.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.jqueryui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.jqueryui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.semanticui.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\select.semanticui.min.css" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\details_close.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\details_open.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\sort_asc.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\sort_asc_disabled.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\sort_both.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\sort_desc.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\images\sort_desc_disabled.png" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.bootstrap.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.bootstrap.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.bootstrap4.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.bootstrap4.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.foundation.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.foundation.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.jqueryui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.jqueryui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.semanticui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\autoFill.semanticui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.bootstrap.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.bootstrap.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.bootstrap4.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.bootstrap4.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.colVis.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.colVis.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.flash.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.flash.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.foundation.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.foundation.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.html5.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.html5.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.jqueryui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.jqueryui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.print.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.print.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.semanticui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\buttons.semanticui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.autoFill.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.autoFill.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.bootstrap.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.bootstrap.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.bootstrap4.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.bootstrap4.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.buttons.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.buttons.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.colReorder.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.colReorder.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.fixedColumns.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.fixedColumns.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.fixedHeader.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.fixedHeader.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.foundation.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.foundation.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.jqueryui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.jqueryui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.keyTable.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.keyTable.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.material.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.material.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.responsive.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.responsive.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.rowGroup.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.rowGroup.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.rowReorder.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.rowReorder.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.scroller.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.scroller.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.select.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.select.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.semanticui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.semanticui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.uikit.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\dataTables.uikit.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\jquery.dataTables.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\jquery.dataTables.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.bootstrap.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.bootstrap.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.bootstrap4.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.bootstrap4.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.foundation.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.foundation.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.jqueryui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.jqueryui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.semanticui.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\js\responsive.semanticui.min.js" />
+    <Content Include="wwwroot\libs\jquery.datatables\swf\flashExport.swf" />
+    <Content Include="wwwroot\libs\jquery.form\jquery.form.js" />
+    <Content Include="wwwroot\libs\jquery.form\jquery.form.min.js" />
+    <Content Include="wwwroot\libs\jstree\jstree.js" />
+    <Content Include="wwwroot\libs\jstree\jstree.min.js" />
+    <Content Include="wwwroot\libs\jstree\themes\default-dark\32px.png" />
+    <Content Include="wwwroot\libs\jstree\themes\default-dark\40px.png" />
+    <Content Include="wwwroot\libs\jstree\themes\default-dark\style.css" />
+    <Content Include="wwwroot\libs\jstree\themes\default-dark\style.min.css" />
+    <Content Include="wwwroot\libs\jstree\themes\default-dark\throbber.gif" />
+    <Content Include="wwwroot\libs\jstree\themes\default\32px.png" />
+    <Content Include="wwwroot\libs\jstree\themes\default\40px.png" />
+    <Content Include="wwwroot\libs\jstree\themes\default\style.css" />
+    <Content Include="wwwroot\libs\jstree\themes\default\style.min.css" />
+    <Content Include="wwwroot\libs\jstree\themes\default\throbber.gif" />
+    <Content Include="wwwroot\libs\material-icons\material-icons.css" />
+    <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.svg" />
+    <Content Include="wwwroot\libs\moment\locale\af.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar-dz.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar-kw.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar-ly.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar-ma.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar-sa.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar-tn.js" />
+    <Content Include="wwwroot\libs\moment\locale\ar.js" />
+    <Content Include="wwwroot\libs\moment\locale\az.js" />
+    <Content Include="wwwroot\libs\moment\locale\be.js" />
+    <Content Include="wwwroot\libs\moment\locale\bg.js" />
+    <Content Include="wwwroot\libs\moment\locale\bm.js" />
+    <Content Include="wwwroot\libs\moment\locale\bn.js" />
+    <Content Include="wwwroot\libs\moment\locale\bo.js" />
+    <Content Include="wwwroot\libs\moment\locale\br.js" />
+    <Content Include="wwwroot\libs\moment\locale\bs.js" />
+    <Content Include="wwwroot\libs\moment\locale\ca.js" />
+    <Content Include="wwwroot\libs\moment\locale\cs.js" />
+    <Content Include="wwwroot\libs\moment\locale\cv.js" />
+    <Content Include="wwwroot\libs\moment\locale\cy.js" />
+    <Content Include="wwwroot\libs\moment\locale\da.js" />
+    <Content Include="wwwroot\libs\moment\locale\de-at.js" />
+    <Content Include="wwwroot\libs\moment\locale\de-ch.js" />
+    <Content Include="wwwroot\libs\moment\locale\de.js" />
+    <Content Include="wwwroot\libs\moment\locale\dv.js" />
+    <Content Include="wwwroot\libs\moment\locale\el.js" />
+    <Content Include="wwwroot\libs\moment\locale\en-au.js" />
+    <Content Include="wwwroot\libs\moment\locale\en-ca.js" />
+    <Content Include="wwwroot\libs\moment\locale\en-gb.js" />
+    <Content Include="wwwroot\libs\moment\locale\en-ie.js" />
+    <Content Include="wwwroot\libs\moment\locale\en-nz.js" />
+    <Content Include="wwwroot\libs\moment\locale\eo.js" />
+    <Content Include="wwwroot\libs\moment\locale\es-do.js" />
+    <Content Include="wwwroot\libs\moment\locale\es-us.js" />
+    <Content Include="wwwroot\libs\moment\locale\es.js" />
+    <Content Include="wwwroot\libs\moment\locale\et.js" />
+    <Content Include="wwwroot\libs\moment\locale\eu.js" />
+    <Content Include="wwwroot\libs\moment\locale\fa.js" />
+    <Content Include="wwwroot\libs\moment\locale\fi.js" />
+    <Content Include="wwwroot\libs\moment\locale\fo.js" />
+    <Content Include="wwwroot\libs\moment\locale\fr-ca.js" />
+    <Content Include="wwwroot\libs\moment\locale\fr-ch.js" />
+    <Content Include="wwwroot\libs\moment\locale\fr.js" />
+    <Content Include="wwwroot\libs\moment\locale\fy.js" />
+    <Content Include="wwwroot\libs\moment\locale\gd.js" />
+    <Content Include="wwwroot\libs\moment\locale\gl.js" />
+    <Content Include="wwwroot\libs\moment\locale\gom-latn.js" />
+    <Content Include="wwwroot\libs\moment\locale\gu.js" />
+    <Content Include="wwwroot\libs\moment\locale\he.js" />
+    <Content Include="wwwroot\libs\moment\locale\hi.js" />
+    <Content Include="wwwroot\libs\moment\locale\hr.js" />
+    <Content Include="wwwroot\libs\moment\locale\hu.js" />
+    <Content Include="wwwroot\libs\moment\locale\hy-am.js" />
+    <Content Include="wwwroot\libs\moment\locale\id.js" />
+    <Content Include="wwwroot\libs\moment\locale\is.js" />
+    <Content Include="wwwroot\libs\moment\locale\it.js" />
+    <Content Include="wwwroot\libs\moment\locale\ja.js" />
+    <Content Include="wwwroot\libs\moment\locale\jv.js" />
+    <Content Include="wwwroot\libs\moment\locale\ka.js" />
+    <Content Include="wwwroot\libs\moment\locale\kk.js" />
+    <Content Include="wwwroot\libs\moment\locale\km.js" />
+    <Content Include="wwwroot\libs\moment\locale\kn.js" />
+    <Content Include="wwwroot\libs\moment\locale\ko.js" />
+    <Content Include="wwwroot\libs\moment\locale\ky.js" />
+    <Content Include="wwwroot\libs\moment\locale\lb.js" />
+    <Content Include="wwwroot\libs\moment\locale\lo.js" />
+    <Content Include="wwwroot\libs\moment\locale\lt.js" />
+    <Content Include="wwwroot\libs\moment\locale\lv.js" />
+    <Content Include="wwwroot\libs\moment\locale\me.js" />
+    <Content Include="wwwroot\libs\moment\locale\mi.js" />
+    <Content Include="wwwroot\libs\moment\locale\mk.js" />
+    <Content Include="wwwroot\libs\moment\locale\ml.js" />
+    <Content Include="wwwroot\libs\moment\locale\mr.js" />
+    <Content Include="wwwroot\libs\moment\locale\ms-my.js" />
+    <Content Include="wwwroot\libs\moment\locale\ms.js" />
+    <Content Include="wwwroot\libs\moment\locale\mt.js" />
+    <Content Include="wwwroot\libs\moment\locale\my.js" />
+    <Content Include="wwwroot\libs\moment\locale\nb.js" />
+    <Content Include="wwwroot\libs\moment\locale\ne.js" />
+    <Content Include="wwwroot\libs\moment\locale\nl-be.js" />
+    <Content Include="wwwroot\libs\moment\locale\nl.js" />
+    <Content Include="wwwroot\libs\moment\locale\nn.js" />
+    <Content Include="wwwroot\libs\moment\locale\pa-in.js" />
+    <Content Include="wwwroot\libs\moment\locale\pl.js" />
+    <Content Include="wwwroot\libs\moment\locale\pt-br.js" />
+    <Content Include="wwwroot\libs\moment\locale\pt.js" />
+    <Content Include="wwwroot\libs\moment\locale\ro.js" />
+    <Content Include="wwwroot\libs\moment\locale\ru.js" />
+    <Content Include="wwwroot\libs\moment\locale\sd.js" />
+    <Content Include="wwwroot\libs\moment\locale\se.js" />
+    <Content Include="wwwroot\libs\moment\locale\si.js" />
+    <Content Include="wwwroot\libs\moment\locale\sk.js" />
+    <Content Include="wwwroot\libs\moment\locale\sl.js" />
+    <Content Include="wwwroot\libs\moment\locale\sq.js" />
+    <Content Include="wwwroot\libs\moment\locale\sr-cyrl.js" />
+    <Content Include="wwwroot\libs\moment\locale\sr.js" />
+    <Content Include="wwwroot\libs\moment\locale\ss.js" />
+    <Content Include="wwwroot\libs\moment\locale\sv.js" />
+    <Content Include="wwwroot\libs\moment\locale\sw.js" />
+    <Content Include="wwwroot\libs\moment\locale\ta.js" />
+    <Content Include="wwwroot\libs\moment\locale\te.js" />
+    <Content Include="wwwroot\libs\moment\locale\tet.js" />
+    <Content Include="wwwroot\libs\moment\locale\th.js" />
+    <Content Include="wwwroot\libs\moment\locale\tl-ph.js" />
+    <Content Include="wwwroot\libs\moment\locale\tlh.js" />
+    <Content Include="wwwroot\libs\moment\locale\tr.js" />
+    <Content Include="wwwroot\libs\moment\locale\tzl.js" />
+    <Content Include="wwwroot\libs\moment\locale\tzm-latn.js" />
+    <Content Include="wwwroot\libs\moment\locale\tzm.js" />
+    <Content Include="wwwroot\libs\moment\locale\uk.js" />
+    <Content Include="wwwroot\libs\moment\locale\ur.js" />
+    <Content Include="wwwroot\libs\moment\locale\uz-latn.js" />
+    <Content Include="wwwroot\libs\moment\locale\uz.js" />
+    <Content Include="wwwroot\libs\moment\locale\vi.js" />
+    <Content Include="wwwroot\libs\moment\locale\x-pseudo.js" />
+    <Content Include="wwwroot\libs\moment\locale\yo.js" />
+    <Content Include="wwwroot\libs\moment\locale\zh-cn.js" />
+    <Content Include="wwwroot\libs\moment\locale\zh-hk.js" />
+    <Content Include="wwwroot\libs\moment\locale\zh-tw.js" />
+    <Content Include="wwwroot\libs\moment\min\locales.js" />
+    <Content Include="wwwroot\libs\moment\min\locales.min.js" />
+    <Content Include="wwwroot\libs\moment\min\moment-with-locales.js" />
+    <Content Include="wwwroot\libs\moment\min\moment-with-locales.min.js" />
+    <Content Include="wwwroot\libs\moment\min\moment.min.js" />
+    <Content Include="wwwroot\libs\spin.js\jquery.spin.js" />
+    <Content Include="wwwroot\libs\spin.js\spin.js" />
+    <Content Include="wwwroot\libs\spin.js\spin.min.js" />
+    <Content Include="wwwroot\libs\sweetalert\logo.svg" />
+    <Content Include="wwwroot\libs\sweetalert\sweetalert.min.js" />
+    <Content Include="wwwroot\libs\toastr\toastr.css" />
+    <Content Include="wwwroot\libs\toastr\toastr.js" />
+    <Content Include="wwwroot\libs\toastr\toastr.min.css" />
+    <Content Include="wwwroot\libs\toastr\toastr.min.js" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap.min.css" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.js" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.min.js" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-bootstrap.css" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-foundation.css" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic.css" />
+    <Content Include="wwwroot\libs\iconic\fonts\open-iconic.svg" />
+    <Content Include="wwwroot\libs\jquery\Adbp.md" />
+    <Content Include="wwwroot\libs\iconic\Adbp.md" />
+    <Content Include="wwwroot\libs\bootstrap\Adbp.md" />
+    <Content Include="wwwroot\libs\jquery.blockui\Adbp.md" />
+    <Content Include="wwwroot\libs\font-awesome\Adbp.md" />
+    <Content Include="ES6\adbp\adbp.sweetalert.js" />
+    <Content Include="wwwroot\libs\jquery.form\Adbp.md" />
+    <Content Include="wwwroot\libs\jquery.form\jquery.form.min.js.map" />
+    <Content Include="Views\ZeroAccount\Login.cshtml" />
+    <Content Include="Views\ZeroAccount\_Layout.cshtml" />
+    <Content Include="Views\ZeroAccount\_ViewStart.cshtml" />
+    <Content Include="Views\ZeroLayout\_SideBarNav.cshtml" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\common.scss" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\mixins.scss" />
+    <Content Include="wwwroot\libs\jquery.datatables\css\semanticui.scss" />
+    <Content Include="wwwroot\libs\jquery.datatables\Adbp.md" />
+    <Content Include="ES6\adbp\adbp.datatables.js" />
+    <Content Include="Views\ZeroRoles\Index.cshtml" />
+    <Content Include="App_Data\delete.cmd" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.eot" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.woff" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-regular-400.eot" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-regular-400.woff" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.eot" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.woff" />
+    <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="ES6\adbp\adbp.ajaxForm.js" />
+    <Content Include="wwwroot\libs\adbp\css\adbp.menu.css" />
+    <Content Include="wwwroot\libs\adbp\css\adbp.checkbox.css" />
+    <Content Include="Views\ZeroUsers\Index.cshtml" />
+    <Content Include="Views\ZeroRoles\Details.cshtml" />
+    <Content Include="Views\ZeroSystem\Settings.cshtml" />
+    <Content Include="Views\ZeroAnalasy\AuditLog.cshtml" />
+    <Content Include="Views\ZeroAnalasy\LoginAttemptLog.cshtml" />
+    <Content Include="Views\ZeroLayout\_LanguageSelection.cshtml" />
+    <Content Include="Views\ZeroAnalasy\SelfLogins.cshtml" />
+    <Content Include="Views\ZeroOrganizationUnit\Index.cshtml" />
+    <Content Include="Views\Guests\Index.cshtml" />
+    <Content Include="wwwroot\libs\daterangepicker\Adbp.md" />
+    <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="package.json" />
+    <Content Include=".babelrc" />
+    <None Include="wwwroot\libs\jquery\jquery-3.3.1.intellisense.js" />
+    <Content Include="wwwroot\libs\jquery\jquery-3.3.1.js" />
+    <Content Include="wwwroot\libs\jquery\jquery-3.3.1.min.js" />
+    <Content Include="wwwroot\libs\jquery\jquery-3.3.1.slim.js" />
+    <Content Include="wwwroot\libs\jquery\jquery-3.3.1.slim.min.js" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper-utils.js" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper-utils.min.js" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper.js" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper.min.js" />
+    <Content Include="wwwroot\libs\popper.js\popper-utils.js" />
+    <Content Include="wwwroot\libs\popper.js\popper-utils.min.js" />
+    <Content Include="wwwroot\libs\popper.js\popper.js" />
+    <Content Include="wwwroot\libs\popper.js\popper.min.js" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper-utils.js" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper-utils.min.js" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper.js" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap.css.map" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.js.map" />
+    <Content Include="wwwroot\libs\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper-utils.js.map" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper-utils.min.js.map" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper.js.map" />
+    <Content Include="wwwroot\libs\popper.js\esm\popper.min.js.map" />
+    <Content Include="wwwroot\libs\popper.js\popper-utils.js.map" />
+    <Content Include="wwwroot\libs\popper.js\popper-utils.min.js.map" />
+    <Content Include="wwwroot\libs\popper.js\popper.js.map" />
+    <Content Include="wwwroot\libs\popper.js\popper.min.js.map" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper-utils.js.map" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper-utils.min.js.map" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper.js.map" />
+    <Content Include="wwwroot\libs\popper.js\umd\popper.min.js.map" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-bootstrap.less" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-bootstrap.scss" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-bootstrap.styl" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-foundation.less" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-foundation.scss" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic-foundation.styl" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic.less" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic.scss" />
+    <Content Include="wwwroot\libs\iconic\css\open-iconic.styl" />
+    <Content Include="wwwroot\libs\iconic\fonts\open-iconic.eot" />
+    <Content Include="wwwroot\libs\iconic\fonts\open-iconic.otf" />
+    <Content Include="wwwroot\libs\iconic\fonts\open-iconic.ttf" />
+    <Content Include="wwwroot\libs\iconic\fonts\open-iconic.woff" />
+    <Content Include="wwwroot\libs\jquery\jquery-3.3.1.min.map" />
+    <Content Include="wwwroot\libs\jquery\jquery-3.3.1.slim.min.map" />
+    <Content Include="wwwroot\libs\toastr\toastr.js.map" />
+    <Content Include="wwwroot\libs\toastr\Adbp.md" />
+    <Content Include="wwwroot\libs\sweetalert\Adbp.md" />
+    <Content Include="wwwroot\libs\popper.js\Adbp.md" />
+    <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.eot" />
+    <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.ijmap" />
+    <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.ttf" />
+    <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.woff" />
+    <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.woff2" />
+    <Content Include="wwwroot\libs\material-icons\README.md" />
+    <Content Include="wwwroot\libs\material-icons\Adbp.md" />
+    <Content Include="wwwroot\libs\spin.js\Adbp.md" />
+    <Content Include="wwwroot\libs\moment\Adbp.md" />
+    <Content Include="wwwroot\libs\jstree\Adbp.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ES6\ZeroOrganizationUnit\" />
+    <Folder Include="ES6\ZeroRoles\" />
+    <Folder Include="ES6\ZeroSystem\" />
+    <Folder Include="ES6\ZeroUsers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Adbp.Zero.Application\Adbp.Zero.Application.csproj">
+      <Project>{9de32f33-b9ed-4c33-95a1-dc0566fabe67}</Project>
+      <Name>Adbp.Zero.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp.Sample.Application\Adbp.Sample.Application.csproj">
+      <Project>{083e66bd-8756-44e1-876a-98e2261c837b}</Project>
+      <Name>Adbp.Sample.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp.Sample.Core\Adbp.Sample.Core.csproj">
+      <Project>{81576670-5acf-4829-8333-e6e2726f603b}</Project>
+      <Name>Adbp.Sample.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp.Sample.EntityFramework\Adbp.Sample.EntityFramework.csproj">
+      <Project>{0e53d45c-1a60-4361-a42b-5341d84951a8}</Project>
+      <Name>Adbp.Sample.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp.Sample.WebApi\Adbp.Sample.WebApi.csproj">
+      <Project>{b09e9bf8-1dd6-41c5-ba5b-e29bffa194cd}</Project>
+      <Name>Adbp.Sample.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp.Zero.MVC\Adbp.Zero.MVC.csproj">
+      <Project>{0b3f22ab-a28a-40cf-ae31-8cdb5c239130}</Project>
+      <Name>Adbp.Zero.MVC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp\Adbp.csproj">
+      <Project>{36F3E233-7AE1-443A-B8DA-80659BC81567}</Project>
+      <Name>Adbp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52122</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:52122/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>cmd App_Data/delete.cmd</PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

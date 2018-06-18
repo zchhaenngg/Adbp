@@ -1,0 +1,41 @@
+﻿html,
+body {
+    height: 100%;
+}
+body {
+    background-color: rgb(233,233,233);
+}
+.adbp-background {
+    background-color: rgb(255,255,255);
+}
+.adbp-breadcrumb-background {
+    background-color: rgba(255,255,255,0);
+}
+.adbp-navbar-r-content .material-icons {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1rem;
+    vertical-align: text-top;
+}
+.adbp-toolbar-btn {
+    padding: 0.375rem 1.5rem;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .25;
+}
+.adbp-mask:after {
+    content: '*';
+    position: absolute;
+    top: 1px;
+    padding-left: 7px;
+    color: red;
+    font-size: 20px;
+    opacity: 0.9;
+}
+.adbp-date {
+    cursor:pointer;
+}

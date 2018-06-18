@@ -1,0 +1,16 @@
+﻿@model Adbp.Zero.MVC.Models.Layout.LanguageSelectionViewModel
+<li class="nav-item dropdown">
+    <a href="javascript:void(0);" class="nav-link dropdown-toggle mr-md-2 adbp-navbar-r-content" data-toggle="dropdown" role="button">
+        <i class="@Model.CurrentLanguage.Icon" title="@Model.CurrentLanguage.DisplayName"></i>
+        <span>@Model.CurrentLanguage.DisplayName</span>
+    </a>
+    <div role="menu" class="dropdown-menu dropdown-menu-right">
+        @foreach (var language in Model.Languages)
+        {
+            if (language.Name != Model.CurrentLanguage.Name)
+            {
+                <a class="dropdown-item" href="@(ApplicationPath)AbpLocalization/ChangeCulture?cultureName=@(language.Name)&returnUrl=@(Context.Request.Path)"><i class="@language.Icon"></i> @language.DisplayName</a>
+            }
+        }
+    </div>
+</li>

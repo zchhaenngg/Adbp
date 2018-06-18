@@ -1,0 +1,260 @@
+﻿@using Adbp.Zero.Authorization.Roles.Dto
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenu = PageNames.RoleManagement;
+}
+@model RoleDto
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb adbp-breadcrumb-background">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/AdbpRoles">Roles</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+</nav>
+<div class="card adbp-background">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">Name: &nbsp;&nbsp;<span class="text-danger">@Model.Name</span></div>
+            <div class="col">DisplayName: &nbsp;&nbsp;@Model.DisplayName</div>
+            <div class="col">@Model.Description</div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-tabs mb-3" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#nav-basic">包含用户</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#nav-sysObjects">Objects访问</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="nav-basic" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="bd-highlight adbp-toolbar">
+                            <div class="float-left">
+                                <h5>拥有用户<small class="ml-2 text-muted">隶属于当前角色的所有用户</small></h5>
+                            </div>
+                            <div class="float-right">
+                                <div class="input-group">
+                                    <input id="table-members_search" type="text" class="form-control" placeholder="search all">
+                                </div>
+                            </div>
+                        </div>
+                        <table id="details-table_members" class="display">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>用户名</th>
+                                    <th>名</th>
+                                    <th>姓</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bd-highlight adbp-toolbar">
+                            <div class="float-left">
+                                <h5>待添加用户<small class="ml-2 text-muted">不属于当前角色的其他用户</small></h5>
+                            </div>
+                            <div class="float-right">
+                                <div class="input-group">
+                                    <input id="table-toAdd_search" type="text" class="form-control" placeholder="search all">
+                                </div>
+                            </div>
+                        </div>
+                        <table id="details-table_toAdd" class="display">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>用户名</th>
+                                    <th>名</th>
+                                    <th>姓</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-sysObjects" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="bd-highlight adbp-toolbar">
+                            <div class="float-left">
+                                <h5>访问级别<small class="ml-2 text-muted">对Objects的访问级别，ps创建者/Owner不受限制</small></h5>
+                            </div>
+                            <div class="float-right">
+                                <div class="input-group">
+                                    <input id="table-sysObjects_search" type="text" class="form-control" placeholder="search all">
+                                </div>
+                            </div>
+                        </div>
+                        <table id="table-details_sysObjects" class="display">
+                            <thead>
+                                <tr>
+                                    <th>访问对象</th>
+                                    <th>访问级别</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="sysObject-none" class="row">
+                            <div class="w-100">
+                                请先在左边选择某个Object
+                            </div>
+                        </div>
+                        <div id="sysObject-selected" class="row d-none">
+                            <div class="col">
+                                <form>
+                                    <input type="hidden" name="Id" value="@Model.Id" />
+                                    <input type="hidden" name="table" />
+                                    1. 显示table名称
+                                    2. 显示访问级别
+                                </form>
+                                表字段的访问级别
+                                <div class="bd-highlight adbp-toolbar">
+                                    <div class="float-left">
+                                        <h5>字段访问级别<small class="ml-2 text-muted">Object各字段访问级别</small></h5>
+                                    </div>
+                                    <div class="float-right">
+                                        <div class="input-group">
+                                            <input id="table-sysColumns_search" type="text" class="form-control" placeholder="search all">
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="details-table_sysColumns" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>字段</th>
+                                            <th>级别</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        var table_members = new abp.table.client("#details-table_members", {
+            "order": [[1, "asc"]],
+            "columnDefs": null,
+            columns: [
+                {
+                    render: function (data, type, full, meta) {
+                        return `<button class="btn btn-default btn-xs btn-member_remove" title="删除">
+                             <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>`;
+                    }
+                },
+                { data: 'userName' },
+                { data: 'name' },
+                { data: 'surname' }
+            ]
+        }).setStyle("rtip");
+        table_members.data = function () {
+            return abp.services.app.role.getUserDtosInRole('@Model.Id');
+        }
+        table_members.afterDraw = function () {
+            $(".btn-member_remove").off("click").on("click", function () {
+                if (abp.isDispatched(this, "click")) {
+                    return;
+                }
+
+                let data = table_members.find($(this).closest("tr"));
+                abp.services.app.role.removeFromRole(data.id, '@Model.Id').done(function () {
+                    abp.notify.success("操作成功！");
+                    table_toadd.show();
+                    table_members.show();
+                });
+            });
+        }
+        table_members.show();
+       
+        var table_toadd = new abp.table.client("#details-table_toAdd", {
+            "order": [[1, "asc"]],
+            "columnDefs": null,
+            columns: [
+                {
+                    render: function (data, type, full, meta) {
+                        return `<button class="btn btn-default btn-xs btn-member_toAdd" title="添加">
+                             <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>`;
+                    }
+                },
+                { data: 'userName' },
+                { data: 'name' },
+                { data: 'surname' }
+            ]
+        });
+        table_toadd.data = function () {
+            return abp.services.app.role.getUserDtosNotInRole('@Model.Id');
+        }
+        table_toadd.afterDraw = function () {
+            $(".btn-member_toAdd").off("click").on("click", function () {
+                if (abp.isDispatched(this, "click")) {
+                    return;
+                }
+
+                let data = table_toadd.find($(this).closest("tr"));
+                abp.services.app.role.addToRole(data.id, '@Model.Id').done(function () {
+                    abp.notify.success("操作成功！");
+                    table_toadd.show();
+                    table_members.show();
+                });
+            });
+        }
+        table_toadd.show();
+
+        $('#table-members_search').on('keyup', function () {
+            table_members.search(this.value);
+        });
+
+        $('#table-toAdd_search').on('keyup', function () {
+            table_toadd.search(this.value);
+        });
+        //table-details_sysObjects
+        var table_sysObjects = new abp.table.client("#table-details_sysObjects", {
+            "order": [[1, "asc"]],
+            "columnDefs": null,
+            columns: [
+                { data: 'sysObjectName' },
+                { data: 'accessLevelStr' }
+            ]
+        })
+        .contact(["draw.dt", "select.dt", "deselect.dt"], '', function (e, dt, type, indexes) {
+            if (dt.isSingleSelected()) {
+                $("#sysObject-selected").removeClass("d-none");
+                $("#sysObject-selected").siblings(".row").addClass("d-none");
+            }
+            else {
+                $("#sysObject-none").removeClass("d-none");
+                $("#sysObject-none").siblings(".row").addClass("d-none");
+            }
+        }).setStyle("rtip");
+        table_sysObjects.data = function () {
+            return abp.ajax({
+                url: "/ZeroRoles/GetSysObjectSettings",
+                data: JSON.stringify({
+                    roleId: "@Model.Id"
+                }),
+                success: function () {
+                    console.log("操作成功");
+                }
+            });
+        }
+        table_sysObjects.show();
+        $('#table-sysObjects_search').on('keyup', function () {
+            table_sysObjects.search(this.value);
+        });
+    </script>
+}

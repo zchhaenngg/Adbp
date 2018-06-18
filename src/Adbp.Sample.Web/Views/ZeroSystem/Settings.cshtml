@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenu = PageNames.SystemSettings;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb adbp-breadcrumb-background">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Settings</li>
+    </ol>
+</nav>
+<ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item">
+        @*日期和时间格式，设置默认语言*@
+        <a class="nav-link active" data-toggle="tab" href="#nav-time_Language">时间和语言</a>
+    </li>
+    <li class="nav-item">
+        @*如登录失败后启用用户的账户锁定等*@
+        <a class="nav-link" data-toggle="tab" href="#nav-security">安全</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="nav-time_Language" role="tabpanel">
+        <form action="api/services/app/configuration/changeUiDateAndTimeFormattingForTenant">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label adbp-mask">日期(yyyy-MM-dd)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="DateFormatting" data-vd="{name:'日期格式', r:true, minL:4, maxL:30}" class="form-control" placeholder="yyyy-MM-dd">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label adbp-mask">时间(HH:mm:ss)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="TimeFormatting" data-vd="{name:'时间格式', r:true, minL:4, maxL:30}" class="form-control" placeholder="HH:mm:ss">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label adbp-mask">日期时间(yyyy-MM-dd HH:mm:ss)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="DateTimeFormatting" data-vd="{name:'日期时间格式', r:true, minL:4, maxL:30}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary adbp-formSubmit">@L("Save")</button>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="nav-security" role="tabpanel">
+    </div>
+</div>
