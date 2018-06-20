@@ -28,6 +28,8 @@ namespace Adbp.Sample.Web
                 .Include("~/wwwroot/libs/jquery/jquery-{version}.js")//jquery及依赖Jquery
                 .Include("~/wwwroot/libs/daterangepicker/daterangepicker.js")//依赖 jquery 以及 momentjs
 
+                .Include("~/wwwroot/libs/typeahead/typeahead.bundle.js")//依赖Jquery 
+
                 .Include("~/wwwroot/libs/jquery.blockui/jquery.blockUI.js")
                 .Include("~/wwwroot/libs/toastr/toastr.min.js")
                 .Include("~/wwwroot/libs/bootstrap/js/bootstrap.js")
@@ -69,6 +71,8 @@ namespace Adbp.Sample.Web
                 .Include($"{AdbpJsPath}/adbp.datatables.js")
                 .Include($"{AdbpJsPath}/adbp.jstree.js")
                 .Include($"{AdbpJsPath}/adbp.blockUI.js")
+
+                .Include($"{AdbpJsPath}/adbp.typeahead.js")
                 .Include($"{AdbpJsPath}/adbp.js")
                        );
 

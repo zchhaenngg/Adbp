@@ -14,20 +14,18 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="~/favicon.ico">
     <title>Adbp</title>
-    @Styles.Render("~/Bundles/css")
+    <link href="~/wwwroot/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/bundles/css", "~/bundles/datatablesCss", "~/bundles/adbpCss")
     <!-- View specific styles -->
     @RenderSection("styles", required: false)
-   
 </head>
 <body>
     @RenderBody()
-    @Scripts.Render("~/bundles/js", "~/bundles/datatablesjs", "~/bundles/adbpjs");
     <script>
         //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
         var abp = abp || {}; abp.appPath = '@ApplicationPath';
-        //Localizing momentjs
-        moment.locale('@Thread.CurrentThread.CurrentUICulture.Name');
     </script>
+    @Scripts.Render("~/bundles/js", "~/bundles/datatablesjs", "~/bundles/adbpjs");
     <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
     <script src="~/AbpScripts/GetScripts?v=@(Clock.Now.Ticks)" type="text/javascript"></script>
     <!-- View specific scripts -->

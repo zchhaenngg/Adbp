@@ -136,7 +136,7 @@
             "/": '&#x2F;',
             " ": '&nbsp;'
         };
-        return String(str).replace(/[<>"'\/ &]/g, function (s) {
+        return String(str).replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/[<>"'\/ &]/g, function (s) {
             return entityMap[s];
         });
     };
