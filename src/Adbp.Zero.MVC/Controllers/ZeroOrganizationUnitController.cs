@@ -15,7 +15,7 @@ using Adbp.Paging;
 
 namespace Adbp.Zero.MVC.Controllers
 {
-    [AbpMvcAuthorize(PermissionNames.Permissions_OrganizationUnit)]
+    [AbpMvcAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit)]
     public class ZeroOrganizationUnitController : ZeroControllerBase
     {
         private readonly IOrganizationUnitAppService _organizationUnitAppService;
@@ -56,7 +56,7 @@ namespace Adbp.Zero.MVC.Controllers
             }
 
             var input = new GenericPagingInput(query.Start, query.Length, list: getPageQueryItems().ToList());
-            var page = await _organizationUnitAppService.GetUsersNotInOrganizationAsync(input);
+            var page = await _organizationUnitAppService.GetUsersNotInOrganizationAsync(input, organizationUnitId);
             return Json(new DataTableResult<OrganizationUserOuput>(page));
         }
     }

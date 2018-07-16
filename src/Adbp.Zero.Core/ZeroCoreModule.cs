@@ -9,6 +9,8 @@ using Abp.Localization.Dictionaries.Xml;
 using Abp.Modules;
 using Abp.Zero;
 using Abp.Zero.Configuration;
+using Abp.Zero.Ldap;
+using Abp.Zero.Ldap.Configuration;
 using Adbp.Zero.Authorization;
 using Adbp.Zero.Authorization.Roles;
 using Adbp.Zero.Authorization.Users;
@@ -17,13 +19,17 @@ using Adbp.Zero.MultiTenancy;
 
 namespace Adbp.Zero
 {
-    [DependsOn(typeof(AbpZeroCoreModule))]
+    [DependsOn(
+        typeof(AbpZeroLdapModule),
+        typeof(AbpZeroCoreModule))]
     public class ZeroCoreModule : AbpModule
     {
         public override void PreInitialize()
         {
-            Configuration.Auditing.IsEnabledForAnonymousUsers = true;
+            IocManager.Register<ZeroCoreModuleConfig>();
+            
 
+            Configuration.Auditing.IsEnabledForAnonymousUsers = true;
             //Declare entity types
             Configuration.Modules.Zero().EntityTypes.Tenant = typeof(Tenant);
             Configuration.Modules.Zero().EntityTypes.Role = typeof(Role);
@@ -43,15 +49,19 @@ namespace Adbp.Zero
                     )
                 );
 
-            AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
+            ZeroRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
 
             Configuration.Authorization.Providers.Add<ZeroAuthorizationProvider>();
 
-            Configuration.Settings.Providers.Add<AppSettingProvider>();
+            Configuration.Settings.Providers.Add<ZeroSettingProvider>();
         }
 
         public override void Initialize()
         {
+            if (Configuration.Get<ZeroCoreModuleConfig>().EnableZeroLdapAuthenticationSource)
+            {
+                Configuration.Modules.ZeroLdap().Enable(typeof(ZeroLdapAuthenticationSource));
+            }
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
         }
     }

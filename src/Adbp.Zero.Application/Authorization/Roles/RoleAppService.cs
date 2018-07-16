@@ -18,7 +18,7 @@ using Adbp.Zero.SysObjectSettings;
 
 namespace Adbp.Zero.Authorization.Roles
 {
-    [AbpAuthorize(PermissionNames.Permissions_Role)]
+    [AbpAuthorize(ZeroPermissionNames.Permissions_Role)]
     public class RoleAppService : ZeroAppServiceBase, IRoleAppService
     {
         private readonly IRepository<User, long> _userRepository;
@@ -43,18 +43,21 @@ namespace Adbp.Zero.Authorization.Roles
             _roleManager = roleManager;
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_Role, PermissionNames.Permissions_User, RequireAllPermissions = false)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Retrieve)]
         public virtual async Task<PagedResultDto<RoleDto>> GetRoles(GenericPagingInput input = null)
         {
             return await GetAll<Role, int, GenericPagingInput, RoleDto>(
                 _roleRepository.GetAll(), input);
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_Role_Create)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Create)]
         public virtual async Task CreateRoleAsync(CreateRoleDto input)
         {
             var role = ObjectMapper.Map<Role>(input);
             CheckErrors(await _roleManager.CreateAsync(role));
+
+            UnitOfWorkManager.Current.SaveChanges();
+
             var grantedPermissions = PermissionManager
                .GetAllPermissions()
                .Where(p => input.Permissions?.Contains(p.Name) == true)
@@ -76,14 +79,14 @@ namespace Adbp.Zero.Authorization.Roles
            ));
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_Role_Retrieve)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Retrieve)]
         public virtual async Task<UpdateRoleDto> GetUpdateRoleDto(int roleId)
         {
             var role = await _roleManager.GetRoleByIdAsync(roleId);
             return Map<UpdateRoleDto>(role);
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_Role_Update)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Update)]
         public virtual async Task UpdateRoleAsync(UpdateRoleDto input)
         {
             var role = await _roleManager.GetRoleByIdAsync(input.Id);
@@ -103,7 +106,7 @@ namespace Adbp.Zero.Authorization.Roles
             }
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_Role_Delete)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Delete)]
         public virtual async Task Delete(int roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
@@ -121,29 +124,34 @@ namespace Adbp.Zero.Authorization.Roles
             CheckErrors(await _roleManager.DeleteAsync(role));
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_Role_Retrieve)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Retrieve)]
         public virtual async Task<RoleDto> GetRoleDto(int roleId)
         {
             var entity = await _roleRepository.GetAsync(roleId);
             return Map<RoleDto>(entity);
         }
 
+        [AbpAuthorize(ZeroPermissionNames.Permissions_UserRole_Retrieve)]
         public virtual async Task<List<UserDto>> GetUserDtosInRole(int roleId)
         {
             var list =  await _userManager.GetUsersInRoleAsync(roleId);
             return Map<List<UserDto>>(list); 
         }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_UserRole_Retrieve)]
         public virtual async Task<List<UserDto>> GetUserDtosNotInRole(int roleId)
         {
             var list = await _userManager.GetUsersNotInRoleIdAsync(roleId);
             return Map<List<UserDto>>(list);
         }
 
+        [AbpAuthorize(ZeroPermissionNames.Permissions_UserRole_Upsert)]
         public virtual async Task AddToRoleAsync(long userId, int roleId)
         {
             await _userManager.AddToRoleAsync(userId, roleId);
         }
 
+        [AbpAuthorize(ZeroPermissionNames.Permissions_UserRole_Upsert)]
         public virtual async Task RemoveFromRoleAsync(long userId, int roleId)
         {
             await _userManager.RemoveFromRoleAsync(userId, roleId);

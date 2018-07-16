@@ -8,6 +8,7 @@ using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Adbp.Paging.Dto;
 using Adbp.Zero.SysObjectSettings;
+using Adbp.Application.Services;
 
 namespace Adbp.Zero
 {

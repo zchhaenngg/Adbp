@@ -192,8 +192,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundWorkers\EmailWorker.cs" />
+    <Compile Include="Configuration\Dto\SettingDefinitionOutput.cs" />
+    <Compile Include="Configuration\Dto\SettingValueInput.cs" />
+    <Compile Include="Localization\ApplicationLanguageTextAppService.cs" />
+    <Compile Include="Localization\Dto\LocalizedStringDto.cs" />
+    <Compile Include="Localization\Dto\UpdateLocalizedStringInput.cs" />
+    <Compile Include="Localization\IApplicationLanguageTextAppService.cs" />
+    <Compile Include="ZeroApplicationModuleConfig.cs" />
     <Compile Include="ZeroCrudAppServiceBase.cs" />
-    <Compile Include="IZeroCrudAppService.cs" />
     <Compile Include="SysObjectSettings\Dto\SysColumnSettingOutput.cs" />
     <Compile Include="SysObjectSettings\Dto\SysObjectSettingInput.cs" />
     <Compile Include="SysObjectSettings\Dto\SysObjectSettingOutput.cs" />
@@ -218,9 +225,8 @@
     <Compile Include="Authorization\Roles\IRoleAppService.cs" />
     <Compile Include="Authorization\Roles\RoleAppService.cs" />
     <Compile Include="Configuration\ConfigurationAppService.cs" />
-    <Compile Include="Configuration\Dto\ChangeUiDateAndTimeFormattingInput.cs" />
     <Compile Include="Configuration\IConfigurationAppService.cs" />
-    <Compile Include="Navigation\PageNames.cs" />
+    <Compile Include="Navigation\ZeroPageNames.cs" />
     <Compile Include="OrganizationUnits\Dto\CreateOrganizationUnitInput.cs" />
     <Compile Include="OrganizationUnits\Dto\OrganizationUnitOutput.cs" />
     <Compile Include="OrganizationUnits\Dto\OrganizationUnitUserDto.cs" />
@@ -251,5 +257,6 @@
       <Name>Adbp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

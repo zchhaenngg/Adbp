@@ -1,0 +1,39 @@
+﻿@using Abp.Application.Services.Dto
+@using Adbp.Zero.Authorization.Roles.Dto
+@model ListResultDto<PermissionDto>
+@{
+    string identifier = ViewBag.Identifier;
+    string[] GroupNames = ViewBag.GroupNames;
+    IEnumerable<List<PermissionDto>> GetPermissionDtosInGroup()
+    {
+        if (GroupNames?.Length > 0)
+        {
+            foreach (var groupName in GroupNames)
+            {
+                yield return Model.Items.Where(x => x.GroupName == groupName).ToList();
+            }
+        }
+        else
+        {
+            yield return Model.Items.Where(x => string.IsNullOrWhiteSpace(x.GroupName)).ToList();
+        }
+    }
+}
+
+@foreach (var items in GetPermissionDtosInGroup())
+{
+    <div class="form-group row">
+        @foreach (var item in items)
+        {
+            var permissionId = identifier + "_permission_" + item.Name;
+            <div class="col-sm-3">
+                <div class="form-check">
+                    <input name="Permissions" class="form-check-input adbp-checkbox filled-in" type="checkbox" value="@item.Name" id="@permissionId">
+                    <label class="form-check-label" for="@permissionId">
+                        @item.DisplayName
+                    </label>
+                </div>
+            </div>
+        }
+    </div>
+}

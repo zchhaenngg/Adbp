@@ -17,7 +17,7 @@ using Adbp.Zero.SysObjectSettings;
 
 namespace Adbp.Zero.OrganizationUnits
 {
-    [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit)]
+    [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit)]
     public class OrganizationUnitAppService : ZeroAppServiceBase, IOrganizationUnitAppService
     {
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
@@ -42,24 +42,102 @@ namespace Adbp.Zero.OrganizationUnits
             _userManager = userManager;
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit_Retrieve)]
+        /// <summary>
+        /// 是否支持写入
+        /// </summary>
+        /// <param name="ouId"></param>
+        /// <returns></returns>
+        protected virtual async Task<bool> IsWiteableAsync(long ouId)
+        {//ou不是ZeroOrganizationUnit，即原生的支持写入。
+            var entity = await _organizationUnitRepository.GetAsync(ouId);
+            var zeroOrganizationUnit = entity as ZeroOrganizationUnit;
+            if (zeroOrganizationUnit == null)
+            {
+                return true;
+            }
+            else
+            {
+                return !zeroOrganizationUnit.IsStatic;
+            }
+        }
+
+        protected OrganizationUnitOutput Converter(OrganizationUnit organizationUnit)
+        {
+            var output = Map<OrganizationUnitOutput>(organizationUnit);
+            var zeroOrganizationUnit = organizationUnit as ZeroOrganizationUnit;
+            if (zeroOrganizationUnit != null)
+            {
+                output.Comments = zeroOrganizationUnit.Comments;
+                output.IsStatic = zeroOrganizationUnit.IsStatic;
+                output.GroupCode = zeroOrganizationUnit.GroupCode;
+            }
+            return output;
+        }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Retrieve)]
         public virtual async Task<IList<OrganizationUnitOutput>> GetOrganizationUnitsAsync()
         {
             var entities = await _organizationUnitRepository.GetAllListAsync();
-            return Map<List<OrganizationUnitOutput>>(entities);
+
+            return entities.ConvertAll(Converter);
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit_Retrieve)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Create)]
+        public virtual async Task<OrganizationUnitOutput> CreateOrganizationUnitAsync(CreateOrganizationUnitInput input)
+        {
+            if (input.ParentId != null && !await IsWiteableAsync(input.ParentId.Value))
+            {
+                throw new Exception("Illegal creation of organizations!");
+            }
+
+            var displayName = input.DisplayName.Trim();
+            if (_organizationUnitRepository.GetAll().Any(o => o.DisplayName == displayName && o.ParentId == input.ParentId))
+            {
+                throw new UserFriendlyException("The organization already exists！");
+            }
+
+            var entity = new OrganizationUnit { DisplayName = displayName, ParentId = input.ParentId };
+            await _organizationUnitManager.CreateAsync(entity);
+            await CurrentUnitOfWork.SaveChangesAsync();
+            return Map<OrganizationUnitOutput>(entity);
+        }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Update)]
+        public virtual async Task<OrganizationUnitOutput> UpdateOrganizationUnitAsync(UpdateOrganizationUnitInput input)
+        {
+            if (!await IsWiteableAsync(input.Id))
+            {
+                throw new Exception("Illegal modification of the organization!");
+            }
+
+            var entity = _organizationUnitRepository.Get(input.Id);
+            entity.DisplayName = input.DisplayName.Trim();
+            await _organizationUnitManager.UpdateAsync(entity);
+            return Map<OrganizationUnitOutput>(entity);
+        }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Delete)]
+        public virtual async Task DeleteOrganizationUnitAsync(long Id)
+        {
+            if (!await IsWiteableAsync(Id))
+            {
+                throw new Exception("Illegal removal of organization!");
+            }
+
+            await _organizationUnitManager.DeleteAsync(Id);
+        }
+        
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Retrieve)]
         public virtual async Task<PagedResultDto<OrganizationUnitUserDto>> GetOrganizationUnitUserPageAsync(GenericPagingInput input, long organizationUnitId)
         {
             return await GetOrganizationUnitUserDtosAsync(input, organizationUnitId);
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit_Retrieve)]
-        public virtual async Task<PagedResultDto<OrganizationUserOuput>> GetUsersNotInOrganizationAsync(GenericPagingInput input)
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Retrieve)]
+        public virtual async Task<PagedResultDto<OrganizationUserOuput>> GetUsersNotInOrganizationAsync(GenericPagingInput input, long organizationUnitId)
         {
             var uouQueryable = _userOrganizationUnitRepository.GetAll();
-            var queryable = _userRepository.GetAll().Where(x => !uouQueryable.Any(uou => uou.UserId == x.Id));
+            var queryable = _userRepository.GetAll().Where(x => !uouQueryable.Any(uou => uou.UserId == x.Id && uou.OrganizationUnitId == organizationUnitId));
             queryable = ApplyWhere<User, long, GenericPagingInput>(queryable, input);
             var totalCount = await AsyncQueryableExecuter.CountAsync(queryable);
             queryable = ApplySorting<User, long, GenericPagingInput>(queryable, input);
@@ -74,38 +152,14 @@ namespace Adbp.Zero.OrganizationUnits
             }).ToList();
             return new PagedResultDto<OrganizationUserOuput>(totalCount, items);
         }
-
-        [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit_Create)]
-        public virtual async Task<OrganizationUnitOutput> CreateOrganizationUnitAsync(CreateOrganizationUnitInput input)
-        {
-            var displayName = input.DisplayName.Trim();
-            if (_organizationUnitRepository.GetAll().Any(o => o.DisplayName == displayName && o.ParentId == input.ParentId))
-            {
-                throw new UserFriendlyException("不能重复创建组织！");
-            }
-
-            var entity = new OrganizationUnit { DisplayName = displayName, ParentId = input.ParentId };
-            await _organizationUnitManager.CreateAsync(entity);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            return Map<OrganizationUnitOutput>(entity);
-        }
-
-        [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit_Update)]
-        public virtual async Task<OrganizationUnitOutput> UpdateOrganizationUnitAsync(UpdateOrganizationUnitInput input)
-        {
-            var entity = _organizationUnitRepository.Get(input.Id);
-            entity.DisplayName = input.DisplayName.Trim();
-            await _organizationUnitManager.UpdateAsync(entity);
-            return Map<OrganizationUnitOutput>(entity);
-        }
-
-        [AbpAuthorize(PermissionNames.Permissions_OrganizationUnit_Delete)]
-        public virtual async Task DeleteOrganizationUnitAsync(long Id)
-        {
-            await _organizationUnitManager.DeleteAsync(Id);
-        }
+        
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Create)]
         public virtual async Task AddOrganizationUnitUserAsync(long organizationUnitId, long userid)
         {
+            if (!await IsWiteableAsync(organizationUnitId))
+            {
+                throw new Exception("Illegal add user to organization!");
+            }
             var entity = await _userOrganizationUnitRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == organizationUnitId && x.UserId == userid);
             if (entity == null)
             {
@@ -116,31 +170,50 @@ namespace Adbp.Zero.OrganizationUnits
                 });
             }
         }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Create)]
         public virtual async Task AddOrganizationUnitUsersAsync(IList<OrganizationUnitUserInput> list)
         {
             if (list != null)
             {
                 foreach (var item in list)
                 {
+                    if (!await IsWiteableAsync(item.OrganizationUnitId))
+                    {
+                        throw new Exception("Illegal add user to organization!");
+                    }
                     await AddOrganizationUnitUserAsync(item.OrganizationUnitId, item.UserId);
                 }
             }
         }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Delete)]
         public virtual async Task DeleteOrganizationUnitUserAsync(long organizationUnitId, long userid)
         {
+            if (!await IsWiteableAsync(organizationUnitId))
+            {
+                throw new Exception("Illegal remove user from organization!");
+            }
             await _userOrganizationUnitRepository.DeleteAsync(x => x.OrganizationUnitId == organizationUnitId && x.UserId == userid);
         }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Delete)]
         public virtual async Task DeleteOrganizationUnitUsersAsync(IList<OrganizationUnitUserInput> list)
         {
             if (list != null)
             {
                 foreach (var item in list)
                 {
+                    if (!await IsWiteableAsync(item.OrganizationUnitId))
+                    {
+                        throw new Exception("Illegal remove user from organization!");
+                    }
                     await DeleteOrganizationUnitUserAsync(item.OrganizationUnitId, item.UserId);
                 }
             }
         }
         
+       
         /// <summary>
         /// 内部调用，不加权限控制
         /// </summary>

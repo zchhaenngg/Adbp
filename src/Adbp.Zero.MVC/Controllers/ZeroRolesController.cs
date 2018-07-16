@@ -13,7 +13,7 @@ using Adbp.Extensions;
 
 namespace Adbp.Zero.MVC.Controllers
 {
-    [AbpMvcAuthorize(PermissionNames.Permissions_Role)]
+    [AbpMvcAuthorize(ZeroPermissionNames.Permissions_Role)]
     public class ZeroRolesController: ZeroControllerBase
     {
         private readonly IRoleAppService _roleAppService;
@@ -28,10 +28,19 @@ namespace Adbp.Zero.MVC.Controllers
         }
 
         // GET: Role
-        public async Task<ActionResult> Index()
-        {//到这
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [ChildActionOnly]
+        public async Task<PartialViewResult> PermissionsSelection(string identifier, string[] groupNames)
+        {
+            ViewBag.GroupNames = groupNames;
+            ViewBag.Identifier = identifier;
+
             var list = await _roleAppService.GetAllPermissions();
-            return View(list);
+            return PartialView("_PermissionsSelection", list);
         }
 
         [HttpPost]
@@ -68,7 +77,7 @@ namespace Adbp.Zero.MVC.Controllers
             var models = list.Select(x => new
             {
                 x.SysObjectName,
-                x.AccessLevel,
+                x.AccessLevelInt,
                 AccessLevelStr = GetAccessLevelStr(x.AccessLevel)
             }).ToList();
             return Json(models);

@@ -10,7 +10,7 @@ using EntityFramework.DynamicFilters;
 namespace Adbp.Zero.Migrations
 {
     public class ZeroConfiguration<TDbContext> : DbMigrationsConfiguration<TDbContext>
-        where TDbContext: EntityFramework.ZeroDbContext
+        where TDbContext: DbContext
     {
         
         public ZeroConfiguration(string contextKey)
@@ -27,8 +27,6 @@ namespace Adbp.Zero.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
             context.DisableAllFilters();
-
-            new ZeroDbContextCreator(context).Create();
         }
     }
 }

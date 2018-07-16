@@ -4,10 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.Web", "src\Adbp.Sample.Web\Adbp.Sample.Web.csproj", "{B17D343A-7018-497B-A8BD-CC6366529662}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__Docs", "__Docs", "{B77F1466-C3D1-4851-A9CC-71B505BCEC91}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
+	ProjectSection(ProjectDependencies) = postProject
+		{EBEB1B00-5A5A-4E8C-919F-E25C9DA53398} = {EBEB1B00-5A5A-4E8C-919F-E25C9DA53398}
+		{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1} = {2A2BAA60-41CC-40D0-B7C8-D7BA988433E1}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.Core", "src\Adbp.Sample.Core\Adbp.Sample.Core.csproj", "{81576670-5ACF-4829-8333-E6E2726F603B}"

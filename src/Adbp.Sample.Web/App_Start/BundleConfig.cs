@@ -6,7 +6,7 @@ namespace Adbp.Sample.Web
     public class BundleConfig
     {
 #if DEBUG
-        public static string AdbpJsPath = "~/ES6/adbp";
+        public static string AdbpJsPath = "~/AdbpJs";
 #endif
 #if !DEBUG
         public static string AdbpJsPath = "~/wwwroot/es5/adbp";

@@ -49,7 +49,7 @@
                     <label>@User.Identity.Name</label>
                     <i class="material-icons">account_circle</i>
                 </a>
-                <div role="menu" class="dropdown-menu dropdown-menu-right">
+                <div role="menu" class="dropdown-menu dropdown-menu-right" style="z-index: 99999;">
                     <a class="dropdown-item" href="/ZeroAnalasy/SelfLogins">登录记录</a>
                     <hr />
                     <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#layout-modal_changePassword">修改密码</a>
@@ -94,12 +94,6 @@
                             <label class="col-sm-4 col-form-label adbp-mask">新密码</label>
                             <div class="col-sm-8">
                                 <input type="password" name="NewPassword" data-vd="{name:'new password', r:true, minL:6, maxL: 40}" class="form-control" placeholder="新密码">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label adbp-mask">新密码（核对）</label>
-                            <div class="col-sm-8">
-                                <input type="password" name="NewPasswordRepeat" data-vd="{name:'new password repeat', r:true, minL:6, maxL: 40}" class="form-control" placeholder="新密码">
                             </div>
                         </div>
                     </div>

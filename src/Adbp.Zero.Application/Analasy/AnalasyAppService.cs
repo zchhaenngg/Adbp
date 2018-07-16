@@ -38,7 +38,7 @@ namespace Adbp.Zero.Analasy
             _userRepository = userRepository;
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_AuditLog)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_AuditLog)]
         public virtual async Task<PagedResultDto<AuditLogDto>> GetAuditLogsAsync(GenericPagingInput input)
         {
             var page = await GetAll<AuditLog, long, GenericPagingInput, AuditLogDto>(_auditLogRepository.GetAll(), input);
@@ -53,7 +53,7 @@ namespace Adbp.Zero.Analasy
             return page;
         }
 
-        [AbpAuthorize(PermissionNames.Permissions_LoginAttemptLog)]
+        [AbpAuthorize(ZeroPermissionNames.Permissions_LoginAttemptLog)]
         public virtual async Task<PagedResultDto<UserLoginAttemptDto>> GetUserLoginAttemptsAsync(GenericPagingInput input)
         {
             var page = await GetAll<UserLoginAttempt, long, GenericPagingInput, UserLoginAttemptDto>(_userLoginAttemptRepository.GetAll(), input);

@@ -15,7 +15,7 @@ using Adbp.Zero.Authorization.Users;
 
 namespace Adbp.Zero.Authorization.Roles
 {
-    public class RoleManager : AbpRoleManager<Role, User>
+    public class RoleManager : RoleManager<Role, User>
     {
 
         public RoleManager(
@@ -33,6 +33,23 @@ namespace Adbp.Zero.Authorization.Roles
         {
 
         }
-        
+    }
+
+    public abstract class RoleManager<TRole, TUser> : AbpRoleManager<TRole, TUser>
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>
+    {
+        public RoleManager(AbpRoleStore<TRole, TUser> store, 
+            IPermissionManager permissionManager, 
+            IRoleManagementConfig roleManagementConfig, 
+            ICacheManager cacheManager, 
+            IUnitOfWorkManager unitOfWorkManager) 
+            : base(store, 
+                  permissionManager, 
+                  roleManagementConfig, 
+                  cacheManager, 
+                  unitOfWorkManager)
+        {
+        }
     }
 }

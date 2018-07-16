@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Abp.UI;
 using Abp.Web.Models;
 using Abp.Web.Mvc.Authorization;
+using Adbp.Timing.Cron;
 
 namespace Adbp.Sample.Web.Controllers
 {
@@ -71,6 +72,22 @@ namespace Adbp.Sample.Web.Controllers
         public ActionResult Comment(string comment)
         {
             return Json(null);
+        }
+
+        public ActionResult GetSchedules(string pattern, int n)
+        {
+            var schedule = new Schedule();
+            schedule.SetPattern(pattern);
+
+            var list = new List<DateTime>();
+            var from = DateTime.Now;
+            for (int i = 0; i < n; i++)
+            {
+                var next = schedule.Next(from);
+                list.Add(next);
+                from = next;
+            }
+            return Json(list);
         }
     }
 }

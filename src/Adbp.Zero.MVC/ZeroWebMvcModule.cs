@@ -8,11 +8,14 @@ using System.Web.Mvc;
 using Abp.Modules;
 using Adbp.Zero.MVC.Controllers;
 using Adbp.Zero;
+using Abp.Web.Mvc;
 
 namespace Adbp.Zero.MVC
 {
     [DependsOn(
-        typeof(ZeroApplicationModule))]
+        typeof(ZeroEntityFrameworkModule),
+        typeof(ZeroApplicationModule),
+        typeof(AbpWebMvcModule))]
     public class ZeroWebMvcModule : AbpModule
     {
         public override void PreInitialize()

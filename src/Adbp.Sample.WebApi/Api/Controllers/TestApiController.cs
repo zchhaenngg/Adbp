@@ -10,7 +10,7 @@ using Adbp.Zero.Authorization;
 
 namespace Adbp.Sample.Api.Controllers
 {
-    [AbpApiAuthorize(PermissionNames.Permissions_User)]
+    [AbpApiAuthorize(ZeroPermissionNames.Permissions_User)]
     public class TestApiController: AbpApiController
     {
         public string Post([FromBody]string msg)

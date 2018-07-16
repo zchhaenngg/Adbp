@@ -1,6 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <!--SettingGroups-->
+    <text name="SettingGroups_DATETIME" value="Date / Time" />
+    <text name="SettingGroups_LDAP" value="LDAP" />
+    <text name="SettingGroups_Mail" value="Mail" />
+    <text name="SettingGroups_UserManagement" value="User Management" />
+    <text name="SettingGroups_BackgroundWorkers" value="Background Workers" />
+    <text name="SettingGroups_LanguageTimeZone" value="Language &amp; TimeZone" />
+    <text name="SettingGroups_Others" value="Others" />
+
+    <!--SettingNames-->
+    <text name="SettingNames_DateFormatting" value="Date Format" />
+    <text name="SettingNames_TimeFormatting" value="Time Format" />
+    <text name="SettingNames_DateTimeFormatting" value="Datetime Format" />
+
+    <text name="SettingNames_EmailWorkerTimerPeriodSeconds" value="Email Worker Period Seconds"/>
+    
     <!--角色赋予权限时，权限的displayName-->
     <text name="Permissions_Tenant" value="Tenants" />
     <text name="Permissions_User" value="Users" />
@@ -14,12 +30,28 @@
     <text name="Permissions_Role_Retrieve" value="Roles.Retrieve" />
     <text name="Permissions_Role_Update" value="Roles.Update" />
     <text name="Permissions_Role_Delete" value="Roles.Delete" />
+
+    <text name="Permissions_UserRole_Upsert" value="UserRole.Grant" />
+    <text name="Permissions_UserRole_Retrieve" value="UserRole.Retrieve" />
     
     <text name="Permissions_OrganizationUnit" value="OrganizationUnits" />
     <text name="Permissions_OrganizationUnit_Create" value="OrganizationUnits.Create" />
     <text name="Permissions_OrganizationUnit_Retrieve" value="OrganizationUnits.Retrieve" />
     <text name="Permissions_OrganizationUnit_Update" value="OrganizationUnits.Update" />
     <text name="Permissions_OrganizationUnit_Delete" value="OrganizationUnits.Delete" />
+
+    <text name="Permissions_OuUser_Create" value="OuUser.Create" />
+    <text name="Permissions_OuUser_Retrieve" value="OuUser.Retrieve" />
+    <text name="Permissions_OuUser_Delete" value="OuUser.Delete" />
+
+    <text name="Permissions_SysObjectSetting" value="SysObjectSetting" />
+    <text name="Permissions_SysObjectSetting_Retrieve" value="SysObjectSetting.Retrieve" />
+    <text name="Permissions_SysObjectSetting_Upsert" value="SysObjectSetting.Upsert" />
+    <text name="Permissions_SysObjectSetting_Delete" value="SysObjectSetting.Delete" />
+
+    <text name="Permissions_ApplicationLanguageText" value="LanguageText" />
+    <text name="Permissions_ApplicationLanguageText_Retrieve" value="LanguageText.Retrieve" />
+    <text name="Permissions_ApplicationLanguageText_Upsert" value="LanguageText.Upsert" />
     
     <text name="Permissions_AuditLog" value="AuditLogs" />
     <text name="Permissions_LoginAttemptLog" value="LoginAttemptLogs" />
@@ -39,6 +71,7 @@
     <text name="MENU_AuditLog" value="Audit Log"/>
     <text name="MENU_LoginAttemptLog" value="Login Attempts Log"/>
     <text name="MENU_SystemSettings" value="System Settings"/>
+    <text name="MENU_Localization" value="Language Texts"/>
 
     <!--枚举类型，在UI上显示的displayName-->
     <text name="ENUM_AbpLoginResultType_Success" value="Success"/>

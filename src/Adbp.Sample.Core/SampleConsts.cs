@@ -12,6 +12,6 @@ namespace Adbp.Sample
 
         public const bool MultiTenancyEnabled = false;
 
-        
+        public const int DefaultTenantId = 1;
     }
 }

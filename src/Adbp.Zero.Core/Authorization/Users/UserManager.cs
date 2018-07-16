@@ -19,19 +19,12 @@ using Microsoft.AspNet.Identity;
 
 namespace Adbp.Zero.Authorization.Users
 {
-    public class UserManager : AbpUserManager<Role, User>
+    public class UserManager : UserManager<Role, User>
     {
-        private readonly IRepository<User, long> _userRepository;
-        private readonly IRepository<UserRole, long> _userRoleRepository;
-        private readonly IRepository<Role> _roleRepository;
-        private readonly UserStore _userStore;
-
-        public UserManager(
-            IRepository<User, long> userRepository,
-            IRepository<UserRole, long> userRoleRepository,
-            IRepository<Role> roleRepository,
-
-            UserStore userStore,
+        public UserManager(IRepository<User, long> userRepository, 
+            IRepository<UserRole, long> userRoleRepository, 
+            IRepository<Role> roleRepository, 
+            UserStore userStore, 
             RoleManager roleManager, 
             IPermissionManager permissionManager, 
             IUnitOfWorkManager unitOfWorkManager, 
@@ -43,7 +36,9 @@ namespace Adbp.Zero.Authorization.Users
             IdentityEmailMessageService emailService, 
             ISettingManager settingManager, 
             IUserTokenProviderAccessor userTokenProviderAccessor) 
-            : base(
+            : base(userRepository, 
+                  userRoleRepository, 
+                  roleRepository, 
                   userStore, 
                   roleManager, 
                   permissionManager, 
@@ -57,50 +52,93 @@ namespace Adbp.Zero.Authorization.Users
                   settingManager, 
                   userTokenProviderAccessor)
         {
+        }
+    }
+
+    public abstract class UserManager<TRole, TUser> : AbpUserManager<TRole, TUser>
+        where TUser : User<TUser>, new()
+        where TRole : Role<TUser>, new()
+    {
+        private readonly IRepository<TUser, long> _userRepository;
+        private readonly IRepository<UserRole, long> _userRoleRepository;
+        private readonly IRepository<TRole> _roleRepository;
+        private readonly UserStore<TRole, TUser> _userStore;
+
+        public UserManager(
+            IRepository<TUser, long> userRepository,
+            IRepository<UserRole, long> userRoleRepository,
+            IRepository<TRole> roleRepository,
+
+            UserStore<TRole, TUser> userStore,
+            Roles.RoleManager<TRole, TUser> roleManager,
+            IPermissionManager permissionManager,
+            IUnitOfWorkManager unitOfWorkManager,
+            ICacheManager cacheManager,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
+            IOrganizationUnitSettings organizationUnitSettings,
+            ILocalizationManager localizationManager,
+            IdentityEmailMessageService emailService,
+            ISettingManager settingManager,
+            IUserTokenProviderAccessor userTokenProviderAccessor)
+            : base(
+                  userStore,
+                  roleManager,
+                  permissionManager,
+                  unitOfWorkManager,
+                  cacheManager,
+                  organizationUnitRepository,
+                  userOrganizationUnitRepository,
+                  organizationUnitSettings,
+                  localizationManager,
+                  emailService,
+                  settingManager,
+                  userTokenProviderAccessor)
+        {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _roleRepository = roleRepository;
             _userStore = userStore;
         }
 
-        public async Task<List<User>> GetUsersInRoleAsync(string roleName)
+        public async Task<List<TUser>> GetUsersInRoleAsync(string roleName)
         {
             var queryable = from user in _userRepository.GetAll()
-                         join userRole in _userRoleRepository.GetAll() on user.Id equals userRole.UserId
-                         join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
-                         where role.Name == roleName
-                         select user;
+                            join userRole in _userRoleRepository.GetAll() on user.Id equals userRole.UserId
+                            join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
+                            where role.Name == roleName
+                            select user;
             return await NullAsyncQueryableExecuter.Instance.ToListAsync(queryable.Distinct());
         }
 
-        public async Task<List<User>> GetUsersInRoleAsync(int roleId)
+        public async Task<List<TUser>> GetUsersInRoleAsync(int roleId)
         {
             var queryable = from user in _userRepository.GetAll()
-                         join userRole in _userRoleRepository.GetAll() on user.Id equals userRole.UserId
-                         where userRole.RoleId == roleId
-                         select user;
+                            join userRole in _userRoleRepository.GetAll() on user.Id equals userRole.UserId
+                            where userRole.RoleId == roleId
+                            select user;
             return await NullAsyncQueryableExecuter.Instance.ToListAsync(queryable.Distinct());
         }
 
-        public async Task<List<User>> GetUsersNotInRoleIdAsync(int roleId)
+        public async Task<List<TUser>> GetUsersNotInRoleIdAsync(int roleId)
         {
             var urQueryable = _userRoleRepository.GetAll().Where(ur => ur.RoleId == roleId);
-            var queryable = _userRepository.GetAll().Where(x => 
+            var queryable = _userRepository.GetAll().Where(x =>
                 urQueryable.All(ur => ur.UserId != x.Id)
                 );
             return await NullAsyncQueryableExecuter.Instance.ToListAsync(queryable.Distinct());
         }
 
-        public virtual async Task<IdentityResult> SetRoles(User user, int[] roleIds)
+        public virtual async Task<IdentityResult> SetRoles(TUser user, int[] roleIds)
         {
             if (roleIds == null)
             {
-                return await SetRoles(user, new string[0]);
+                return await base.SetRoles(user, new string[0]);
             }
             else
             {
                 var roleNames = _roleRepository.GetAll().Where(x => roleIds.Contains(x.Id)).Select(x => x.Name).ToArray();
-                return await SetRoles(user, roleNames);
+                return await base.SetRoles(user, roleNames);
             }
         }
 
@@ -110,12 +148,12 @@ namespace Adbp.Zero.Authorization.Users
             await AddToRoleAsync(user, roleId);
         }
 
-        public virtual async Task AddToRoleAsync(User user, int roleId)
+        public virtual async Task AddToRoleAsync(TUser user, int roleId)
         {
             await _userStore.AddToRoleAsync(user, roleId);
         }
 
-        public virtual async Task RemoveFromRoleAsync(User user, int roleId)
+        public virtual async Task RemoveFromRoleAsync(TUser user, int roleId)
         {
             await _userStore.RemoveFromRoleAsync(user, roleId);
         }

@@ -8,11 +8,12 @@ using Abp.Application.Services.Dto;
 using Adbp.Paging.Dto;
 using Adbp.Sample.Guests.Dto;
 using Adbp.Zero;
+using Adbp.Application.Services;
 
 namespace Adbp.Sample.Guests
 {
-    public interface IGuestAppService: IApplicationService, IAdbpCrudAppService<long, GuestDto, CreateGuestDto, UpdateGuestDto>
+    public interface IGuestAppService: IAdbpCrudAppService<long, GuestDto, CreateGuestDto, UpdateGuestDto>, IApplicationService
     {
-
+        void SendEmail(string body);
     }
 }

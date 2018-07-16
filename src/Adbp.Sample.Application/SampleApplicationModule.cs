@@ -8,14 +8,22 @@ using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.AutoMapper;
 using Abp.Modules;
+using Abp.Threading.BackgroundWorkers;
 using Adbp.Zero;
 
 namespace Adbp.Sample
 {
     [DependsOn(
+        typeof(SampleCoreModule),
         typeof(ZeroApplicationModule))]
     public class SampleApplicationModule : AbpModule
     {
+        public override void PreInitialize()
+        {
+            base.PreInitialize();
+
+            Configuration.Modules.ZeroApplicationModule().IsEmailWorkerEnabled = false;
+        }
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
@@ -25,6 +33,16 @@ namespace Adbp.Sample
             {
                
             });
+        }
+
+        public override void PostInitialize()
+        {
+            base.PostInitialize();
+
+            if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
+            {
+                var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
+            }
         }
     }
 }

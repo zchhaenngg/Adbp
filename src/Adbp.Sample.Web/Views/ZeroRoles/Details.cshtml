@@ -1,8 +1,9 @@
-﻿@using Adbp.Zero.Authorization.Roles.Dto
+﻿@using Adbp.Zero.SysObjectSettings
+@using Adbp.Zero.Authorization.Roles.Dto
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.ActiveMenu = PageNames.RoleManagement;
+    ViewBag.ActiveMenu = ZeroPageNames.RoleManagement;
 }
 @model RoleDto
 <nav aria-label="breadcrumb">
@@ -101,160 +102,72 @@
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <div id="sysObject-none" class="row">
+                        <div class="row">
                             <div class="w-100">
                                 请先在左边选择某个Object
                             </div>
                         </div>
-                        <div id="sysObject-selected" class="row d-none">
-                            <div class="col">
-                                <form>
-                                    <input type="hidden" name="Id" value="@Model.Id" />
-                                    <input type="hidden" name="table" />
-                                    1. 显示table名称
-                                    2. 显示访问级别
-                                </form>
-                                表字段的访问级别
-                                <div class="bd-highlight adbp-toolbar">
-                                    <div class="float-left">
-                                        <h5>字段访问级别<small class="ml-2 text-muted">Object各字段访问级别</small></h5>
-                                    </div>
-                                    <div class="float-right">
-                                        <div class="input-group">
-                                            <input id="table-sysColumns_search" type="text" class="form-control" placeholder="search all">
+                        <div id="sysObject-selected" class="d-none">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title" id="sysObject-selected_title"></h5>
+                                    <form id="sysObject-selected_form" class="card-text" action="api/services/app/SysObjectSetting/upsertRoleSysObjectSetting" data-dt="#table-details_sysObjects">
+                                        <input type="hidden" name="RoleId" value="@Model.Id" />
+                                        <div class="form-group row ml-2">
+                                            <label for="SysObject_Name" class="col-43 col-form-label">访问对象:</label>
+                                            <div class="col-9">
+                                                <input type="text" name="SysObjectName" readonly class="form-control-plaintext" id="SysObject_Name" value="">
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="form-group ml-2">
+                                            @*<div class="form-check form-check-inline">
+                                                <input name="AccessLevel" class="form-check-input adbp-checkbox filled-in" type="checkbox" id="form-check-input_reject" value="@((int)AccessLevel.Reject)">
+                                                <label class="form-check-label" for="form-check-input_reject">
+                                                    @Ls("AdbpZero", "ENUM_AccessLevel_Reject")
+                                                </label>
+                                            </div>*@
+                                            <div class="form-check form-check-inline">
+                                                <input name="AccessLevel" class="form-check-input adbp-checkbox filled-in" type="checkbox" id="form-check-input_r" value="@((int)AccessLevel.Retrieve)">
+                                                <label class="form-check-label" for="form-check-input_r">
+                                                    @Ls("AdbpZero", "ENUM_AccessLevel_Retrieve")
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input name="AccessLevel" class="form-check-input adbp-checkbox filled-in" type="checkbox" id="form-check-input_c" value="@((int)AccessLevel.Create)">
+                                                <label class="form-check-label" for="form-check-input_c">
+                                                    @Ls("AdbpZero", "ENUM_AccessLevel_Create")
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input name="AccessLevel" class="form-check-input adbp-checkbox filled-in" type="checkbox" id="form-check-input_u" value="@((int)AccessLevel.Update)">
+                                                <label class="form-check-label" for="form-check-input_u">
+                                                    @Ls("AdbpZero", "ENUM_AccessLevel_Update")
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input name="AccessLevel" class="form-check-input adbp-checkbox filled-in" type="checkbox" id="form-check-input_d" value="@((int)AccessLevel.Delete)">
+                                                <label class="form-check-label" for="form-check-input_d">
+                                                    @Ls("AdbpZero", "ENUM_AccessLevel_Delete")
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="ml-2 btn btn-primary adbp-formSubmit">@L("Save")</button>
+                                    </form>
                                 </div>
-                                <table id="details-table_sysColumns" class="display">
-                                    <thead>
-                                        <tr>
-                                            <th>字段</th>
-                                            <th>级别</th>
-                                        </tr>
-                                    </thead>
-                                </table>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 @section scripts {
     <script type="text/javascript">
-        var table_members = new abp.table.client("#details-table_members", {
-            "order": [[1, "asc"]],
-            "columnDefs": null,
-            columns: [
-                {
-                    render: function (data, type, full, meta) {
-                        return `<button class="btn btn-default btn-xs btn-member_remove" title="删除">
-                             <i class="fa fa-times" aria-hidden="true"></i>
-                            </button>`;
-                    }
-                },
-                { data: 'userName' },
-                { data: 'name' },
-                { data: 'surname' }
-            ]
-        }).setStyle("rtip");
-        table_members.data = function () {
-            return abp.services.app.role.getUserDtosInRole('@Model.Id');
-        }
-        table_members.afterDraw = function () {
-            $(".btn-member_remove").off("click").on("click", function () {
-                if (abp.isDispatched(this, "click")) {
-                    return;
-                }
-
-                let data = table_members.find($(this).closest("tr"));
-                abp.services.app.role.removeFromRole(data.id, '@Model.Id').done(function () {
-                    abp.notify.success("操作成功！");
-                    table_toadd.show();
-                    table_members.show();
-                });
-            });
-        }
-        table_members.show();
-       
-        var table_toadd = new abp.table.client("#details-table_toAdd", {
-            "order": [[1, "asc"]],
-            "columnDefs": null,
-            columns: [
-                {
-                    render: function (data, type, full, meta) {
-                        return `<button class="btn btn-default btn-xs btn-member_toAdd" title="添加">
-                             <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>`;
-                    }
-                },
-                { data: 'userName' },
-                { data: 'name' },
-                { data: 'surname' }
-            ]
-        });
-        table_toadd.data = function () {
-            return abp.services.app.role.getUserDtosNotInRole('@Model.Id');
-        }
-        table_toadd.afterDraw = function () {
-            $(".btn-member_toAdd").off("click").on("click", function () {
-                if (abp.isDispatched(this, "click")) {
-                    return;
-                }
-
-                let data = table_toadd.find($(this).closest("tr"));
-                abp.services.app.role.addToRole(data.id, '@Model.Id').done(function () {
-                    abp.notify.success("操作成功！");
-                    table_toadd.show();
-                    table_members.show();
-                });
-            });
-        }
-        table_toadd.show();
-
-        $('#table-members_search').on('keyup', function () {
-            table_members.search(this.value);
-        });
-
-        $('#table-toAdd_search').on('keyup', function () {
-            table_toadd.search(this.value);
-        });
-        //table-details_sysObjects
-        var table_sysObjects = new abp.table.client("#table-details_sysObjects", {
-            "order": [[1, "asc"]],
-            "columnDefs": null,
-            columns: [
-                { data: 'sysObjectName' },
-                { data: 'accessLevelStr' }
-            ]
-        })
-        .contact(["draw.dt", "select.dt", "deselect.dt"], '', function (e, dt, type, indexes) {
-            if (dt.isSingleSelected()) {
-                $("#sysObject-selected").removeClass("d-none");
-                $("#sysObject-selected").siblings(".row").addClass("d-none");
-            }
-            else {
-                $("#sysObject-none").removeClass("d-none");
-                $("#sysObject-none").siblings(".row").addClass("d-none");
-            }
-        }).setStyle("rtip");
-        table_sysObjects.data = function () {
-            return abp.ajax({
-                url: "/ZeroRoles/GetSysObjectSettings",
-                data: JSON.stringify({
-                    roleId: "@Model.Id"
-                }),
-                success: function () {
-                    console.log("操作成功");
-                }
-            });
-        }
-        table_sysObjects.show();
-        $('#table-sysObjects_search').on('keyup', function () {
-            table_sysObjects.search(this.value);
-        });
+        var RoleId = '@Model.Id';
     </script>
+    @Html.IncludeScript("~/wwwroot/es5/ZeroRoles/Details.js")
 }

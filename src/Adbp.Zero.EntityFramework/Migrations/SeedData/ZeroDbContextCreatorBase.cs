@@ -9,6 +9,7 @@ using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.Configuration;
 using Abp.Localization;
+using Abp.Organizations;
 using Adbp.Zero.Authorization.Roles;
 using Adbp.Zero.Authorization.Users;
 using Adbp.Zero.EntityFramework;
@@ -16,17 +17,27 @@ using Adbp.Zero.MultiTenancy;
 
 namespace Adbp.Zero.Migrations.SeedData
 {
-    public abstract class ZeroDbContextCreatorBase
+    public abstract class ZeroDbContextCreatorBase : ZeroDbContextCreatorBase<Tenant, Role, User>
     {
-        public ZeroDbContext Context { get; }
-        public ZeroDbContextCreatorBase(ZeroDbContext context)
+        public ZeroDbContextCreatorBase(ZeroDbContext<Tenant, Role, User> context) 
+            : base(context)
         {
+        }
+    }
 
+    public abstract class ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
+    {
+        public ZeroDbContext<TTenant, TRole, TUser> Context { get; }
+        public ZeroDbContextCreatorBase(ZeroDbContext<TTenant, TRole, TUser> context)
+        {
             Context = context;
         }
 
         #region tenant
-        protected Tenant GetTenant(string name)
+        protected TTenant GetTenant(string name)
         {
             return Context.Tenants.SingleOrDefault(x => x.TenancyName == Tenant.DefaultTenantName);
         }
@@ -35,7 +46,7 @@ namespace Adbp.Zero.Migrations.SeedData
         {
             if (!Context.Tenants.Any(x => x.TenancyName == tenancyName))
             {
-                Context.Tenants.Add(new Tenant
+                Context.Tenants.Add(new TTenant
                 {
                     TenancyName = tenancyName,
                     Name = display ?? tenancyName
@@ -72,11 +83,11 @@ namespace Adbp.Zero.Migrations.SeedData
         #endregion
 
         #region role
-        protected Role AddRoleIfNotExists(int? tenantId, string name, string display = null, bool isStatic = true)
+        protected TRole AddRoleIfNotExists(int? tenantId, string name, string display = null, bool isStatic = true)
         {
             if (!Context.Roles.Any(x => x.TenantId == tenantId && x.Name == name))
             {
-                Context.Roles.Add(new Role
+                Context.Roles.Add(new TRole
                 {
                     TenantId = tenantId,
                     Name = name,
@@ -88,18 +99,18 @@ namespace Adbp.Zero.Migrations.SeedData
             return GetRole(tenantId, name);
         }
 
-        protected Role GetRole(int? tenantId, string roleName)
+        protected TRole GetRole(int? tenantId, string roleName)
         {
             return Context.Roles.SingleOrDefault(x => x.TenantId == tenantId && x.Name == roleName);
         }
         #endregion
         
         #region user
-        protected User AddUserIfNotExists(int? tenantId, string username, string name, string surname, string email, string password = User.DefaultPassword)
+        protected TUser AddUserIfNotExists(int? tenantId, string username, string name, string surname, string email, string password = User.DefaultPassword)
         {
             if (!Context.Users.Any(x => x.TenantId == tenantId && x.UserName == username))
             {
-                Context.Users.Add(new User
+                Context.Users.Add(new TUser
                 {
                     TenantId = tenantId,
                     UserName = username,
@@ -115,18 +126,18 @@ namespace Adbp.Zero.Migrations.SeedData
             return GetUser(tenantId, username);
         }
 
-        protected User GetUser(int? tenantId, string username)
+        protected TUser GetUser(int? tenantId, string username)
         {
             return Context.Users.SingleOrDefault(x => x.TenantId == tenantId && x.UserName == username);
         }
         #endregion
 
         #region grant
-        protected void AddRolePermissionIfNotExists(Role role, List<Permission> permissions)
+        protected void AddRolePermissionIfNotExists(TRole role, List<Permission> permissions)
         {
             foreach (var permission in permissions)
             {
-                if (!Context.RolePermissions.Any(x => x.TenantId == role.TenantId && x.RoleId == role.Id && x.Name == permission.Name))
+                if (!Context.RolePermissions.Any(x => x.RoleId == role.Id && x.Name == permission.Name))
                 {
                     Context.RolePermissions.Add(new RolePermissionSetting
                     {
@@ -140,13 +151,13 @@ namespace Adbp.Zero.Migrations.SeedData
             }
         }
 
-        protected void AddUserRoleIfNotExists(int? tenantId, Role role, params User[] users)
+        protected void AddUserRoleIfNotExists(TRole role, params TUser[] users)
         {
             foreach (var user in users)
             {
-                if (!Context.UserRoles.Any(x => x.TenantId == tenantId && x.RoleId == role.Id && x.UserId == user.Id))
+                if (!Context.UserRoles.Any(x => x.RoleId == role.Id && x.UserId == user.Id))
                 {
-                    Context.UserRoles.Add(new UserRole(tenantId, user.Id, role.Id));
+                    Context.UserRoles.Add(new UserRole(role.TenantId, user.Id, role.Id));
                     Context.SaveChanges();
                 }
             }
@@ -163,6 +174,25 @@ namespace Adbp.Zero.Migrations.SeedData
 
             Context.Settings.Add(new Setting(tenantId, null, name, value));
             Context.SaveChanges();
+        }
+        #endregion
+
+        #region organizationUnits
+        protected void AddOrganizationIfNotExists(int? tenantId, string groupCode, string displayName, bool isStatic, params int[] numbers)
+        {
+            if (!Context.AdbpOrganizationUnits.Any(x => x.GroupCode == groupCode && x.DisplayName == displayName))
+            {
+                Context.AdbpOrganizationUnits.Add(new Adbp.Zero.OrganizationUnits.ZeroOrganizationUnit
+                {
+                    TenantId = tenantId,
+                    GroupCode = groupCode,
+                    DisplayName = displayName,
+                    Code = OrganizationUnit.AppendCode(null, OrganizationUnit.CreateCode(numbers)),
+                    IsStatic = isStatic
+                });
+
+                Context.SaveChanges();
+            }
         }
         #endregion
     }

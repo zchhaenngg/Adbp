@@ -20,12 +20,11 @@ using Adbp.Zero.MVC;
 namespace Adbp.Sample.Web.App_Start
 {
     [DependsOn(
-        typeof(SampleDataModule),
+        typeof(SampleEntityFrameworkModule),
         typeof(SampleApplicationModule),
         typeof(SampleWebApiModule),
         //typeof(AbpHangfireModule), - ENABLE TO USE HANGFIRE INSTEAD OF DEFAULT JOB MANAGER
-        typeof(ZeroWebMvcModule),
-        typeof(AbpWebMvcModule)
+        typeof(ZeroWebMvcModule)
         )]
     public class SampleWebModule : AbpModule
     {
@@ -36,6 +35,8 @@ namespace Adbp.Sample.Web.App_Start
 
             //Configure navigation/menu
             Configuration.Navigation.Providers.Add<SampleNavigationProvider>();
+
+            Configuration.BackgroundJobs.IsJobExecutionEnabled = AppEnvHelper.IsJobExecutionEnabled();
         }
 
         public override void Initialize()

@@ -12,15 +12,22 @@ namespace Adbp.Zero
 
         public const bool MultiTenancyEnabled = true;
 
+        public const int DefaultTenantId = 1;
+        
         public static class SearchCmds
         {
-            public const string AT001 = "@001";
-            public const string AT002 = "@002";
-            public const string AT003 = "@003";
-            public const string AT004 = "@004";
-            public const string AT005 = "@005";
-            public const string AT006 = "@006";
-            public const string AT007 = "@007";
+            public const string SymbolException = "@exception";
+        }
+
+        public static class SettingGroups
+        {
+            public const string SettingGroups_LDAP = "SettingGroups.LDAP";
+            public const string SettingGroups_Mail = "SettingGroups.Mail";
+            public const string SettingGroups_UserManagement = "SettingGroups.UserManagement";
+            public const string SettingGroups_BackgroundWorkers = "SettingGroups.BackgroundWorkers";
+            public const string SettingGroups_LanguageTimeZone = "SettingGroups.LanguageTimeZone";
+            public const string SettingGroups_Others = "SettingGroups.Others";
+            public const string SettingGroups_DATETIME = "SettingGroups.DATETIME";
         }
     }
 }

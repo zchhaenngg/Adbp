@@ -34,11 +34,6 @@
 #### IMayHaveOwner OwnerId
 一般实体都继承FullAuditedTOEntity<long, User>。//有租户有最终负责人
 
-#### ZeroAppServiceBase/ZeroCrudAppServiceBase/IZeroCrudAppService
-1. GetAsync/CreateAsync/UpdateAsync/DeleteAsync/GetAllAsync 已实现！！！
-1. ObjectMapper.Map  **不允许调用，请调用基类的Map方法！！！以便解耦**
-   
-
 #### 设计原则
 1. 用户输入的业务数据, 只能逻辑删除不能物理删除
 2. 非业务数据, 如SysObjectSetting,管理员配置用户的数据访问条件, 应当物理删除, 反正有审计功能! 
@@ -75,15 +70,9 @@
 1. 短信告警  做的是产品
 1. 微信告警  做的是产品
 
-
-#### 权限[Abp_Permissions]和数据源控制[Adbp_SysObjectSetting] *OwnerId(IMustHaveOwner) Creator以及Owner能无条件查看和修改数据*
-区分：
-权限是控制能使用哪些Feature，如看到菜单，看到按钮。
-数据源控制控制是哪些数据源（通常是Table、View）里的数据(所有字段，还是某个字段；部分信息还是所有信息)可以被你所控制（添加、修改、删除、查看）。
-//数据源控制,控制的是其他人的数据。即本人的数据，即使本人未被允许，本人依然能查看该数据！** Creator以及Owner能无条件查看和修改数据 **
-
 #### todo
 1. 对日历控件的使用以及封装  
 1. 对时间控件的使用以及封装
 1. **...Web** Index View Create/edit/delete/Search  利用T4模板自动生成大部分代码，T4文件在/Models/T4
-1. 将版本4.7 -> 4.6.1
+1. 企业微信推送消息
+1. ISMonitor表设计

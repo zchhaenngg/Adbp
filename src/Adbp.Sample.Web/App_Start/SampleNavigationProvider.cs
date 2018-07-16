@@ -11,15 +11,28 @@ namespace Adbp.Sample.Web.App_Start
 {
     public class SampleNavigationProvider : ZeroNavigationProvider
     {
+        protected override IEnumerable<MenuItemDefinition> GetPersonalPortalMenuItemDefinitions()
+        {
+            foreach (var item in base.GetPersonalPortalMenuItemDefinitions())
+            {
+                yield return item;
+            }
+            yield return new MenuItemDefinition(SamplePageNames.Guests, L("MENU_Guests"), url: "/guests/index", icon: "people", requiredPermissionName: SamplePermissionNames.Permissions_Guest);
+        }
+
+        protected override IEnumerable<MenuItemDefinition> GetMainMenuDefinitions()
+        {
+            yield return GetPersonalPortalDefinition();
+            yield return AddItems(new MenuItemDefinition("Developer", L("MENU_Developer"), icon: "menu"),
+                new MenuItemDefinition(SamplePageNames.Guests, L("MENU_Guests"), url: "/guests/index", icon: "people", requiredPermissionName: SamplePermissionNames.Permissions_Guest)
+            );
+            yield return GetAdministrationDefinition();
+        }
+
+
         public override void SetNavigation(INavigationProviderContext context)
         {
             base.SetNavigation(context);
-
-            var personalPortal = context.Manager.MainMenu.GetItemByName("PersonalPortal");
-            AddItems(personalPortal,
-                new MenuItemDefinition(SamplePageNames.Guests, L("MENU_Guests"), url: "/guests/index", icon: "people", requiredPermissionName: SamplePermissionNames.Permissions_Guest),
-                new MenuItemDefinition(SamplePageNames.Contacts, L("MENU_Contacts"), url: "/contacts/index", icon: "home", requiredPermissionName: SamplePermissionNames.Permissions_Contact)
-                );
         }
 
         private static ILocalizableString L(string name)
@@ -31,6 +44,5 @@ namespace Adbp.Sample.Web.App_Start
     public static class SamplePageNames
     {
         public const string Guests = "Guests";
-        public const string Contacts = "Contacts";
     }
 }

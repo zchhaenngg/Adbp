@@ -9,6 +9,7 @@ using Adbp.Zero.Authorization.Users;
 using Adbp.Zero.MultiTenancy;
 using Abp.IdentityFramework;
 using Adbp.Zero.SysObjectSettings;
+using Abp.Auditing;
 
 namespace Adbp.Zero.Authorization.Accounts
 {
@@ -24,6 +25,7 @@ namespace Adbp.Zero.Authorization.Accounts
             _userManager = userManager;
         }
 
+        [DisableAuditing]
         public async Task ChangePassword(ChangePasswordInput input)
         {
             var result = await _userManager.ChangePasswordAsync(AbpSession.GetUserId(), input.CurrentPassword, input.NewPassword);

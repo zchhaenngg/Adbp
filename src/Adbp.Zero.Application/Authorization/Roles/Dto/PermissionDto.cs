@@ -17,5 +17,39 @@ namespace Adbp.Zero.Authorization.Roles.Dto
         public string DisplayName { get; set; }
 
         public string Description { get; set; }
+
+        public string GroupName
+        {
+            get
+            {
+                if (Name == "Permissions.User" || Name.StartsWith("Permissions.User."))
+                {
+                    return "USER";
+                }
+                else if (Name.StartsWith("Permissions.Role"))
+                {
+                    return "Role";
+                }
+                else if(Name.StartsWith("Permissions.UserRole"))
+                {
+                    return "USER_ROLE";
+                }
+                else if (Name.StartsWith("Permissions.SysObjectSetting"))
+                {
+                    return "SYSOBJECT";
+                }
+                else if (Name.StartsWith("Permissions.OrganizationUnit") || Name.StartsWith("Permissions.OuUser"))
+                {
+                    return "OU_USER";
+                }
+                else if (Name == "Permissions.SystemSetting" ||
+                    Name == "Permissions.AuditLog" ||
+                    Name == "Permissions.LoginAttemptLog")
+                {
+                    return "SETTING_LOG";
+                }
+                return null;
+            }
+        }
     }
 }

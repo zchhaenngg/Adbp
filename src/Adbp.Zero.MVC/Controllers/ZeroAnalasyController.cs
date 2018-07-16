@@ -32,32 +32,27 @@ namespace Adbp.Zero.MVC.Controllers
             _analasyAppService = analasyAppService;
         }
 
-        [AbpMvcAuthorize(PermissionNames.Permissions_AuditLog)]
+        [AbpMvcAuthorize(ZeroPermissionNames.Permissions_AuditLog)]
         public ActionResult AuditLog()
         {
             return View();
         }
 
-        [AbpMvcAuthorize(PermissionNames.Permissions_LoginAttemptLog)]
+        [AbpMvcAuthorize(ZeroPermissionNames.Permissions_LoginAttemptLog)]
         public ActionResult LoginAttemptLog()
         {
             return View();
         }
 
-        [AbpMvcAuthorize(PermissionNames.Permissions_AuditLog)]
+        [AbpMvcAuthorize(ZeroPermissionNames.Permissions_AuditLog)]
         [DontWrapResult]
         public async Task<ActionResult> GetAuditLogs(DataTableQuery query)
         {
             IEnumerable<PageQueryItem> getPageQueryItems()
             {//AuditLog
-                if (query.Search.Value?.Trim() == ZeroConsts.SearchCmds.AT001)
+                if (query.Search.Value?.Trim() == ZeroConsts.SearchCmds.SymbolException)
                 {
                     yield return new PageQueryItem(nameof(Abp.Auditing.AuditLog.Exception), query.Search.Value, ExpressionOperate.IsNotNull);
-                    yield break;
-                }
-                if (query.Search.Value?.Trim() == ZeroConsts.SearchCmds.AT002)
-                {
-                    yield return new PageQueryItem(nameof(Abp.Auditing.AuditLog.Exception), query.Search.Value, ExpressionOperate.IsNull);
                     yield break;
                 }
                 yield return new PageQueryItem(nameof(Abp.Auditing.AuditLog.BrowserInfo), query.Search.Value, ExpressionOperate.Like);
@@ -78,7 +73,7 @@ namespace Adbp.Zero.MVC.Controllers
             return Json(new DataTableResult<AuditLogDto>(page));
         }
 
-        [AbpMvcAuthorize(PermissionNames.Permissions_LoginAttemptLog)]
+        [AbpMvcAuthorize(ZeroPermissionNames.Permissions_LoginAttemptLog)]
         [DontWrapResult]
         public async Task<ActionResult> GetUserLoginAttempts(DataTableQuery query)
         {

@@ -7,6 +7,7 @@ using Abp.Application.Editions;
 using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
+using Abp.Collections;
 using Abp.Configuration;
 using Abp.Localization;
 using Abp.MultiTenancy;
@@ -20,40 +21,54 @@ using Adbp.Zero.MultiTenancy;
 
 namespace Adbp.Zero.Migrations.SeedData
 {
-
-    public class ZeroDbContextCreator
+    public abstract class ZeroDbContextCreator : ZeroDbContextCreator<ZeroDbContext>
     {
-        protected TenantCreator TenantCreator { get; }
-        protected LanguageCreator LanguageCreator { get; }
-        protected EditionCreator EditionCreator { get; }
-        protected RoleCreator RoleCreator { get; }
-        protected UserCreator UserCreator { get; }
-        protected SettingCreator SettingCreator { get; }
-
-        public ZeroDbContextCreator(ZeroDbContext context)
+        protected ZeroDbContextCreator(ZeroDbContext context) 
+            : base(context)
         {
-            TenantCreator = new TenantCreator(context);
-            LanguageCreator = new LanguageCreator(context);
-            EditionCreator = new EditionCreator(context);
-            RoleCreator = new RoleCreator(context);
-            UserCreator = new UserCreator(context);
-            SettingCreator = new SettingCreator(context);
-        }
-
-        public void Create()
-        {
-            EditionCreator.Create();
-            TenantCreator.Create();
-            LanguageCreator.Create();
-            RoleCreator.Create();
-            UserCreator.Create();
-            SettingCreator.Create();
         }
     }
 
-    public class TenantCreator : ZeroDbContextCreatorBase
+    public abstract class ZeroDbContextCreator<TZeroDbContext> : ZeroDbContextCreator<Tenant, Role, User, TZeroDbContext>
+        where TZeroDbContext : ZeroDbContext
     {
-        public TenantCreator(ZeroDbContext context)
+        protected ZeroDbContextCreator(TZeroDbContext context) 
+            : base(context)
+        {
+        }
+    }
+    public abstract class ZeroDbContextCreator<TTenant, TRole, TUser, TZeroDbContext>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
+        where TZeroDbContext: ZeroDbContext<TTenant, TRole, TUser>
+    {
+        protected TZeroDbContext DbContext { get; private set; }
+
+        protected ZeroDbContextCreator(TZeroDbContext context)
+        {
+            DbContext = context;
+        }
+
+        protected virtual void Init()
+        {
+            new EditionCreator<TTenant, TRole, TUser>(DbContext).Create();
+            new TenantCreator<TTenant, TRole, TUser>(DbContext).Create();
+            new LanguageCreator<TTenant, TRole, TUser>(DbContext, null).Create();
+            new RoleCreator<TTenant, TRole, TUser>(DbContext, null).Create();
+            new RoleCreator<TTenant, TRole, TUser>(DbContext, ZeroConsts.DefaultTenantId).Create();
+            new UserCreator<TTenant, TRole, TUser>(DbContext, null).Create();
+            new UserCreator<TTenant, TRole, TUser>(DbContext, ZeroConsts.DefaultTenantId).Create();
+            new SettingCreator<TTenant, TRole, TUser>(DbContext, null).Create();
+        }
+    }
+
+    internal class TenantCreator<TTenant, TRole, TUser> : ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
+    {
+        public TenantCreator(ZeroDbContext<TTenant, TRole, TUser> context)
             : base(context)
         {
         }
@@ -64,23 +79,33 @@ namespace Adbp.Zero.Migrations.SeedData
         }
     }
 
-    public class LanguageCreator : ZeroDbContextCreatorBase
+    internal class LanguageCreator<TTenant, TRole, TUser> : ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
     {
-        public LanguageCreator(ZeroDbContext context)
+        private readonly int? _tenantId;
+
+        public LanguageCreator(ZeroDbContext<TTenant, TRole, TUser> context, int? tenantId)
             : base(context)
         {
+            _tenantId = tenantId;
         }
 
         internal void Create()
         {
-            AddLanguageIfNotExists(null, "en", "English", "famfamfam-flag-gb");
-            AddLanguageIfNotExists(null, "zh-CN", "简体中文", "famfamfam-flag-cn");
+            AddLanguageIfNotExists(_tenantId, "en", "English", "famfamfam-flag-gb");
+            //AddLanguageIfNotExists(_tenantId, "zh-CN", "简体中文", "famfamfam-flag-cn");
+            AddLanguageIfNotExists(_tenantId, "zh-Hans", "简体中文", "famfamfam-flag-cn");
         }
     }
 
-    public class EditionCreator : ZeroDbContextCreatorBase
+    internal class EditionCreator<TTenant, TRole, TUser> : ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
     {
-        public EditionCreator(ZeroDbContext context)
+        public EditionCreator(ZeroDbContext<TTenant, TRole, TUser> context)
             : base(context)
         {
         }
@@ -91,92 +116,101 @@ namespace Adbp.Zero.Migrations.SeedData
         }
     }
 
-    public class RoleCreator : ZeroDbContextCreatorBase
+    internal class RoleCreator<TTenant, TRole, TUser> : ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
     {
-        public static List<AuthorizationProvider> AuthorizationProviders;
-        static RoleCreator()
-        {
-            AuthorizationProviders = new List<AuthorizationProvider> {
-                new ZeroAuthorizationProvider()
-            };
-        }
-        public RoleCreator(ZeroDbContext context)
+        private readonly int? _tenantId;
+        
+        public RoleCreator(ZeroDbContext<TTenant, TRole, TUser> context, int? tenantId)
             : base(context)
         {
-            
+            _tenantId = tenantId;
         }
 
         internal void Create()
         {
-            CreateAndGrantForHostAdminRole();
-            CreateAndGrantForDefaultTenantAdminRole();
+            CreateAndGrantForAdmin();
         }
 
-        private void CreateAndGrantForHostAdminRole()
+        private void CreateAndGrantForAdmin()
         {
-            var role = AddRoleIfNotExists(null, StaticRoleNames.Host.Admin);
-            var permissions = PermissionFinder.GetAllPermissions(AuthorizationProviders.ToArray())
-                .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host))
-                .ToList();
-            AddRolePermissionIfNotExists(role, permissions);
+            if (_tenantId == null)
+            {
+                var role = AddRoleIfNotExists(null, ZeroStaticRoleNames.Host.Admin);
+                var permissions = PermissionFinder.GetAllPermissions(SeedDataConfig.AuthorizationProviders.ToArray())
+                    .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host))
+                    .ToList();
+                AddRolePermissionIfNotExists(role, permissions);
+            }
+            else
+            {
+                var role = AddRoleIfNotExists(_tenantId, ZeroStaticRoleNames.Tenants.Admin);
+                var permissions = PermissionFinder.GetAllPermissions(SeedDataConfig.AuthorizationProviders.ToArray())
+                    .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Tenant))
+                    .ToList();
+                AddRolePermissionIfNotExists(role, permissions);
+            }
         }
-
-        private void CreateAndGrantForDefaultTenantAdminRole()
-        {
-            var tenant = GetTenant(Tenant.DefaultTenantName);
-            var role = AddRoleIfNotExists(tenant.Id, StaticRoleNames.Tenants.Admin);
-            var permissions = PermissionFinder.GetAllPermissions(AuthorizationProviders.ToArray())
-                .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Tenant))
-                .ToList();
-            AddRolePermissionIfNotExists(role, permissions);
-        }
-
     }
 
-    public class UserCreator : ZeroDbContextCreatorBase
+    internal class UserCreator<TTenant, TRole, TUser> : ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
     {
-        public UserCreator(ZeroDbContext context)
+        private readonly int? _tenantId;
+
+        public UserCreator(ZeroDbContext<TTenant, TRole, TUser> context, int? tenantId)
             : base(context)
         {
+            _tenantId = tenantId;
         }
 
         internal void Create()
         {
-            CreateAndGrantForHostAdminUser();
-            CreateAndGrantForDefaultTenantAdminUser();
+            CreateAndGrantForAdmin();
         }
 
-        private void CreateAndGrantForHostAdminUser()
+        private void CreateAndGrantForAdmin()
         {
-            var role = GetRole(null, StaticRoleNames.Host.Admin);
-            var user = AddUserIfNotExists(null, User.AdminUserName, "System", "Administrator", "adminHost@adbp.com");
-            AddUserRoleIfNotExists(null, role, user);
-        }
-
-        private void CreateAndGrantForDefaultTenantAdminUser()
-        {
-            var tenant = GetTenant(Tenant.DefaultTenantName);
-            var role = GetRole(tenant.Id, StaticRoleNames.Host.Admin);
-            var user = AddUserIfNotExists(tenant.Id, User.AdminUserName, "System", "Administrator", "adminDefault@adbp.com");
-            AddUserRoleIfNotExists(tenant.Id, role, user);
+            if (_tenantId == null)
+            {
+                var role = GetRole(null, ZeroStaticRoleNames.Host.Admin);
+                var user = AddUserIfNotExists(null, User.AdminUserName, "System", "Administrator", "adminHost@adbp.com");
+                AddUserRoleIfNotExists(role, user);
+            }
+            else
+            {
+                var role = GetRole(_tenantId, ZeroStaticRoleNames.Host.Admin);
+                var user = AddUserIfNotExists(_tenantId, User.AdminUserName, "System", "Administrator", "adminDefault@adbp.com");
+                AddUserRoleIfNotExists(role, user);
+            }
         }
     }
 
-    public class SettingCreator : ZeroDbContextCreatorBase
+    internal class SettingCreator<TTenant, TRole, TUser> : ZeroDbContextCreatorBase<TTenant, TRole, TUser>
+        where TTenant : Tenant<TUser>, new()
+        where TRole : Role<TUser>, new()
+        where TUser : User<TUser>, new()
     {
-        public SettingCreator(ZeroDbContext context)
+        private readonly int? _tenantId;
+
+        public SettingCreator(ZeroDbContext<TTenant, TRole, TUser> context, int? tenantId)
             : base(context)
         {
+            _tenantId = tenantId;
         }
 
         internal void Create()
         {
             //Emailing
-            AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com");
-            AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer");
+            AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com", _tenantId);
+            AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer", _tenantId);
 
             //Languages
-            AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "en");
+            AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "en", _tenantId);
         }
     }
 }

@@ -10,7 +10,7 @@ using Adbp.Zero.Authorization.Users;
 
 namespace Adbp.Zero.Authorization.Roles
 {
-    public class RoleStore : AbpRoleStore<Role, User>
+    public class RoleStore : RoleStore<Role, User>
     {
         public RoleStore(
             IRepository<Role> roleRepository, 
@@ -20,6 +20,18 @@ namespace Adbp.Zero.Authorization.Roles
                   roleRepository, 
                   userRoleRepository, 
                   rolePermissionSettingRepository)
+        {
+        }
+    }
+
+    public abstract class RoleStore<TRole, TUser> : AbpRoleStore<TRole, TUser>
+        where TRole : Role<TUser>
+        where TUser : User<TUser>
+    {
+        protected RoleStore(IRepository<TRole> roleRepository, 
+            IRepository<UserRole, long> userRoleRepository, 
+            IRepository<RolePermissionSetting, long> rolePermissionSettingRepository) 
+            : base(roleRepository, userRoleRepository, rolePermissionSettingRepository)
         {
         }
     }

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-Hans">
+  <texts>
+    <!--SettingGroups-->
+    <text name="SettingGroups_DATETIME" value="日期与时间" />
+    <text name="SettingGroups_LDAP" value="LDAP" />
+    <text name="SettingGroups_Mail" value="Mail" />
+    <text name="SettingGroups_UserManagement" value="用户管理" />
+    <text name="SettingGroups_BackgroundWorkers" value="后台服务" />
+    <text name="SettingGroups_LanguageTimeZone" value="语言与时区" />
+    <text name="SettingGroups_Others" value="其他" />
+    
+    <!--SettingNames-->
+    <text name="SettingNames_DateFormatting" value="日期格式" />
+    <text name="SettingNames_TimeFormatting" value="时间格式" />
+    <text name="SettingNames_DateTimeFormatting" value="日期带时间格式" />
+
+    <text name="SettingNames_EmailWorkerTimerPeriodSeconds" value="邮箱工作间隔时间"/>
+    
+    <!--角色赋予权限时，权限的displayName-->
+    <text name="Permissions_Tenant" value="租户" />
+    <text name="Permissions_User" value="用户" />
+    <text name="Permissions_User_Create" value="用户.创建" />
+    <text name="Permissions_User_Retrieve" value="用户.查询" />
+    <text name="Permissions_User_Update" value="用户.更新" />
+    <text name="Permissions_User_Delete" value="用户.删除" />
+
+    <text name="Permissions_Role" value="角色" />
+    <text name="Permissions_Role_Create" value="角色.创建" />
+    <text name="Permissions_Role_Retrieve" value="角色.查询" />
+    <text name="Permissions_Role_Update" value="角色.更新" />
+    <text name="Permissions_Role_Delete" value="角色.删除" />
+
+    <text name="Permissions_UserRole_Upsert" value="角色用户.授权" />
+    <text name="Permissions_UserRole_Retrieve" value="角色用户.查询" />
+
+    <text name="Permissions_OrganizationUnit" value="组织机构" />
+    <text name="Permissions_OrganizationUnit_Create" value="组织机构.创建" />
+    <text name="Permissions_OrganizationUnit_Retrieve" value="组织机构.查询" />
+    <text name="Permissions_OrganizationUnit_Update" value="组织机构.更新" />
+    <text name="Permissions_OrganizationUnit_Delete" value="组织机构.删除" />
+
+    <text name="Permissions_OuUser_Create" value="组织用户.创建" />
+    <text name="Permissions_OuUser_Retrieve" value="组织用户.查询" />
+    <text name="Permissions_OuUser_Delete" value="组织用户.删除" />
+
+    <text name="Permissions_SysObjectSetting" value="源对象" />
+    <text name="Permissions_SysObjectSetting_Retrieve" value="源对象.查询" />
+    <text name="Permissions_SysObjectSetting_Upsert" value="源对象.设置" />
+    <text name="Permissions_SysObjectSetting_Delete" value="源对象.删除" />
+
+    <text name="Permissions_ApplicationLanguageText" value="本地化" />
+    <text name="Permissions_ApplicationLanguageText_Retrieve" value="本地化.查询" />
+    <text name="Permissions_ApplicationLanguageText_Upsert" value="本地化.更新" />
+    
+    <text name="Permissions_AuditLog" value="审计日志" />
+    <text name="Permissions_LoginAttemptLog" value="登录日志" />
+    <text name="Permissions_Home" value="主页" />
+    
+    <text name="Permissions_SystemSetting" value="系统设置" />
+    
+
+    <!--页面左侧菜单栏，菜单的displayName-->
+    <text name="MENU_PersonalPortal" value="个人门户"/>
+    <text name="MENU_HomePage" value="主页"/>
+    <text name="MENU_Administration" value="后台管理"/>
+    <text name="MENU_OrganizationUnit" value="组织机构"/>
+    <text name="MENU_TenantManagement" value="租户"/>
+    <text name="MENU_UserManagement" value="用户"/>
+    <text name="MENU_RoleManagement" value="角色"/>
+    <text name="MENU_AuditLog" value="审计日志"/>
+    <text name="MENU_LoginAttemptLog" value="登录日志"/>
+    <text name="MENU_SystemSettings" value="系统设置"/>
+    <text name="MENU_Localization" value="本地化"/>
+
+    <!--枚举类型，在UI上显示的displayName-->
+    <text name="ENUM_AbpLoginResultType_Success" value="成功"/>
+    <text name="ENUM_AbpLoginResultType_InvalidUserNameOrEmailAddress" value="无效的用户名或邮箱"/>
+    <text name="ENUM_AbpLoginResultType_InvalidPassword" value="无效的密码"/>
+    <text name="ENUM_AbpLoginResultType_UserIsNotActive" value="用户未激活"/>
+    <text name="ENUM_AbpLoginResultType_InvalidTenancyName" value="无效的租户名称"/>
+    <text name="ENUM_AbpLoginResultType_TenantIsNotActive" value="租户未激活"/>
+    <text name="ENUM_AbpLoginResultType_UserEmailIsNotConfirmed" value="邮箱未确认"/>
+    <text name="ENUM_AbpLoginResultType_UnknownExternalLogin" value="未识别的第三方登录"/>
+    <text name="ENUM_AbpLoginResultType_LockedOut" value="注销"/>
+    <text name="ENUM_AbpLoginResultType_UserPhoneNumberIsNotConfirmed" value="用户手机号码未确认"/>
+
+    <text name="ENUM_AccessLevel_Reject" value="拒绝" />
+    <text name="ENUM_AccessLevel_Create" value="新建" />
+    <text name="ENUM_AccessLevel_Retrieve" value="查询" />
+    <text name="ENUM_AccessLevel_Update" value="更新" />
+    <text name="ENUM_AccessLevel_Delete" value="删除" />
+  </texts>
+</localizationDictionary>

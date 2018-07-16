@@ -14,15 +14,23 @@ using Adbp.Zero.OrganizationUnits.Dto;
 using Adbp.Zero.Users.Dto;
 using Adbp.Zero.Authorization.Roles;
 using Adbp.Zero.Authorization.Users;
+using Abp.Threading.BackgroundWorkers;
+using Adbp.Zero.BackgroundWorkers;
 
 namespace Adbp.Zero
 {
     [DependsOn(
-        typeof(ZeroCoreModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpAutoMapperModule),
+        typeof(ZeroCoreModule)
         )]
     public class ZeroApplicationModule: AbpModule
     {
+        public override void PreInitialize()
+        {
+            base.PreInitialize();
+            IocManager.Register<ZeroApplicationModuleConfig>();
+        }
+
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
@@ -43,6 +51,20 @@ namespace Adbp.Zero
 
                 cfg.CreateMap<OrganizationUnit, OrganizationUnitOutput>().ForMember(x => x.MemberCount, opt => opt.MapFrom(x => x.Children.Count));
             });
+        }
+
+        public override void PostInitialize()
+        {
+            base.PostInitialize();
+
+            if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
+            {
+                var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
+                if (Configuration.Get<ZeroApplicationModuleConfig>().IsEmailWorkerEnabled)
+                {
+                    workManager.Add(IocManager.Resolve<EmailWorker>());
+                }
+            }
         }
     }
 }

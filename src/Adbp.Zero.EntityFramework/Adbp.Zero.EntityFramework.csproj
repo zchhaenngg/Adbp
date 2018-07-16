@@ -204,11 +204,12 @@
     <Compile Include="EntityFramework\Repositories\ZeroRepositoryBase.cs" />
     <Compile Include="EntityFramework\ZeroDbContext.cs" />
     <Compile Include="EntityFramework\MetadataManagerBase.cs" />
+    <Compile Include="Migrations\SeedData\SeedDataConfig.cs" />
     <Compile Include="Migrations\ZeroConfiguration.cs" />
     <Compile Include="Migrations\SeedData\ZeroDbContextCreator.cs" />
     <Compile Include="Migrations\SeedData\ZeroDbContextCreatorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZeroDataModule.cs" />
+    <Compile Include="ZeroEntityFrameworkModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

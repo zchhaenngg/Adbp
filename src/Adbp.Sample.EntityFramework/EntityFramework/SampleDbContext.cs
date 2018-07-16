@@ -4,7 +4,6 @@ namespace Adbp.Sample.EntityFramework
     using System.Data.Entity;
     using System.Linq;
     using Abp.Zero.EntityFramework;
-    using Adbp.Sample.Contacts;
     using Adbp.Sample.Guests;
     using Adbp.Zero.Authorization.Roles;
     using Adbp.Zero.Authorization.Users;
@@ -29,14 +28,12 @@ namespace Adbp.Sample.EntityFramework
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         public virtual IDbSet<Guest> Guests { get; set; }
-        public virtual IDbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             SetTableName<Guest>(modelBuilder);
-            SetTableName<Contact>(modelBuilder);
         }
 
         private void SetTableName<TEntity>(DbModelBuilder modelBuilder)

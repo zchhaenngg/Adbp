@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "babel ES6 --out-dir wwwroot/es5 --source-map inline"
+    "build": "babel ES6 --out-dir wwwroot/es5 --source-map inline",
+    "adbp":"babel AdbpJs --out-dir wwwroot/libs/adbp --source-map inline"
   },
   "author": "",
   "license": "ISC",

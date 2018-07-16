@@ -16,7 +16,7 @@ using Adbp.Zero.Users.Dto;
 
 namespace Adbp.Zero.MVC.Controllers
 {
-    [AbpMvcAuthorize(PermissionNames.Permissions_User)]
+    [AbpMvcAuthorize(ZeroPermissionNames.Permissions_User)]
     public class ZeroUsersController : ZeroControllerBase
     {
         private readonly IUserAppService _userAppService;

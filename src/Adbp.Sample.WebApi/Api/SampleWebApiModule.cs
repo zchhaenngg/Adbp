@@ -15,7 +15,7 @@ using Swashbuckle.Application;
 
 namespace Adbp.Sample.Api
 {
-    [DependsOn(typeof(AbpWebApiModule), typeof(ZeroApplicationModule))]
+    [DependsOn(typeof(AbpWebApiModule), typeof(SampleApplicationModule))]
     public class SampleWebApiModule : AbpModule
     {
         private void ConfigureSwaggerUi()

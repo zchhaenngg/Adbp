@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Adbp.Zero.EntityFramework.Repositories
 {
     public abstract class ZeroRepositoryBase<TDbContext, TEntity, TPrimaryKey> : EfRepositoryBase<TDbContext, TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
-        where TDbContext: ZeroDbContext
+        where TDbContext: DbContext
     {
         protected ZeroRepositoryBase(IDbContextProvider<TDbContext> dbContextProvider)
             : base(dbContextProvider)
@@ -25,7 +26,7 @@ namespace Adbp.Zero.EntityFramework.Repositories
 
     public abstract class ZeroRepositoryBase<TDbContext, TEntity> : ZeroRepositoryBase<TDbContext, TEntity, int>
         where TEntity : class, IEntity<int>
-        where TDbContext : ZeroDbContext
+        where TDbContext : DbContext
     {
         protected ZeroRepositoryBase(IDbContextProvider<TDbContext> dbContextProvider)
             : base(dbContextProvider)

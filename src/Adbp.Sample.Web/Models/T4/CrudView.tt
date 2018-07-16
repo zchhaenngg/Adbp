@@ -9,9 +9,10 @@
 	var _project = "Sample";
 #>
 <#
-	var _appServiceName= "guest";
-	var _page = "guests";
-	var _pageSingular = "guest";
+	var _projectZh = "告警";
+	var _appServiceName= "applicationLanguageText";
+	var _page = "localizations";
+	var _pageSingular = "localization";
 	
 	var _btn_edit = $"btn-{_pageSingular}_edit";
 	var _btn_delete = $"btn-{_pageSingular}_delete";
@@ -58,12 +59,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>手机</th>
-                    <th>单位</th>
-                    <th>职称</th>
-                    <th>备注</th>
+                    <th>名称</th>
                     <th>创建时间</th>
                 </tr>
             </thead>
@@ -76,38 +72,14 @@
             <form action="api/services/app/<#=_appServiceName#>/create" data-dt="#<#=_table#>">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <span>创建嘉宾</span>
+                        <span>创建<#=_projectZh#></span>
                     </h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label adbp-mask">{待定}</label>
                         <div class="col-sm-10">
-                            <input type="text" name="Name" data-vd="{name:'Guest Name', r:true, minL:2, maxL:32}" class="form-control" placeholder="Guest Name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="IsFemale" value="false" id="IsFemale_1_1">
-                                <label class="form-check-label" for="IsFemale_1_1">男</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="IsFemale" value="true" id="IsFemale_1_2">
-                                <label class="form-check-label" for="IsFemale_1_2">女</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Telephone</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="Telephone" class="form-control" data-vd="{name:'Telephone', r:false, bReg:'telephone'}" placeholder="Telephone">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Description</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="Description" class="form-control" data-vd="{name:'Description', r:false, maxL:250}" placeholder="Description">
+                            <input type="text" name="Name" data-vd="{name:'<#=_pageSingular#> Name', r:true, minL:2, maxL:32}" class="form-control" placeholder="<#=_pageSingular#> Name">
                         </div>
                     </div>
                 </div>
@@ -126,38 +98,14 @@
                 <input type="hidden" name="Id" />
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <span>编辑嘉宾</span>
+                        <span>编辑<#=_projectZh#></span>
                     </h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label adbp-mask">{待定}</label>
                         <div class="col-sm-10">
-                            <input type="text" name="Name" data-vd="{name:'Guest Name', r:true, minL:2, maxL:32}" class="form-control" placeholder="Guest Name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="IsFemale" value="false" id="IsFemale_1_1">
-                                <label class="form-check-label" for="IsFemale_1_1">男</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="IsFemale" value="true" id="IsFemale_1_2">
-                                <label class="form-check-label" for="IsFemale_1_2">女</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Telephone</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="Telephone" class="form-control" data-vd="{name:'Telephone', r:false, bReg:'telephone'}" placeholder="Telephone">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Description</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="Description" class="form-control" data-vd="{name:'Description', r:false, maxL:250}" placeholder="Description">
+                            <input type="text" name="Name" data-vd="{name:'<#=_pageSingular#> Name', r:true, minL:2, maxL:32}" class="form-control" placeholder="<#=_pageSingular#> Name">
                         </div>
                     </div>
                 </div>
@@ -174,12 +122,12 @@
     <script type="text/javascript">
         (function () {
 
-            window.table = new abp.table.server("#guestIndex-table", {
+            window.table = new abp.table.server("#<#=_table#>", {
                 "order": [[3, "desc"]],
                 'ajax': {
-                    url: '/guests/GetGuests',
+                    url: '/<#=_page#>/get<#=_page#>',
                     data: function (params) {
-                        params.search.value = $("#table-search").val();
+                        params.search.value = $("#<#=_table_search#>").val();
                         return params;
                     }
                 },
@@ -191,43 +139,14 @@
                     },
                     { data: 'Name' },
                     {
-                        data: 'IsFemale', render: function (data, type, full, meta) {
-                            if (data == null) {
-                                return "";
-                            }
-                            else if (data) {
-                                return abp.localization.localize("BOOL_ISFEMALE_TRUE", "Sample");
-                            }
-                            else {
-                                return abp.localization.localize("BOOL_ISFEMALE_FALSE", "Sample");
-                            }
-                        }
-                    },
-                    { data: 'Telephone' },
-                    { data: 'Company' },
-                    { data: 'Title' },
-                    { data: 'Description' },
-                    {
                         data: 'CreationTime', render: function (data, type, full, meta) {
                             return abp.timing.datetimeStr(data);
                         }
                     },
                 ]
-            }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-guestIndex_edit", function (e, dt, type, indexes) {
+            }).contact(["draw.dt", "select.dt", "deselect.dt"], "#<#=_btn_edit#>, #<#=_btn_delete#>", function (e, dt, type, indexes) {
                 if (dt.isSingleSelected()) {
                     $(this).removeAttr("disabled");
-                }
-                else {
-                    $(this).attr("disabled", true);
-                }
-                }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-guestIndex_delete", function (e, dt, type, indexes) {
-                if (dt.isSingleSelected()) {
-                    if (!dt.singleSelected().isStatic) {
-                        $(this).removeAttr("disabled");
-                    }
-                    else {
-                        $(this).attr("disabled", true);
-                    }
                 }
                 else {
                     $(this).attr("disabled", true);
@@ -235,39 +154,27 @@
             });
             table.show();
 
-            $('#table-search').on('change', function () {
+            $('#<#=_table_search#>').on('change', function () {
                 table.show();
             });
 
-            function initEditModal({ Id, Name, PinYin, IsFemale, Title, Telephone, Company, Description }) {
-                let $form = $("#modal-guest_edit").find("form");
+            function initEditModal({ Id, Name, SchedulePattern, Url }) {
+                let $form = $("#<#=_modal_edit#>").find("form");
                 $form.resetForm();
                 $form.find("[name=Id]").val(Id);
                 $form.find("[name=Name]").val(Name);
-                $form.find("[name=PinYin]").val(PinYin);
-                if (IsFemale === true) {
-                    $("input[name=IsFemale][value='true']").prop("checked", true);
-                }
-                else if (IsFemale === false) {
-                    $("input[name=IsFemale][value='false']").prop("checked", true);
-                }
-
-                $form.find("[name=Title]").val(Title);
-                $form.find("[name=Telephone]").val(Telephone);
-                $form.find("[name=Company]").val(Company);
-                $form.find("[name=Description]").val(Description);
             }
 
-            $("#modal-guest_edit").on("show.bs.modal", function () {
+            $("#<#=_modal_edit#>").on("show.bs.modal", function () {
                 var row = window.table.singleSelected();
                 initEditModal(row);
             });
 
-            $("#btn-guestIndex_delete").on("click", function () {
-                abp.message.confirm('', "确认删除嘉宾！").done((value) => {
+            $("#<#=_btn_delete#>").on("click", function () {
+                abp.message.confirm('', "确认删除<#=_projectZh#>！").done((value) => {
                     if (value) {
                         var row = window.table.singleSelected();
-                        abp.services.app.guest.delete(row.Id).done(function () {
+                        abp.services.app.<#=_appServiceName#>.delete(row.Id).done(function () {
                             abp.notify.success("操作成功！");
                             table.show();
                         });

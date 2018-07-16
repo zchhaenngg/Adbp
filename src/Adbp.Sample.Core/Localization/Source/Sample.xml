@@ -7,16 +7,10 @@
     <text name="Permissions_Guest_Retrieve" value="Guests.Retrieve" />
     <text name="Permissions_Guest_Update" value="Guests.Update" />
     <text name="Permissions_Guest_Delete" value="Guests.Delete" />
-   
-    <text name="Permissions_Contact" value="Contacts" />
-    <text name="Permissions_Contact_Create" value="Contacts.Create" />
-    <text name="Permissions_Contact_Retrieve" value="Contacts.Retrieve" />
-    <text name="Permissions_Contact_Update" value="Contacts.Update" />
-    <text name="Permissions_Contact_Delete" value="Contacts.Delete" />
     
     <!--页面左侧菜单栏，菜单的displayName-->
     <text name="MENU_Guests" value="Guests"/>
-    <text name="MENU_Contacts" value="Contacts" />
+    <text name="MENU_Developer" value="Developer" />
 
     <!--bool类型的displayName-->
     <text name="BOOL_ISFEMALE_TRUE" value="Female" />

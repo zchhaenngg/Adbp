@@ -10,8 +10,12 @@ namespace Adbp.Zero.Configuration
 {
     public interface IConfigurationAppService : IApplicationService
     {
-        Task ChangeUiDateAndTimeFormattingForUserAsync(ChangeUiDateAndTimeFormattingInput input);
-        Task ChangeUiDateAndTimeFormattingForTenantAsync(ChangeUiDateAndTimeFormattingInput input);
-        Task ChangeUiDateAndTimeFormattingForApplicationAsync(ChangeUiDateAndTimeFormattingInput input);
+        Task ChangeSettingForUserAsync(SettingValueInput input);
+        Task ChangeSettingForTenantAsync(SettingValueInput input);
+        Task ChangeSettingForApplicationAsync(SettingValueInput input);
+
+        List<SettingDefinitionOutput> GetAllSettingDefinitionsForApplication();
+
+        List<SettingDefinitionOutput> GetAllSettingDefinitionsForTenant();
     }
 }

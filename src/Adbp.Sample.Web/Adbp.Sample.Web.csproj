@@ -338,7 +338,6 @@
     <Compile Include="App_Start\SampleNavigationProvider.cs" />
     <Compile Include="App_Start\SampleWebModule.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\GuestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SampleControllerBase.cs" />
@@ -353,6 +352,11 @@
     <Content Include="ES6\ZeroAnalasy\AuditLog.js" />
     <Content Include="ES6\ZeroAnalasy\LoginAttemptLog.js" />
     <Content Include="ES6\ZeroAnalasy\SelfLogins.js" />
+    <Content Include="ES6\ZeroLocalization\Index.js" />
+    <Content Include="ES6\ZeroOrganizationUnit\Index.js" />
+    <Content Include="ES6\ZeroRoles\Details.js" />
+    <Content Include="ES6\ZeroRoles\Index.js" />
+    <Content Include="ES6\ZeroUsers\Index.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
@@ -361,34 +365,38 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CrudView.cshtml</LastGenOutput>
     </Content>
-    <Content Include="ES6\adbp\adbp.blockUI.js" />
-    <Content Include="ES6\adbp\adbp.jstree.js" />
+    <Content Include="AdbpJs\adbp.blockUI.js" />
+    <Content Include="AdbpJs\adbp.jstree.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.typeahead.js" />
+    <Content Include="wwwroot\es5\ZeroOrganizationUnit\Index.js" />
+    <Content Include="wwwroot\es5\ZeroRoles\Details.js" />
+    <Content Include="wwwroot\es5\ZeroRoles\Index.js" />
+    <Content Include="wwwroot\es5\ZeroUsers\Index.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.ajaxForm.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.blockUI.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.datatables.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.jquery.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.jstree.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.moment.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.spin.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.sweetalert.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.toastr.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.typeahead.js" />
+    <Content Include="wwwroot\libs\adbp\adbp.validate.js" />
     <Content Include="wwwroot\libs\adbp\css\adbp.css" />
-    <Content Include="ES6\adbp\adbp.jquery.js" />
-    <Content Include="ES6\adbp\adbp.js" />
-    <Content Include="ES6\adbp\adbp.moment.js" />
-    <Content Include="ES6\adbp\adbp.spin.js" />
-    <Content Include="ES6\adbp\adbp.toastr.js" />
-    <Content Include="ES6\adbp\adbp.validate.js" />
+    <Content Include="AdbpJs\adbp.jquery.js" />
+    <Content Include="AdbpJs\adbp.js" />
+    <Content Include="AdbpJs\adbp.moment.js" />
+    <Content Include="AdbpJs\adbp.spin.js" />
+    <Content Include="AdbpJs\adbp.toastr.js" />
+    <Content Include="AdbpJs\adbp.validate.js" />
     <Content Include="wwwroot\libs\adbp\css\adbp.datatable.css" />
     <Content Include="wwwroot\libs\adbp\css\adbp.layout.css" />
-    <Content Include="wwwroot\es5\adbp\adbp.ajaxForm.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.blockUI.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.datatables.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.jquery.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.jstree.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.moment.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.spin.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.sweetalert.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.toastr.js" />
-    <Content Include="wwwroot\es5\adbp\adbp.validate.js" />
     <Content Include="wwwroot\es5\ZeroAnalasy\AuditLog.js" />
     <Content Include="wwwroot\es5\ZeroAnalasy\LoginAttemptLog.js" />
     <Content Include="wwwroot\es5\ZeroAnalasy\SelfLogins.js" />
@@ -806,7 +814,7 @@
     <Content Include="wwwroot\libs\bootstrap\Adbp.md" />
     <Content Include="wwwroot\libs\jquery.blockui\Adbp.md" />
     <Content Include="wwwroot\libs\font-awesome\Adbp.md" />
-    <Content Include="ES6\adbp\adbp.sweetalert.js" />
+    <Content Include="AdbpJs\adbp.sweetalert.js" />
     <Content Include="wwwroot\libs\jquery.form\Adbp.md" />
     <Content Include="wwwroot\libs\jquery.form\jquery.form.min.js.map" />
     <Content Include="Views\ZeroAccount\Login.cshtml" />
@@ -817,9 +825,8 @@
     <Content Include="wwwroot\libs\jquery.datatables\css\mixins.scss" />
     <Content Include="wwwroot\libs\jquery.datatables\css\semanticui.scss" />
     <Content Include="wwwroot\libs\jquery.datatables\Adbp.md" />
-    <Content Include="ES6\adbp\adbp.datatables.js" />
+    <Content Include="AdbpJs\adbp.datatables.js" />
     <Content Include="Views\ZeroRoles\Index.cshtml" />
-    <Content Include="App_Data\delete.cmd" />
     <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.eot" />
     <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.ttf" />
     <Content Include="wwwroot\libs\font-awesome\webfonts\fa-brands-400.woff" />
@@ -832,7 +839,7 @@
     <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.ttf" />
     <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.woff" />
     <Content Include="wwwroot\libs\font-awesome\webfonts\fa-solid-900.woff2" />
-    <Content Include="ES6\adbp\adbp.ajaxForm.js" />
+    <Content Include="AdbpJs\adbp.ajaxForm.js" />
     <Content Include="wwwroot\libs\adbp\css\adbp.menu.css" />
     <Content Include="wwwroot\libs\adbp\css\adbp.checkbox.css" />
     <Content Include="Views\ZeroUsers\Index.cshtml" />
@@ -845,18 +852,14 @@
     <Content Include="Views\ZeroOrganizationUnit\Index.cshtml" />
     <Content Include="Views\Guests\Index.cshtml" />
     <Content Include="wwwroot\libs\daterangepicker\Adbp.md" />
-    <Content Include="Views\Contacts\Index.cshtml" />
     <Content Include="package.json" />
     <Content Include=".babelrc" />
-    <Content Include="Models\T4\CrudView.cshtml">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CrudView.tt</DependentUpon>
-    </Content>
     <Content Include="wwwroot\libs\typeahead\typeahead.bundle.js" />
-    <Content Include="ES6\adbp\adbp.typeahead.js" />
+    <Content Include="AdbpJs\adbp.typeahead.js" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\ZeroRoles\_PermissionsSelection.cshtml" />
+    <Content Include="Views\ZeroLocalization\Index.cshtml" />
     <None Include="wwwroot\libs\jquery\jquery-3.3.1.intellisense.js" />
     <Content Include="wwwroot\libs\jquery\jquery-3.3.1.js" />
     <Content Include="wwwroot\libs\jquery\jquery-3.3.1.min.js" />
@@ -946,20 +949,13 @@
     <Content Include="wwwroot\libs\typeahead\Adbp.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ES6\ZeroOrganizationUnit\" />
-    <Folder Include="ES6\ZeroRoles\" />
-    <Folder Include="ES6\ZeroSystem\" />
-    <Folder Include="ES6\ZeroUsers\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Adbp.Zero.Application\Adbp.Zero.Application.csproj">
-      <Project>{9de32f33-b9ed-4c33-95a1-dc0566fabe67}</Project>
-      <Name>Adbp.Zero.Application</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Adbp.Sample.Application\Adbp.Sample.Application.csproj">
       <Project>{083e66bd-8756-44e1-876a-98e2261c837b}</Project>
       <Name>Adbp.Sample.Application</Name>
@@ -976,6 +972,10 @@
       <Project>{b09e9bf8-1dd6-41c5-ba5b-e29bffa194cd}</Project>
       <Name>Adbp.Sample.WebApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Adbp.Zero.Application\Adbp.Zero.Application.csproj">
+      <Project>{9de32f33-b9ed-4c33-95a1-dc0566fabe67}</Project>
+      <Name>Adbp.Zero.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Adbp.Zero.MVC\Adbp.Zero.MVC.csproj">
       <Project>{0b3f22ab-a28a-40cf-ae31-8cdb5c239130}</Project>
       <Name>Adbp.Zero.MVC</Name>
@@ -984,6 +984,9 @@
       <Project>{36F3E233-7AE1-443A-B8DA-80659BC81567}</Project>
       <Name>Adbp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

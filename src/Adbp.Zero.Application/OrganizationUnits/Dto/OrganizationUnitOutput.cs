@@ -8,7 +8,7 @@ using Abp.Organizations;
 
 namespace Adbp.Zero.OrganizationUnits.Dto
 {
-    [AutoMap(typeof(OrganizationUnit))]
+    [AutoMapFrom(typeof(OrganizationUnit))]
     public class OrganizationUnitOutput
     {
         public virtual long Id { get; set; }
@@ -21,5 +21,11 @@ namespace Adbp.Zero.OrganizationUnits.Dto
         public virtual long? CreatorUserId { get; set; }
 
         public virtual int MemberCount { get; set; }
+
+        public virtual string GroupCode { get; set; }
+
+        public virtual string Comments { get; set; }
+
+        public virtual bool IsStatic { get; set; }
     }
 }

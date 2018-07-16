@@ -14,7 +14,7 @@ namespace Adbp.Zero.OrganizationUnits
     {
         Task<IList<OrganizationUnitOutput>> GetOrganizationUnitsAsync();
         Task<PagedResultDto<OrganizationUnitUserDto>> GetOrganizationUnitUserPageAsync(GenericPagingInput input, long organizationUnitId);
-        Task<PagedResultDto<OrganizationUserOuput>> GetUsersNotInOrganizationAsync(GenericPagingInput input);
+        Task<PagedResultDto<OrganizationUserOuput>> GetUsersNotInOrganizationAsync(GenericPagingInput input, long organizationUnitId);
 
 
         Task<OrganizationUnitOutput> CreateOrganizationUnitAsync(CreateOrganizationUnitInput input);

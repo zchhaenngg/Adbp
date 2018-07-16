@@ -12,7 +12,7 @@ namespace Adbp.Zero.SysObjectSettings
 {
     public interface ISysObjectSettingAppService : IApplicationService
     {
-        Task CreateRoleSysObjectSettingAsync(RoleSysObjectSettingInput input);
+        Task UpsertRoleSysObjectSettingAsync(RoleSysObjectSettingInput input);
         Task DeleteSysObjectSettingAsync(long sysObjectSettingId);
         Task<List<SysObjectSettingOutput>> GetSysObjectSettingOutputsForRoleAsync(int roleId);
         Task<List<SysColumnSettingOutput>> GetSysColumnSettingOutputsForRoleAsync(int roleId, string sysObjectName);

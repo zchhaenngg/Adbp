@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "LoginAttempt";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.ActiveMenu = PageNames.LoginAttemptLog;
+    ViewBag.ActiveMenu = ZeroPageNames.LoginAttemptLog;
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb adbp-breadcrumb-background">
@@ -32,38 +32,5 @@
     </div>
 </div>
 @section scripts {
-    <script type="text/javascript">
-        var table = new abp.table.server("#logAttemptLog-table", {
-            "columnDefs": null,
-            "order": [[4, "desc"]],
-            'ajax': {
-                url: '/zeroanalasy/getUserLoginAttempts',
-                data: function (params) {
-                    params.search.value = $("#table-search").val();
-                    return params;
-                }
-            },
-            columns: [
-                { data: 'UserNameOrEmailAddress' },
-                { data: 'ClientIpAddress' },
-                { data: 'ClientName' },
-                {
-                    data: 'ResultStr', render: function (data, type, full, meta) {
-                        return abp.localization.localize("ENUM_AbpLoginResultType_" + data, "AdbpZero");
-                    }
-                },
-                {
-                    data: 'CreationTime', render: function (data, type, full, meta) {
-                        return abp.timing.datetimeStr(data);
-                    }
-                },
-            ]
-        }).setStyle("rtip");
-
-        table.show();
-
-        $("#table-search").on("change", function () {
-            table.show();
-        }); 
-    </script>
+    @Html.IncludeScript("~/wwwroot/es5/ZeroAnalasy/LoginAttemptLog.js")
 }

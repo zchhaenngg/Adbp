@@ -29,8 +29,7 @@ namespace Adbp.Zero
         private readonly SysObjectSettingManager _sysObjectSettingManager;
 
         public NullAsyncQueryableExecuter AsyncQueryableExecuter { get; private set; }
-       
-
+        
         protected ZeroAppServiceBase(SysObjectSettingManager sysObjectSettingManager)
         {
             LocalizationSourceName = ZeroConsts.LocalizationSourceName;
@@ -169,16 +168,45 @@ namespace Adbp.Zero
             return predicate;
         }
 
-        protected virtual void CheckCreatePermission<TEntity>(TEntity entity)
-            where TEntity : class
+        protected virtual string[] GetRetrievePermissionNames<TEntity>()
         {
-            PermissionChecker.Authorize($"Permissions.{typeof(TEntity).Name}.Create");
+            return new string[] { $"Permissions.{typeof(TEntity).Name}.Retrieve" };
         }
 
-        protected virtual void CheckRetrievePermission<TEntity>(TEntity entity)
+        protected virtual string[] GetCreatePermissionNames<TEntity>()
+        {
+            return new string[] { $"Permissions.{typeof(TEntity).Name}.Create" };
+        }
+        
+        protected virtual string[] GetUpdatePermissionNames<TEntity>()
+        {
+            return new string[] { $"Permissions.{typeof(TEntity).Name}.Update" };
+        }
+        
+        protected virtual string[] GetDeletePermissionNames<TEntity>()
+        {
+            return new string[] { $"Permissions.{typeof(TEntity).Name}.Delete" };
+        }
+
+        /// <summary>
+        /// 检查权限
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        protected virtual void CheckCreate<TEntity>(TEntity entity)
+        {
+            PermissionChecker.Authorize(GetCreatePermissionNames<TEntity>());
+        }
+
+        /// <summary>
+        /// 检查权限，检查用户
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        protected virtual void CheckUpdate<TEntity>(TEntity entity)
             where TEntity : class
         {
-            PermissionChecker.Authorize($"Permissions.{typeof(TEntity).Name}.Retrieve");
+            PermissionChecker.Authorize(GetUpdatePermissionNames<TEntity>());
 
             if (IsOwner(entity as IMayHaveOwner))
             {
@@ -188,13 +216,18 @@ namespace Adbp.Zero
             {
                 return;
             }
-            throw new UserFriendlyException("You do not have access to this data.");
+            throw new UserFriendlyException("You do not have permission to update this data, Please contact System administrator.");
         }
 
-        protected virtual void CheckUpdatePermission<TEntity>(TEntity entity)
+        /// <summary>
+        /// 检查权限，检查用户
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        protected virtual void CheckRetrieve<TEntity>(TEntity entity)
             where TEntity : class
         {
-            PermissionChecker.Authorize($"Permissions.{typeof(TEntity).Name}.Update");
+            PermissionChecker.Authorize(GetRetrievePermissionNames<TEntity>());
 
             if (IsOwner(entity as IMayHaveOwner))
             {
@@ -204,12 +237,17 @@ namespace Adbp.Zero
             {
                 return;
             }
-            throw new UserFriendlyException("You do not have permission to manipulate this data.");
+            throw new UserFriendlyException("You do not have permission to retrieve this data, Please contact System administrator.");
         }
 
-        protected virtual void CheckDeletePermission<TEntity>(TEntity entity)
+        /// <summary>
+        /// 检查权限，检查用户
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        protected virtual void CheckDelete<TEntity>(TEntity entity)
         {
-            PermissionChecker.Authorize($"Permissions.{typeof(TEntity).Name}.Delete");
+            PermissionChecker.Authorize(GetDeletePermissionNames<TEntity>());
 
             if (IsOwner(entity as IMayHaveOwner))
             {
@@ -219,14 +257,9 @@ namespace Adbp.Zero
             {
                 return;
             }
-            throw new UserFriendlyException("You do not have permission to manipulate this data.");
+            throw new UserFriendlyException("You do not have permission to delete this data, Please contact System administrator.");
         }
-
-        protected virtual void CheckPagePermission<TEntity>()
-        {
-            PermissionChecker.Authorize($"Permissions.{typeof(TEntity).Name}");
-        }
-
+        
         //AdbpCrudAppServiceBase GetAsync
         protected virtual async Task<TEntityDto> GetAsync<TEntity, TPrimaryKey, TEntityDto>(IRepository<TEntity, TPrimaryKey> repository, TPrimaryKey id)
             where TEntityDto : IEntityDto<TPrimaryKey>
@@ -234,7 +267,7 @@ namespace Adbp.Zero
 
         {
             var entity = await repository.GetAsync(id);
-            CheckRetrievePermission(entity);
+            CheckRetrieve(entity);
             return Map<TEntityDto>(entity);
         }
 
@@ -242,7 +275,7 @@ namespace Adbp.Zero
             where TEntity : class, IEntity<TPrimaryKey>
         {
             var entity = Map<TEntity>(input);
-            CheckCreatePermission(entity);
+            PermissionChecker.Authorize(GetCreatePermissionNames<TEntity>());
             await repository.InsertAsync(entity);
         }
 
@@ -251,7 +284,7 @@ namespace Adbp.Zero
             where TUpdateInput : IEntityDto<TPrimaryKey>
         {
             var entity = await repository.GetAsync(input.Id);
-            CheckUpdatePermission(entity);
+            CheckUpdate(entity);
             Map(input, entity);
             await repository.UpdateAsync(entity);
         }
@@ -260,14 +293,14 @@ namespace Adbp.Zero
             where TEntity : class, IEntity<TPrimaryKey>
         {
             var entity = await repository.GetAsync(id);
-            CheckDeletePermission(entity);
+            CheckDelete(entity);
             await repository.DeleteAsync(entity);
         }
 
         protected virtual async Task<PagedResultDto<TEntityDto>> GetAllAsync<TEntity, TPrimaryKey, TEntityDto>(IRepository<TEntity, TPrimaryKey> repository, GenericPagingInput input = null)
             where TEntity : class, IEntity<TPrimaryKey>
         {
-            CheckPagePermission<TEntity>();
+            PermissionChecker.Authorize(GetRetrievePermissionNames<TEntity>());
             var predicate = await GetLoginFilter<TEntity>(GetSysObjectName<TEntity>());
             return await GetAll<TEntity, TPrimaryKey, GenericPagingInput, TEntityDto>(
                 repository.GetAll().Where(predicate), input);

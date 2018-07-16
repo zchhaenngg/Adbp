@@ -192,11 +192,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contacts\ContactAppService.cs" />
-    <Compile Include="Contacts\Dto\ContactDto.cs" />
-    <Compile Include="Contacts\Dto\CreateContactDto.cs" />
-    <Compile Include="Contacts\Dto\UpdateContactDto.cs" />
-    <Compile Include="Contacts\IContactAppService.cs" />
     <Compile Include="Guests\Dto\CreateGuestDto.cs" />
     <Compile Include="Guests\Dto\GuestDto.cs" />
     <Compile Include="Guests\Dto\UpdateGuestDto.cs" />
@@ -214,7 +209,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BackgroundWorkers\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Adbp.Sample.Core\Adbp.Sample.Core.csproj">
       <Project>{81576670-5acf-4829-8333-e6e2726f603b}</Project>

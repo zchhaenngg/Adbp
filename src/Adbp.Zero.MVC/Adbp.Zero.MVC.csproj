@@ -258,6 +258,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ZeroLocalizationController.cs" />
+    <Compile Include="Views\ZeroWebViewPageBase.cs" />
     <Compile Include="ZeroWebMvcModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\DataTableBinderProvider.cs" />
@@ -286,13 +288,13 @@
       <Project>{9de32f33-b9ed-4c33-95a1-dc0566fabe67}</Project>
       <Name>Adbp.Zero.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Adbp.Sample.Core\Adbp.Sample.Core.csproj">
-      <Project>{81576670-5ACF-4829-8333-E6E2726F603B}</Project>
-      <Name>Adbp.Sample.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Adbp.Zero.Core\Adbp.Zero.Core.csproj">
       <Project>{EBEB1B00-5A5A-4E8C-919F-E25C9DA53398}</Project>
       <Name>Adbp.Zero.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adbp.Zero.EntityFramework\Adbp.Zero.EntityFramework.csproj">
+      <Project>{2a2baa60-41cc-40d0-b7c8-d7ba988433e1}</Project>
+      <Name>Adbp.Zero.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Adbp\Adbp.csproj">
       <Project>{36F3E233-7AE1-443A-B8DA-80659BC81567}</Project>

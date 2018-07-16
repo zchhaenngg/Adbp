@@ -5,6 +5,7 @@ using System.Linq;
 using Abp.MultiTenancy;
 using Abp.Zero.EntityFramework;
 using Adbp.Sample.Authorization;
+using Adbp.Sample.Migrations.SeedData;
 using Adbp.Zero.Migrations;
 using Adbp.Zero.Migrations.SeedData;
 using EntityFramework.DynamicFilters;
@@ -22,8 +23,8 @@ namespace Adbp.Sample.Migrations
         
         protected override void Seed(Adbp.Sample.EntityFramework.SampleDbContext context)
         {
-            RoleCreator.AuthorizationProviders.Add(new SampleAuthorizationProvider());
             base.Seed(context);
+            new SampleDbContextCreator(context).Create();
         }
     }
 }

@@ -18,12 +18,6 @@ namespace Adbp.Sample.Authorization
             context.CreatePermission(SamplePermissionNames.Permissions_Guest_Update, L("Permissions_Guest_Update"));
             context.CreatePermission(SamplePermissionNames.Permissions_Guest_Delete, L("Permissions_Guest_Delete"));
             context.CreatePermission(SamplePermissionNames.Permissions_Guest_Retrieve, L("Permissions_Guest_Retrieve"));
-
-            context.CreatePermission(SamplePermissionNames.Permissions_Contact, L("Permissions_Contact"));
-            context.CreatePermission(SamplePermissionNames.Permissions_Contact_Create, L("Permissions_Guest_Create"));
-            context.CreatePermission(SamplePermissionNames.Permissions_Contact_Update, L("Permissions_Guest_Update"));
-            context.CreatePermission(SamplePermissionNames.Permissions_Contact_Delete, L("Permissions_Guest_Delete"));
-            context.CreatePermission(SamplePermissionNames.Permissions_Contact_Retrieve, L("Permissions_Guest_Retrieve"));
         }
 
         private static ILocalizableString L(string name)
