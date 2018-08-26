@@ -24,6 +24,8 @@
     <text name="Permissions_User_Retrieve" value="用户.查询" />
     <text name="Permissions_User_Update" value="用户.更新" />
     <text name="Permissions_User_Delete" value="用户.删除" />
+    <text name="Permissions_UserAgent" value="用户代理" />
+    <text name="Permissions_UserAgent_Upsert" value="用户代理.设置"/>
 
     <text name="Permissions_Role" value="角色" />
     <text name="Permissions_Role_Create" value="角色.创建" />
@@ -58,8 +60,12 @@
     <text name="Permissions_Home" value="主页" />
     
     <text name="Permissions_SystemSetting" value="系统设置" />
-    
 
+    <text name="Permissions_Notification_NewUserRegistered" value="订阅通知.新用户注册"/>
+    
+    <!-- Notifications -->
+    <text name="NotificationDefinition_NewUserRegistered" value="新用户注册"/>
+    
     <!--页面左侧菜单栏，菜单的displayName-->
     <text name="MENU_PersonalPortal" value="个人门户"/>
     <text name="MENU_HomePage" value="主页"/>
@@ -72,6 +78,8 @@
     <text name="MENU_LoginAttemptLog" value="登录日志"/>
     <text name="MENU_SystemSettings" value="系统设置"/>
     <text name="MENU_Localization" value="本地化"/>
+    <text name="MENU_Notifications" value="通知"/>
+    <text name="MENU_Dev" value="开发页面"/>
 
     <!--枚举类型，在UI上显示的displayName-->
     <text name="ENUM_AbpLoginResultType_Success" value="成功"/>
@@ -90,5 +98,34 @@
     <text name="ENUM_AccessLevel_Retrieve" value="查询" />
     <text name="ENUM_AccessLevel_Update" value="更新" />
     <text name="ENUM_AccessLevel_Delete" value="删除" />
+
+    <text name="ENUM_UserNotificationState_Unread" value="未读"/>
+    <text name="ENUM_UserNotificationState_Read" value="已读"/>
+
+    <text name="ENUM_NotificationSeverity_Info" value="信息"/>
+    <text name="ENUM_NotificationSeverity_Success" value="成功"/>
+    <text name="ENUM_NotificationSeverity_Warn" value="警告"/>
+    <text name="ENUM_NotificationSeverity_Error" value="错误"/>
+    <text name="ENUM_NotificationSeverity_Fatal" value="致命的"/>
+    <!--bool类型的displayName-->
+    <text name="BOOL_ISSUBSCRIBED_TRUE" value="已订阅" />
+    <text name="BOOL_ISSUBSCRIBED_FALSE" value="否" />
+
+    
+    <text name="InvalidUserNameOrPassword" value="用户名或密码无效" />
+    <text name="ThereIsNoTenantDefinedWithName{0}" value="租户 {0}不存在" />
+    <text name="TenantIsNotActive" value="租户 {0} 未激活." />
+    <text name="UserIsNotActiveAndCanNotLogin" value="用户 {0} 未激活,不能登录." />
+    <text name="UserEmailIsNotConfirmedAndCanNotLogin">你的邮箱地址未确认.不能登录</text>
+    <text name="UserLockedOutMessage">该用户帐户已经被锁定.请稍后重试.</text>
+    <text name="PleaseEnterLoginInformation" value="请输入登录信息" />
+    <text name="TenancyName" value="租户名称" />
+    <text name="UserNameOrEmail" value="用户名或邮箱地址" />
+    <text name="Password" value="密码" />
+    <text name="RememberMe" value="记住我" />
+    <text name="LogIn" value="登录" />
+
+    <text name="LoginFailed" value="登录失败!" />
+    <text name="Agent" value="代理人" />
   </texts>
 </localizationDictionary>

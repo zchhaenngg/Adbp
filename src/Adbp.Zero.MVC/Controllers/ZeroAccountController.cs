@@ -9,8 +9,11 @@ using Abp.Auditing;
 using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Configuration.Startup;
+using Abp.Domain.Repositories;
 using Abp.MultiTenancy;
+using Abp.Runtime.Session;
 using Abp.UI;
+using Abp.Web;
 using Abp.Web.Models;
 using Abp.Web.Mvc.Authorization;
 using Adbp.Zero.Authorization;
@@ -27,6 +30,7 @@ namespace Adbp.Zero.MVC.Controllers
     [AbpMvcAuthorize]
     public class ZeroAccountController : ZeroControllerBase
     {
+        private readonly IRepository<UserAgent, long> _userAgentRepository;
         private readonly IMultiTenancyConfig _multiTenancyConfig;
         private readonly ITenantCache _tenantCache;
         private readonly UserManager _userManager;
@@ -34,12 +38,15 @@ namespace Adbp.Zero.MVC.Controllers
         private readonly IAuthenticationManager _authenticationManager;
         
         public ZeroAccountController(
+            IRepository<UserAgent, long> userAgentRepository,
+
             IMultiTenancyConfig multiTenancyConfig,
             ITenantCache tenantCache,
             UserManager userManager,
             LogInManager logInManager,
             IAuthenticationManager authenticationManager)
         {
+            _userAgentRepository = userAgentRepository;
             _multiTenancyConfig = multiTenancyConfig;
             _tenantCache = tenantCache;
             _userManager = userManager;
@@ -100,6 +107,20 @@ namespace Adbp.Zero.MVC.Controllers
             }
 
             return Json(new AjaxResponse { TargetUrl = returnUrl });
+        }
+        
+        public async Task<ActionResult> AgentLogin(long agentId, string returnUrl = "")
+        {
+            var loginId = AbpSession.GetUserId();
+            var userAgent = await _userAgentRepository.FirstOrDefaultAsync(x => x.PrincipalId == loginId && x.AgentId == agentId);
+            await SignInAsync(userAgent.Agent);
+            
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Request.Url != null && AbpUrlHelper.IsLocalUrl(Request.Url, returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return Redirect(Request.ApplicationPath);
         }
 
         public ActionResult Logout()

@@ -14,6 +14,11 @@ namespace Adbp.Zero.Navigation
         public const string Home = "Home";
 
         /// <summary>
+        /// 开发
+        /// </summary>
+        public const string Dev = "Dev";
+
+        /// <summary>
         /// 管理-组织机构
         /// </summary>
         public const string OrganizationUnit = "OrganizationUnit";
@@ -42,5 +47,10 @@ namespace Adbp.Zero.Navigation
         /// 本地化
         /// </summary>
         public const string Localization = "Localization";
+        /// <summary>
+        /// 通知
+        /// </summary>
+        public const string Notifications = "Notifications";
+        
     }
 }

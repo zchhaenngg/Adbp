@@ -1,0 +1,84 @@
+﻿@using Abp.Timing
+@using Abp.Web.Mvc.Extensions
+@{
+    SetAntiForgeryCookie();
+}
+@*导航栏的制作，参考https://ant.design/components/menu-cn/*@
+@*http://themes.getbootstrap.com/preview/?theme_id=1696&show_new=*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link href="~/wwwroot/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/bundles/css")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="ADBP">ADBP</a>
+        <div class="navbar-nav-scroll">
+            <ul class="navbar-nav bd-navbar-nav flex-row">
+                <li class="nav-item">
+                    <a class="nav-link " href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Documentation</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bootstrap v4.1.x
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
+                        <a class="dropdown-item" href="https://getbootstrap.com/" target="_Blank">Latest (4.x)</a>
+                        <a class="dropdown-item active" href="https://getbootstrap.com/docs/4.1/getting-started/introduction/" target="_Blank">v4.1.x</a>
+                        <a class="dropdown-item" href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_Blank">v4.0</a>
+                        <a class="dropdown-item" href="https://getbootstrap.com/docs/3.3/" target="_Blank">v3.3.7</a>
+                        <a class="dropdown-item" href="https://getbootstrap.com/2.3.2/" target="_Blank">v2.3.2</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex adbp-navbar-r">
+            @Html.Action("LanguageSelection", "ZeroLayout")
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-md-2 adbp-navbar-r-content" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <label>@User.Identity.Name</label>
+                    <i class="material-icons">account_circle</i>
+                </a>
+                <div role="menu" class="dropdown-menu dropdown-menu-right" style="z-index: 99999;">
+                    <a class="dropdown-item" href="/ZeroAnalasy/SelfLogins">登录记录</a>
+                    <a class="dropdown-item" href="/ZeroNotifications/Index">阅读通知</a>
+                    <hr />
+                    <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#layout-modal_changePassword">修改密码</a>
+                    <a class="dropdown-item" href="/ZeroAccount/Logout">注销</a>
+                </div>
+            </li>
+        </ul>
+    </header>
+
+    <div class="w-100">
+        @RenderBody()
+    </div>
+    <script type="text/javascript">
+        //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
+        var abp = abp || {}; abp.appPath = '@ApplicationPath';
+    </script>
+    @Scripts.Render("~/bundles/js", "~/signalr/hubs")
+    @Scripts.Render("~/bundles/js2")
+
+    <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
+    <script src="~/api/AbpServiceProxies/GetAll?v=@(Clock.Now.Ticks)"></script>
+    <script src="~/AbpScripts/GetScripts?v=@(Clock.Now.Ticks)" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        abp.localization.defaultSourceName = "ProjectName";
+        window.L = abp.localization.localize;
+    </script>
+    @Html.IncludeScript("~/wwwroot/es5/Shared/_Layout.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

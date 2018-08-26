@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Index";
+    ViewBag.ActiveMenu = ZeroPageNames.Notifications;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb adbp-breadcrumb-background">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Notifications</li>
+    </ol>
+</nav>
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#nav-read">阅读</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#nav-subscribe">订阅</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="nav-read">
+        <div class="card adbp-background">
+            <div class="card-body">
+                <div class="bd-highlight adbp-toolbar">
+                    <div class="float-left">
+                        <div class="input-group">
+                            <button id="btn-notification_read" type="button" class="btn btn-outline-info adbp-toolbar-btn" title="设置已读" disabled="disabled">
+                                <i class="far fa-envelope-open"></i>
+                            </button>
+                            <button id="btn-notification_unread" type="button" class="btn btn-outline-info adbp-toolbar-btn" title="设置未读" disabled="disabled">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="input-group">
+                            <input id="table-notifications_read-search" type="text" class="form-control" placeholder="search">
+                        </div>
+                    </div>
+                </div>
+                <table id="table-notifications_read" class="display">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>名称</th>
+                            <th>Level</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-subscribe">
+        <div class="card adbp-background">
+            <div class="card-body">
+                <div class="bd-highlight adbp-toolbar">
+                    <div class="float-left">
+                        <div class="input-group">
+                            <button id="btn-notification_edit" type="button" class="btn btn-outline-info adbp-toolbar-btn" disabled="disabled">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="input-group">
+                            <input id="table-notifications_search" type="text" class="form-control" placeholder="search">
+                        </div>
+                    </div>
+                </div>
+                <table id="table-notifications" class="display">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>事件</th>
+                            <th>订阅</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @Html.IncludeScript("~/wwwroot/es5/ZeroNotifications/Index.js")
+}

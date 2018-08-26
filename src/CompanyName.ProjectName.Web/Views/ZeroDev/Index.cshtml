@@ -1,0 +1,378 @@
+﻿@{
+    ViewBag.Title = "Index";
+    ViewBag.ActiveMenu = ZeroPageNames.Dev;
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    //添加标志，在move结束后替换
+}
+<link href="~/wwwroot/libs/dragula/dragula.css" rel="stylesheet" />
+<div>
+    <p class="m-1 pt-2">
+        <a href="https://www.layoutit.com/build">参考模板</a>
+    </p>
+    <hr />
+</div>
+<div class="row ml-2">
+    <div class="col-2 bg-white">
+        <div class="row" id="dragula-left">
+            <div class="w-100 p-2 not-component">
+                <h4 class="text-center font-italic">DRAG IT</h4>
+                <p class="text-center">
+                    <small class="text-muted">生成的代码可能是作为其他页面的一部分，所以Layout不是必须的</small>
+                </p>
+            </div>
+
+            <h5 class="text-left pl-2 not-component">Layout</h5>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Row</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="text-left pt-2 pl-2 not-component">Components</h5>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Breadcrumb</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Card</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Navs</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-100 p-2 not-component">
+                <h5 class="text-left">Forms</h5>
+                <p>
+                    <small class="text-muted">特意将Form从Components中提取出来</small>
+                </p>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">
+                        Form
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">
+                        Text
+                        <small class="text-muted">plaintext</small>
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Textarea</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Checkbox</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Radio</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Select</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Range</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Email</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Password</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="row border-bottom p-2 pl-4">
+                    <div class="col-8">Submit</div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+        <div class="w-100 p-2">
+            <h4 class="text-center font-italic">Visual Area</h4>
+            <p class="text-center">
+                <small class="text-muted">可视化区域</small>
+            </p>
+        </div>
+        <div class="h-100 w-100 p-2">
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#nav-design">Design</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#nav-code">Code</a>
+                </li>
+            </ul>
+            <div class="h-100 tab-content">
+                <div class="h-100 tab-pane fade show active" id="nav-design">
+                    <div class="h-100 container" id="design">
+                        <!-- Content here -->
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-code">
+                    <pre><code id="code"></code></pre>
+                    <div class="card border-primary mb-1">
+                        <div class="card-header">
+                            <button type="button" class="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label adbp-mask">Display Text2</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="Name" data-vd="{name:'Display Text', r:true, maxL:100}" class="form-control" placeholder="plese enter ...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 bg-white" id="area_properties">
+        <div class="row">
+            <div class="w-100 p-2">
+                <h4 class="text-center font-italic">Properties</h4>
+                <p class="text-center">
+                    <small class="text-muted">编辑属性</small>
+                </p>
+                <div class="h-100">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title border-bottom">Lable Control</div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">classes</span>
+                                </div>
+                                <input id="field-label_classes" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">title</span>
+                                </div>
+                                <input id="field-label_title" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">display</span>
+                                </div>
+                                <input id="field-label_display" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title border-bottom">Input Control</div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">id</span>
+                                </div>
+                                <input id="field-input_id" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">type</span>
+                                </div>
+                                <input id="field-input_type" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">classes</span>
+                                </div>
+                                <input id="field-input_classes" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">name</span>
+                                </div>
+                                <input id="field-input_name" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">value</span>
+                                </div>
+                                <input id="field-input_value" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">placeholder</span>
+                                </div>
+                                <input id="field-input_placeholder" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title border-bottom">Validation</div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">name</span>
+                                </div>
+                                <input id="field-validation_name" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">required</span>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline ml-2">
+                                    <input type="radio" id="field-validation_required1" name="field-validation_required" class="custom-control-input">
+                                    <label class="custom-control-label" for="field-validation_required1">Y</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="field-validation_required2" name="field-validation_required" class="custom-control-input">
+                                    <label class="custom-control-label" for="field-validation_required2">N</label>
+                                </div>
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">max Length</span>
+                                </div>
+                                <input id="field-validation_maxL" type="number" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">min Length</span>
+                                </div>
+                                <input id="field-validation_minL" type="number" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">bReg</span>
+                                </div>
+                                <select class="custom-select" id="field-validation_bReg">
+                                    <option selected>Choose...</option>
+                                    <option value="n4">n4</option>
+                                    <option value="n4f2">n4f2</option>
+                                    <option value="n9">n9</option>
+                                    <option value="telephone">telephone</option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">reg</span>
+                                </div>
+                                <input id="field-validation_reg" type="text" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">maxV</span>
+                                </div>
+                                <input id="field-validation_maxV" type="number" class="form-control">
+                            </div>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white">minV</span>
+                                </div>
+                                <input id="field-validation_minV" type="number" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/wwwroot/libs/dragula/dragula.js"></script>
+    @Html.IncludeScript("~/ES6/ZeroDev/Index.js")
+    <script type="text/javascript">
+        dragula([document.getElementById("dragula-left"), document.getElementById("design")], {
+            moves: function (el, source, handle, sibling) {
+                //return handle.classList.contains('fa-arrow-right');//只有选中右箭头图标才能移动
+                return true;
+            },
+            copy: function (el, source) {
+                return source === document.getElementById("dragula-left");//只有“左侧”可以被拷贝
+            },
+            accepts: function (el, target) {
+                return target !== document.getElementById("dragula-left");//左侧不可放置或修改
+            },
+            invalid: function (el, handle) {
+                if (el.classList.contains('not-component')) {//非有效可拖拽控件
+                    return true;
+                }
+                return false; // don't prevent any drags from initiating by default
+            },
+            direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
+            copySortSource: false,             // elements in copy-source containers can be reordered
+            revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
+            removeOnSpill: true,              // spilling will `.remove` the element, if this is true
+            mirrorContainer: document.body,    // set the element that gets mirror elements appended
+            ignoreInputTextSelection: true     // allows users to select input text, see details below
+        }).on('dragend', function (el) {
+            if (!$(el).hasClass("component")) {
+                new adbp.templates.text().replace(el);
+            }
+            else {
+                let componentId = adbp.templates.utilities.getComponentId(el);
+                adbp.templates.utilities.setSelect(componentId);
+            }
+        });
+    </script>
+}

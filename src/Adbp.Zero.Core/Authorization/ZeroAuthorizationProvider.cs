@@ -20,6 +20,9 @@ namespace Adbp.Zero.Authorization
             context.CreatePermission(ZeroPermissionNames.Permissions_User_Retrieve, L("Permissions_User_Retrieve"));
             context.CreatePermission(ZeroPermissionNames.Permissions_User_Update, L("Permissions_User_Update"));
 
+            context.CreatePermission(ZeroPermissionNames.Permissions_UserAgent, L("Permissions_UserAgent"));
+            context.CreatePermission(ZeroPermissionNames.Permissions_UserAgent_Upsert, L("Permissions_UserAgent_Upsert"));
+
             context.CreatePermission(ZeroPermissionNames.Permissions_Role, L("Permissions_Role"));
             context.CreatePermission(ZeroPermissionNames.Permissions_Role_Create, L("Permissions_Role_Create"));
             context.CreatePermission(ZeroPermissionNames.Permissions_Role_Delete, L("Permissions_Role_Delete"));
@@ -53,6 +56,8 @@ namespace Adbp.Zero.Authorization
             context.CreatePermission(ZeroPermissionNames.Permissions_Home, L("Permissions_Home"));
 
             context.CreatePermission(ZeroPermissionNames.Permissions_SystemSetting, L("Permissions_SystemSetting"));
+
+            context.CreatePermission(ZeroPermissionNames.Permissions_Notification_NewUserRegistered, L("Permissions_Notification_NewUserRegistered"));
         }
 
         private static ILocalizableString L(string name)

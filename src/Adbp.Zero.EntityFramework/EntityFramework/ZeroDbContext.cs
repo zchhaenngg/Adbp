@@ -12,12 +12,19 @@ namespace Adbp.Zero.EntityFramework
     using Abp.Organizations;
     using Adbp.Zero.OrganizationUnits;
     using Adbp.Zero.Emails;
-    
+    using System.Data.Common;
+
     public abstract class ZeroDbContext : ZeroDbContext<Tenant, Role, User>
     {
         public ZeroDbContext(string name)
             : base(name)
         {
+        }
+        
+        public ZeroDbContext(DbConnection connection, bool contextOwnsConnection)
+            : base(connection, contextOwnsConnection)
+        {
+
         }
     }
     
@@ -32,10 +39,12 @@ namespace Adbp.Zero.EntityFramework
 
         public virtual IDbSet<SysObjectSetting> SysObjectSettings { get; set; }
 
+        public virtual IDbSet<UserAgent> UserAgents { get; set; }
+
         public virtual IDbSet<Email> Emails { get; set; }
         // Your context has been configured to use a 'SampleDbContext' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
-        // 'Adbp.Sample.EntityFramework.EntityFramework.SampleDbContext' database on your LocalDb instance. 
+        // 'CompanyName.ProjectNameEntityFramework.EntityFramework.SampleDbContext' database on your LocalDb instance. 
         // 
         // If you wish to target a different database and/or database provider, modify the 'SampleDbContext' 
         // connection string in the application configuration file.
@@ -44,17 +53,28 @@ namespace Adbp.Zero.EntityFramework
         {
         }
 
+        //This constructor is used in tests
+        public ZeroDbContext(DbConnection connection, bool contextOwnsConnection)
+            : base(connection, contextOwnsConnection)
+        {
+
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<UserAgent>().HasRequired(x => x.Principal).WithMany().HasForeignKey(f => f.PrincipalId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<UserAgent>().HasRequired(x => x.Agent).WithMany().HasForeignKey(f => f.AgentId).WillCascadeOnDelete(false);
+
             // overide all abp
             modelBuilder.ChangeAbpTablePrefix<Tenant, Role, User>("Abp_");
             // 和OrganizationUnit表名保持一致
             modelBuilder.Entity<ZeroOrganizationUnit>().ToTable("Abp_OrganizationUnits");
-
+            
             //adbp
             SetAdbpTableName<SysObjectSetting>(modelBuilder);
             SetAdbpTableName<Email>(modelBuilder);
+            SetAdbpTableName<UserAgent>(modelBuilder);
         }
 
         private void SetAdbpTableName<TEntity>(DbModelBuilder modelBuilder)

@@ -24,6 +24,8 @@
     <text name="Permissions_User_Retrieve" value="Users.Retrieve" />
     <text name="Permissions_User_Update" value="Users.Update" />
     <text name="Permissions_User_Delete" value="Users.Delete" />
+    <text name="Permissions_UserAgent" value="UserAgent" />
+    <text name="Permissions_UserAgent_Upsert" value="UserAgent.Upsert"/>
     
     <text name="Permissions_Role" value="Roles" />
     <text name="Permissions_Role_Create" value="Roles.Create" />
@@ -58,7 +60,11 @@
     <text name="Permissions_Home" value="Home" />
     
     <text name="Permissions_SystemSetting" value="SystemSettings" />
-    
+
+    <text name="Permissions_Notification_NewUserRegistered" value="Subscription notification.New user registration"/>
+
+    <!-- Notifications -->
+    <text name="NotificationDefinition_NewUserRegistered" value="New User Registered"/>
     
     <!--页面左侧菜单栏，菜单的displayName-->
     <text name="MENU_PersonalPortal" value="Personal Portal"/>
@@ -72,6 +78,8 @@
     <text name="MENU_LoginAttemptLog" value="Login Attempts Log"/>
     <text name="MENU_SystemSettings" value="System Settings"/>
     <text name="MENU_Localization" value="Language Texts"/>
+    <text name="MENU_Notifications" value="Notifications"/>
+    <text name="MENU_Dev" value="Dev Page"/>
 
     <!--枚举类型，在UI上显示的displayName-->
     <text name="ENUM_AbpLoginResultType_Success" value="Success"/>
@@ -90,5 +98,35 @@
     <text name="ENUM_AccessLevel_Retrieve" value="Retrieve" />
     <text name="ENUM_AccessLevel_Update" value="Update" />
     <text name="ENUM_AccessLevel_Delete" value="Delete" />
+
+    <text name="ENUM_UserNotificationState_Unread" value="Unread"/>
+    <text name="ENUM_UserNotificationState_Read" value="Read"/>
+
+    <text name="ENUM_NotificationSeverity_Info" value="Info"/>
+    <text name="ENUM_NotificationSeverity_Success" value="Success"/>
+    <text name="ENUM_NotificationSeverity_Warn" value="Warn"/>
+    <text name="ENUM_NotificationSeverity_Error" value="Error"/>
+    <text name="ENUM_NotificationSeverity_Fatal" value="Fatal"/>
+    <!--bool类型的displayName-->
+    <text name="BOOL_ISSUBSCRIBED_TRUE" value="YES" />
+    <text name="BOOL_ISSUBSCRIBED_FALSE" value="NO" />
+
+    
+    <text name="InvalidUserNameOrPassword" value="Invalid user name or password" />
+    <text name="ThereIsNoTenantDefinedWithName{0}" value="There is no tenant defined with name {0}" />
+    <text name="TenantIsNotActive" value="Tenant {0} is not active." />
+    <text name="UserIsNotActiveAndCanNotLogin" value="User {0} is not active and can not log in." />
+    <text name="UserEmailIsNotConfirmedAndCanNotLogin">Your email address is not confirmed. You can not login</text>
+    <text name="UserLockedOutMessage">The user account has been locked out. Please try again later.</text>
+    <text name="PleaseEnterLoginInformation" value="Please enter login information" />
+    <text name="TenancyName" value="Tenancy name" />
+    <text name="UserNameOrEmail" value="User name or email" />
+    <text name="Password" value="Password" />
+    <text name="RememberMe" value="Remember me" />
+    <text name="LogIn" value="Log in" />
+
+    <text name="LoginFailed" value="Login failed!" />
+
+    <text name="Agent" value="Agent" />
   </texts>
 </localizationDictionary>

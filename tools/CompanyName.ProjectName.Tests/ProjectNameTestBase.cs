@@ -1,0 +1,252 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Threading.Tasks;
+using System.Linq;
+using Abp;
+using Abp.Configuration.Startup;
+using Abp.Runtime.Session;
+using Abp.TestBase;
+using CompanyName.ProjectName.EntityFramework;
+using Adbp.Zero.Authorization.Users;
+using Adbp.Zero.MultiTenancy;
+using Castle.MicroKernel.Registration;
+using Effort;
+using EntityFramework.DynamicFilters;
+using System.Data.Entity;
+
+namespace CompanyName.ProjectName.Tests
+{
+    public abstract class ProjectNameTestBase : AbpIntegratedTestBase<ProjectNameTestModule>
+    {
+        private DbConnection _hostDb;
+        private Dictionary<int, DbConnection> _tenantDbs; //only used for db per tenant architecture
+
+        protected ProjectNameTestBase()
+        {
+            
+
+            AbpSession.TenantId = null;
+            UsingDbContext(context =>
+            {
+                new CompanyName.ProjectName.Migrations.Configuration().Init(context);
+            });
+            //Seed initial data
+            UsingDbContext(context => new ProjectNameInitialDataBuilder().Build(context));
+
+            //Seed initial data for default tenant
+            AbpSession.TenantId = 1;
+            LoginAsDefaultTenantAdmin();
+
+            
+        }
+
+        protected override void PreInitialize()
+        {
+            base.PreInitialize();
+            
+            UseSingleDatabase();
+        }
+
+        /* Uses single database for host and all tenants.
+         */
+        private void UseSingleDatabase()
+        {
+            _hostDb = DbConnectionFactory.CreateTransient();
+
+            LocalIocManager.IocContainer.Register(
+                Component.For<DbConnection>()
+                    .UsingFactoryMethod(() => _hostDb)
+                    .LifestyleSingleton()
+                );
+        }
+
+        #region UsingDbContext
+
+        protected IDisposable UsingTenantId(int? tenantId)
+        {
+            var previousTenantId = AbpSession.TenantId;
+            AbpSession.TenantId = tenantId;
+            return new DisposeAction(() => AbpSession.TenantId = previousTenantId);
+        }
+
+        protected void UsingDbContext(Action<ProjectNameDbContext> action)
+        {
+            UsingDbContext(AbpSession.TenantId, action);
+        }
+
+        protected Task UsingDbContextAsync(Func<ProjectNameDbContext, Task> action)
+        {
+            return UsingDbContextAsync(AbpSession.TenantId, action);
+        }
+
+        protected T UsingDbContext<T>(Func<ProjectNameDbContext, T> func)
+        {
+            return UsingDbContext(AbpSession.TenantId, func);
+        }
+
+        protected Task<T> UsingDbContextAsync<T>(Func<ProjectNameDbContext, Task<T>> func)
+        {
+            return UsingDbContextAsync(AbpSession.TenantId, func);
+        }
+
+        protected void UsingDbContext(int? tenantId, Action<ProjectNameDbContext> action)
+        {
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<ProjectNameDbContext>())
+                {
+                    context.DisableAllFilters();
+                    action(context);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        protected async Task UsingDbContextAsync(int? tenantId, Func<ProjectNameDbContext, Task> action)
+        {
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<ProjectNameDbContext>())
+                {
+                    context.DisableAllFilters();
+                    await action(context);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+
+        protected T UsingDbContext<T>(int? tenantId, Func<ProjectNameDbContext, T> func)
+        {
+            T result;
+
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<ProjectNameDbContext>())
+                {
+                    context.DisableAllFilters();
+                    result = func(context);
+                    context.SaveChanges();
+                }
+            }
+
+            return result;
+        }
+
+        protected async Task<T> UsingDbContextAsync<T>(int? tenantId, Func<ProjectNameDbContext, Task<T>> func)
+        {
+            T result;
+
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<ProjectNameDbContext>())
+                {
+                    context.DisableAllFilters();
+                    result = await func(context);
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region Login
+
+        protected void LoginAsHostAdmin()
+        {
+            LoginAsHost(User.AdminUserName);
+        }
+
+        protected void LoginAsDefaultTenantAdmin()
+        {
+            LoginAsTenant(Tenant.DefaultTenantName, User.AdminUserName);
+        }
+
+        protected void LogoutAsDefaultTenant()
+        {
+            LogoutAsTenant(Tenant.DefaultTenantName);
+        }
+
+        protected void LoginAsHost(string userName)
+        {
+            AbpSession.TenantId = null;
+
+            var user =
+                UsingDbContext(
+                    context =>
+                        context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
+            if (user == null)
+            {
+                throw new Exception("There is no user: " + userName + " for host.");
+            }
+
+            AbpSession.UserId = user.Id;
+        }
+
+        protected void LogoutAsHost()
+        {
+            Resolve<IMultiTenancyConfig>().IsEnabled = true;
+
+            AbpSession.TenantId = null;
+            AbpSession.UserId = null;
+        }
+
+        protected void LoginAsTenant(string tenancyName, string userName)
+        {
+            var tenant = UsingDbContext(context => context.Tenants.FirstOrDefault(t => t.TenancyName == tenancyName));
+            if (tenant == null)
+            {
+                throw new Exception("There is no tenant: " + tenancyName);
+            }
+
+            AbpSession.TenantId = tenant.Id;
+
+            var user =
+                UsingDbContext(
+                    context =>
+                        context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
+            if (user == null)
+            {
+                throw new Exception("There is no user: " + userName + " for tenant: " + tenancyName);
+            }
+
+            AbpSession.UserId = user.Id;
+        }
+
+        protected void LogoutAsTenant(string tenancyName)
+        {
+            var tenant = UsingDbContext(context => context.Tenants.FirstOrDefault(t => t.TenancyName == tenancyName));
+            if (tenant == null)
+            {
+                throw new Exception("There is no tenant: " + tenancyName);
+            }
+
+            AbpSession.TenantId = tenant.Id;
+            AbpSession.UserId = null;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Gets current user if <see cref="IAbpSession.UserId"/> is not null.
+        /// Throws exception if it's null.
+        /// </summary>
+        protected async Task<User> GetCurrentUserAsync()
+        {
+            var userId = AbpSession.GetUserId();
+            return await UsingDbContext(context => context.Users.SingleAsync(u => u.Id == userId));
+        }
+
+        /// <summary>
+        /// Gets current tenant if <see cref="IAbpSession.TenantId"/> is not null.
+        /// Throws exception if there is no current tenant.
+        /// </summary>
+        protected async Task<Tenant> GetCurrentTenantAsync()
+        {
+            var tenantId = AbpSession.GetTenantId();
+            return await UsingDbContext(context => context.Tenants.SingleAsync(t => t.Id == tenantId));
+        }
+    }
+}

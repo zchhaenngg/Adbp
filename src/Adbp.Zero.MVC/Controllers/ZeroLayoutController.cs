@@ -9,6 +9,9 @@ using Abp.Runtime.Session;
 using Abp.Threading;
 using Adbp.Zero.MVC.Models.Layout;
 using Adbp.Zero.MVC.Controllers;
+using Abp.Domain.Repositories;
+using Adbp.Zero.Authorization.Users;
+using Adbp.Zero.Users;
 
 namespace Adbp.Zero.MVC.Controllers
 {
@@ -16,14 +19,17 @@ namespace Adbp.Zero.MVC.Controllers
     {
         private readonly IUserNavigationManager _userNavigationManager;
         private readonly ILanguageManager _languageManager;
+        private readonly IUserAppService _userAppService;
 
         public ZeroLayoutController(
             IUserNavigationManager userNavigationManager,
-            ILanguageManager languageManager
+            ILanguageManager languageManager,
+            IUserAppService userAppService
             )
         {
             _userNavigationManager = userNavigationManager;
             _languageManager = languageManager;
+            _userAppService = userAppService;
         }
 
         [ChildActionOnly]
@@ -48,6 +54,14 @@ namespace Adbp.Zero.MVC.Controllers
             };
 
             return PartialView("_LanguageSelection", model);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult AgentSelection()
+        {
+            var logid = AbpSession.GetUserId();
+            var agents = AsyncHelper.RunSync(() => _userAppService.GetAgentsAsync());
+            return PartialView("_AgentSelection", agents);
         }
     }
 }

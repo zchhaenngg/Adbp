@@ -17,6 +17,9 @@ namespace Adbp.Zero.Authorization
         public const string Permissions_User_Update = "Permissions.User.Update";
         public const string Permissions_User_Delete = "Permissions.User.Delete";
 
+        public const string Permissions_UserAgent = "Permissions.UserAgent";
+        public const string Permissions_UserAgent_Upsert = "Permissions.UserAgent.Upsert";
+
         //Permissions_Roles CRUD
         public const string Permissions_Role = "Permissions.Role";
         public const string Permissions_Role_Create = "Permissions.Role.Create";
@@ -55,9 +58,13 @@ namespace Adbp.Zero.Authorization
         public const string Permissions_AuditLog = "Permissions.AuditLog";
         public const string Permissions_LoginAttemptLog = "Permissions.LoginAttemptLog";
         public const string Permissions_Home = "Permissions.Home";
-
         
-
         public const string Permissions_SystemSetting = "Permissions.SystemSetting";
+
+
+        /// <summary>
+        /// 可以订阅用户注册通知，当有新用户注册时会接收到通知信息
+        /// </summary>
+        public const string Permissions_Notification_NewUserRegistered = "Permissions.Notification.NewUserRegistered";
     }
 }

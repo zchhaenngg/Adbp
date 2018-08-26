@@ -27,20 +27,22 @@ namespace Adbp.Zero.SysObjectSettings
             _sysObjectSettingManager = sysObjectSettingManager;
         }
 
-        protected virtual async Task InsertOrUpdateAsync(SysObjectSetting entity)
-        {
-            var trail = await _sysObjectSettingRepository.FirstOrDefaultAsync(x => x.SysObjectName == entity.SysObjectName && x.SysColumnName == entity.SysColumnName);
-            if (trail != null)
-            {
-                trail = Map(entity, trail);
-            }
-            await _sysObjectSettingRepository.InsertOrUpdateAsync(trail);
-        }
+        //protected virtual async Task InsertOrUpdateAsync(SysObjectSetting entity)
+        //{
+        //    var trail = await _sysObjectSettingRepository.FirstOrDefaultAsync(x => x.SysObjectName == entity.SysObjectName && x.SysColumnName == entity.SysColumnName);
+        //    if (trail != null)
+        //    {
+        //        trail = Map(entity, trail);
+        //    }
+        //    await _sysObjectSettingRepository.InsertOrUpdateAsync(trail);
+        //}
 
         [AbpAuthorize(ZeroPermissionNames.Permissions_SysObjectSetting_Upsert)]
         public virtual async Task UpsertRoleSysObjectSettingAsync(RoleSysObjectSettingInput input)
         {
-            var trail = await _sysObjectSettingRepository.FirstOrDefaultAsync(x => x.SysObjectName == input.SysObjectName);
+            var trail = await _sysObjectSettingRepository.FirstOrDefaultAsync(x => 
+                x.SysObjectName == input.SysObjectName && x.RoleId == input.RoleId
+            );
             if (trail == null)
             {
                 trail = Map<SysObjectSetting>(input);

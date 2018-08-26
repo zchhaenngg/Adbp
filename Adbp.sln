@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.Web", "src\Adbp.Sample.Web\Adbp.Sample.Web.csproj", "{B17D343A-7018-497B-A8BD-CC6366529662}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyName.ProjectName.Web", "src\CompanyName.ProjectName.Web\CompanyName.ProjectName.Web.csproj", "{B17D343A-7018-497B-A8BD-CC6366529662}"
 	ProjectSection(ProjectDependencies) = postProject
 		{EBEB1B00-5A5A-4E8C-919F-E25C9DA53398} = {EBEB1B00-5A5A-4E8C-919F-E25C9DA53398}
 		{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1} = {2A2BAA60-41CC-40D0-B7C8-D7BA988433E1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.Core", "src\Adbp.Sample.Core\Adbp.Sample.Core.csproj", "{81576670-5ACF-4829-8333-E6E2726F603B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyName.ProjectName.Core", "src\CompanyName.ProjectName.Core\CompanyName.ProjectName.Core.csproj", "{81576670-5ACF-4829-8333-E6E2726F603B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.Application", "src\Adbp.Sample.Application\Adbp.Sample.Application.csproj", "{083E66BD-8756-44E1-876A-98E2261C837B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyName.ProjectName.Application", "src\CompanyName.ProjectName.Application\CompanyName.ProjectName.Application.csproj", "{083E66BD-8756-44E1-876A-98E2261C837B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.EntityFramework", "src\Adbp.Sample.EntityFramework\Adbp.Sample.EntityFramework.csproj", "{0E53D45C-1A60-4361-A42B-5341D84951A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyName.ProjectName.EntityFramework", "src\CompanyName.ProjectName.EntityFramework\CompanyName.ProjectName.EntityFramework.csproj", "{0E53D45C-1A60-4361-A42B-5341D84951A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Sample.WebApi", "src\Adbp.Sample.WebApi\Adbp.Sample.WebApi.csproj", "{B09E9BF8-1DD6-41C5-BA5B-E29BFFA194CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyName.ProjectName.WebApi", "src\CompanyName.ProjectName.WebApi\CompanyName.ProjectName.WebApi.csproj", "{B09E9BF8-1DD6-41C5-BA5B-E29BFFA194CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adbp", "src\Adbp\Adbp.csproj", "{36F3E233-7AE1-443A-B8DA-80659BC81567}"
 EndProject
@@ -30,6 +30,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Basic", "_Basic", "{6C491E79-C0AC-4DBE-81AE-31114250AC3E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adbp.Zero.EntityFramework", "src\Adbp.Zero.EntityFramework\Adbp.Zero.EntityFramework.csproj", "{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{200318C8-01B3-4C37-86A6-632C07DB4C86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyName.ProjectName.Tests", "tools\CompanyName.ProjectName.Tests\CompanyName.ProjectName.Tests.csproj", "{F2A69C7E-24C1-488A-B690-A4E7EF979D70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +81,10 @@ Global
 		{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A69C7E-24C1-488A-B690-A4E7EF979D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A69C7E-24C1-488A-B690-A4E7EF979D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A69C7E-24C1-488A-B690-A4E7EF979D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A69C7E-24C1-488A-B690-A4E7EF979D70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +95,7 @@ Global
 		{9DE32F33-B9ED-4C33-95A1-DC0566FABE67} = {4CAFB6D7-E720-4832-BBBF-AA767657B4BD}
 		{EBEB1B00-5A5A-4E8C-919F-E25C9DA53398} = {4CAFB6D7-E720-4832-BBBF-AA767657B4BD}
 		{2A2BAA60-41CC-40D0-B7C8-D7BA988433E1} = {4CAFB6D7-E720-4832-BBBF-AA767657B4BD}
+		{F2A69C7E-24C1-488A-B690-A4E7EF979D70} = {200318C8-01B3-4C37-86A6-632C07DB4C86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A77EB0B3-F62A-4D0F-8F10-53C191A8EBCC}

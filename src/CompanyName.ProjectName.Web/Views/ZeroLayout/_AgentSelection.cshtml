@@ -1,0 +1,17 @@
+﻿@using Adbp.Zero.Users.Dto
+@model List<UserDto>
+@if (Model.Any())
+{
+    <li class="nav-item dropdown">
+        <a href="javascript:void(0);" class="nav-link dropdown-toggle mr-md-2 adbp-navbar-r-content" data-toggle="dropdown" role="button">
+            <i class="fas fa-exchange-alt"></i>
+            <span>@Ls("AdbpZero", "Agent")</span>
+        </a>
+        <div role="menu" class="dropdown-menu dropdown-menu-right">
+            @foreach (var agent in Model)
+            {
+                <a class="dropdown-item" href="@(ApplicationPath)ZeroAccount/AgentLogin?agentId=@(agent.Id)&returnUrl=@(Context.Request.Path)">@agent.UserName</a>
+            }
+        </div>
+    </li>
+}

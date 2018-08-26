@@ -54,12 +54,12 @@ namespace Adbp.Zero.Configuration
             var output = new SettingDefinitionOutput
             {
                 Name = definition.Name,
-                DisplayName = definition.DisplayName.Localize(_localizationContext)
+                DisplayName = definition.DisplayName?.Localize(_localizationContext)
             };
             if (definition.Group != null)
             {
                 output.GroupName = definition.Group.Name;
-                output.GroupDisplay = definition.Group.DisplayName.Localize(_localizationContext);
+                output.GroupDisplay = definition.Group.DisplayName?.Localize(_localizationContext);
             }
             else
             {

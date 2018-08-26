@@ -21,6 +21,7 @@ namespace Adbp.Zero.MVC
         public override void PreInitialize()
         {
             IocManager.AddConventionalRegistrar(new ZeroControllerConventionalRegistrar());
+            IocManager.Register<StaticResourceConfig>();
         }
 
         public override void Initialize()

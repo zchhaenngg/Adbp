@@ -16,6 +16,7 @@ using Adbp.Zero.Authorization.Roles;
 using Adbp.Zero.Authorization.Users;
 using Adbp.Zero.Configuration;
 using Adbp.Zero.MultiTenancy;
+using Adbp.Zero.Notifications;
 
 namespace Adbp.Zero
 {
@@ -54,6 +55,8 @@ namespace Adbp.Zero
             Configuration.Authorization.Providers.Add<ZeroAuthorizationProvider>();
 
             Configuration.Settings.Providers.Add<ZeroSettingProvider>();
+
+            Configuration.Notifications.Providers.Add<ZeroNotificationProvider>();
         }
 
         public override void Initialize()

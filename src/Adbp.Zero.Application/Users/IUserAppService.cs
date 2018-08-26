@@ -16,5 +16,13 @@ namespace Adbp.Zero.Users
         Task CreateUserAsync(CreateUserDto input);
         Task UpdateUserAsync(UpdateUserDto input);
         Task Delete(int userId);
+
+        Task AddAgentAsync(long principalId, long agentId);
+        Task AddAgentAsync(long agentId);
+        Task RemoveAgentAsync(long principalId, long agentId);
+        Task RemoveAgentAsync(long agentId);
+
+        Task<List<UserDto>> GetAgentsAsync();
+        
     }
 }

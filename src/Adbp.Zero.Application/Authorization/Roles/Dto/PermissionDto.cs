@@ -30,7 +30,7 @@ namespace Adbp.Zero.Authorization.Roles.Dto
                 {
                     return "Role";
                 }
-                else if(Name.StartsWith("Permissions.UserRole"))
+                else if (Name.StartsWith("Permissions.UserRole"))
                 {
                     return "USER_ROLE";
                 }
@@ -41,6 +41,14 @@ namespace Adbp.Zero.Authorization.Roles.Dto
                 else if (Name.StartsWith("Permissions.OrganizationUnit") || Name.StartsWith("Permissions.OuUser"))
                 {
                     return "OU_USER";
+                }
+                else if (Name.StartsWith(ZeroPermissionNames.Permissions_ApplicationLanguageText))
+                {
+                    return "LOCALIZATION";
+                }
+                else if (Name.StartsWith("Permissions.Notification."))
+                {
+                    return "NOTIFICATION";
                 }
                 else if (Name == "Permissions.SystemSetting" ||
                     Name == "Permissions.AuditLog" ||

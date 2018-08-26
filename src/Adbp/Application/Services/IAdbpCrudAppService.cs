@@ -15,6 +15,6 @@ namespace Adbp.Application.Services
         Task CreateAsync(TCreateInput input);
         Task UpdateAsync(TUpdateInput input);
         Task DeleteAsync(TPrimaryKey id);
-        Task<PagedResultDto<TEntityDto>> GetAllAsync(GenericPagingInput input = null);
+        Task<PagedResultDto<TEntityDto>> GetAllAsync(GenericPagingInput input);
     }
 }

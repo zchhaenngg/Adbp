@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Abp" Version="3.7.2" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.8.11" />
+    <PackageReference Include="Abp" Version="3.8.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.8.12" />
   </ItemGroup>
 
 </Project>
