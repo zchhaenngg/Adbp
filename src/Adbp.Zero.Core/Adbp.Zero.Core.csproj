@@ -188,10 +188,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorization\Users\UserAgent.cs" />
+    <Compile Include="Authorization\Users\LoginAgent.cs" />
     <Compile Include="Emails\Email.cs" />
     <Compile Include="Notifications\ZeroNotificationNames.cs" />
     <Compile Include="Notifications\ZeroNotificationProvider.cs" />
+    <Compile Include="OrganizationUnits\OrganizationUnitExtensions.cs" />
+    <Compile Include="OrganizationUnits\ZeroOrganizationUnitManager.cs" />
+    <Compile Include="OrganizationUnits\ZeroUserOrganizationUnit.cs" />
     <Compile Include="SysObjectSettings\SysColumnSettingInfo.cs" />
     <Compile Include="SysObjectSettings\SysObjectSetting.cs" />
     <Compile Include="SysObjectSettings\SysObjectSettingInfo.cs" />
@@ -221,10 +224,14 @@
     <Compile Include="ZeroLdapAuthenticationSource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Source\AdbpZero-zh-Hans.xml" />
+    <EmbeddedResource Include="Localization\Source\AdbpZero-zh-Hans.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Source\AdbpZero.xml" />
+    <EmbeddedResource Include="Localization\Source\AdbpZero.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

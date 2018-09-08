@@ -9,6 +9,7 @@
     body {
         height: 100%;
         position: relative;
+        background-color: #00485E;
     }
 
     .loginCard {
@@ -17,17 +18,18 @@
         margin-top: 150px;
         padding: 1.5rem;
         border-width: .2rem;
-        background-color: lightgray;
+        background-color: white;
+    }
+
+    .loginCard-header .brand {
+        font-size: 2rem;
     }
 
     .loginCard-header {
-        height: 50px;
+        height: 70px;
         text-align: center;
     }
 
-        .loginCard-header .brand {
-            font-size: 2rem;
-        }
 
     .loginCard-footer {
         text-align: center;
@@ -44,7 +46,7 @@
     <div class="loginCard-body">
         <form id="login-form" method="post" action="/ZeroAccount/Login">
             <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
-            <h4 class="text-center">@L("LogIn")</h4>
+            <hr />
 
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">UserName</label>
@@ -63,15 +65,15 @@
             </div>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10 ">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="RememberMe" value="true" id="rememberme">
-                        <label class="form-check-label" for="rememberme">@L("RememberMe")</label>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="RememberMe" value="true" id="rememberme">
+                        <label class="custom-control-label" for="rememberme">@L("RememberMe")</label>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #00485E;">@L("LogIn")</button>
                 </div>
             </div>
         </form>

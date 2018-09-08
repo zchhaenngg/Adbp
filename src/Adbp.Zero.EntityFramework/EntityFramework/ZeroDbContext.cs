@@ -35,11 +35,12 @@ namespace Adbp.Zero.EntityFramework
     {
         // Add a DbSet for each entity type that you want to include in your model. For more information 
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
-        public virtual IDbSet<ZeroOrganizationUnit> AdbpOrganizationUnits { get; set; }
+        public virtual IDbSet<ZeroOrganizationUnit> ZeroOrganizationUnits { get; set; }
+        public virtual IDbSet<ZeroUserOrganizationUnit> ZeroUserOrganizationUnits { get; set; }
 
         public virtual IDbSet<SysObjectSetting> SysObjectSettings { get; set; }
 
-        public virtual IDbSet<UserAgent> UserAgents { get; set; }
+        public virtual IDbSet<LoginAgent> LoginAgents { get; set; }
 
         public virtual IDbSet<Email> Emails { get; set; }
         // Your context has been configured to use a 'SampleDbContext' connection string from your application's 
@@ -63,18 +64,18 @@ namespace Adbp.Zero.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserAgent>().HasRequired(x => x.Principal).WithMany().HasForeignKey(f => f.PrincipalId).WillCascadeOnDelete(false);
-            modelBuilder.Entity<UserAgent>().HasRequired(x => x.Agent).WithMany().HasForeignKey(f => f.AgentId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<LoginAgent>().HasRequired(x => x.Principal).WithMany().HasForeignKey(f => f.PrincipalId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<LoginAgent>().HasRequired(x => x.Agent).WithMany().HasForeignKey(f => f.AgentId).WillCascadeOnDelete(false);
 
             // overide all abp
             modelBuilder.ChangeAbpTablePrefix<Tenant, Role, User>("Abp_");
             // 和OrganizationUnit表名保持一致
             modelBuilder.Entity<ZeroOrganizationUnit>().ToTable("Abp_OrganizationUnits");
-            
+            modelBuilder.Entity<ZeroUserOrganizationUnit>().ToTable("Abp_UserOrganizationUnits");
             //adbp
             SetAdbpTableName<SysObjectSetting>(modelBuilder);
             SetAdbpTableName<Email>(modelBuilder);
-            SetAdbpTableName<UserAgent>(modelBuilder);
+            SetAdbpTableName<LoginAgent>(modelBuilder);
         }
 
         private void SetAdbpTableName<TEntity>(DbModelBuilder modelBuilder)

@@ -78,7 +78,7 @@ namespace Adbp.Zero.Configuration
                     output.GroupName = ZeroConsts.SettingGroups.SettingGroups_UserManagement;
                     output.GroupDisplay = L(nameof(ZeroConsts.SettingGroups.SettingGroups_UserManagement));
                 }
-                else if (output.Name.StartsWith("Adbp.BackgroundWorkers."))
+                else if (output.Name.Contains(".BackgroundWorkers."))
                 {
                     output.GroupName = ZeroConsts.SettingGroups.SettingGroups_BackgroundWorkers;
                     output.GroupDisplay = L(nameof(ZeroConsts.SettingGroups.SettingGroups_BackgroundWorkers));

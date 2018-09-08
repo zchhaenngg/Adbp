@@ -8,16 +8,32 @@ abp.jstree = function ($) {
     }
     function JsTree(selector, options) {
         this.selector = selector;
-        this.options = options || {};
-        this.isUseDefaultContextmenuItems = false;
+
+        this.options = _extends({
+            plugins: ["contextmenu", "unique", "types"],
+            defaults: {
+
+                unique: { // plugin unique
+                    trim_whitespace: true,
+                    duplicate: false
+                }
+            },
+            types: { // plugin types
+                "#": { // root of the tree
+                    max_depth: abp.setting.getInt("Adbp.Zero.OrganizationSettings.MaxOrganizationUnitDepth")
+                }
+            },
+            contextmenu: { //plugin contextmenu
+                items: this.getDefaultContextmenuItems()
+            },
+            core: {
+                // so contextmenu create works
+                'check_callback': true
+            }
+        }, options);
 
         $(this.selector).data("adbp_jstree", this);
     }
-
-    JsTree.prototype.useDefaultContextmenuItems = function (menuOptions) {
-        this.isUseDefaultContextmenuItems = true;
-        return this;
-    };
 
     JsTree.prototype.getDefaultContextmenuItems = function () {
 
@@ -79,27 +95,8 @@ abp.jstree = function ($) {
         }
         var _this = this;
         this.getData().done(function (data) {
-            $.extend(_this.options, {
-                core: {
-                    'data': data
-                }
-            });
-            if (_this.isUseDefaultContextmenuItems) {
-                $.extend(_this.options, {
-                    'contextmenu': {
-                        items: _this.getDefaultContextmenuItems()
-                    }
-                });
-                $.extend(_this.options.core, {
-                    'check_callback': true
-                });
-                if (_this.options.plugins === undefined) {
-                    _this.options.plugins = [];
-                }
-                if (!_this.options.plugins.includes("contextmenu")) {
-                    _this.options.plugins.push("contextmenu");
-                }
-            }
+            _this.options = _extends({ core: {} }, _this.options);
+            _this.options.core.data = data;
 
             $(_this.selector).jstree(_this.options).on('rename_node.jstree', function (event, obj) {
                 _this.renameNode(obj, obj.node.id, obj.text).fail(function () {
@@ -150,7 +147,7 @@ abp.jstree = function ($) {
 
     JsTree.prototype.checkSingleSelected = function () {
         var arr = $("#organization-jstree").jstree(true).get_selected();
-        if (arr.length == 0) {
+        if (arr.length === 0) {
             throw "No selected";
         }
         if (arr.length > 1) {

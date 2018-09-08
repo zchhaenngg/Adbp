@@ -1,0 +1,49 @@
+﻿@using Abp.Collections.Extensions
+@using CompanyName.ProjectName.Web.Views
+@model Adbp.Zero.MVC.Models.Layout.SideBarNavViewModel
+@{
+    var calculateMenuUrl = new Func<string, string>((url) =>
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return ApplicationPath;
+        }
+
+        if (UrlChecker.IsRooted(url))
+        {
+            return url;
+        }
+
+        return ApplicationPath + url;
+    });
+
+    var activeClass = new Func<string, string>((itemName) =>
+    {
+        return Model.ActiveMenuItemName == itemName ? "active" : "";
+    });
+}
+@foreach (var menuItem in Model.MainMenu.Items)
+{
+    if (menuItem.Items == null || menuItem.Items.Count == 0)
+    {
+        <li class="nav-item">
+            <a class="nav-link @(activeClass(menuItem.Name))" href="@calculateMenuUrl(menuItem.Url)">
+                @menuItem.DisplayName
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle mr-md-2" href="javascript:void(0);" data-toggle="dropdown">
+                <label>@menuItem.DisplayName</label>
+            </a>
+            <div role="menu" class="dropdown-menu dropdown-menu-right" style="z-index: 99999;">
+                @foreach (var subMenuItem in menuItem.Items)
+                {
+                    <a class="dropdown-item @(activeClass(subMenuItem.Name))" href="@calculateMenuUrl(subMenuItem.Url)">@subMenuItem.DisplayName</a>
+                }
+            </div>
+        </li>
+    }
+}

@@ -30,7 +30,7 @@ namespace Adbp.Zero.MVC.Controllers
     [AbpMvcAuthorize]
     public class ZeroAccountController : ZeroControllerBase
     {
-        private readonly IRepository<UserAgent, long> _userAgentRepository;
+        private readonly IRepository<LoginAgent, long> _loginAgentRepository;
         private readonly IMultiTenancyConfig _multiTenancyConfig;
         private readonly ITenantCache _tenantCache;
         private readonly UserManager _userManager;
@@ -38,7 +38,7 @@ namespace Adbp.Zero.MVC.Controllers
         private readonly IAuthenticationManager _authenticationManager;
         
         public ZeroAccountController(
-            IRepository<UserAgent, long> userAgentRepository,
+            IRepository<LoginAgent, long> loginAgentRepository,
 
             IMultiTenancyConfig multiTenancyConfig,
             ITenantCache tenantCache,
@@ -46,7 +46,7 @@ namespace Adbp.Zero.MVC.Controllers
             LogInManager logInManager,
             IAuthenticationManager authenticationManager)
         {
-            _userAgentRepository = userAgentRepository;
+            _loginAgentRepository = loginAgentRepository;
             _multiTenancyConfig = multiTenancyConfig;
             _tenantCache = tenantCache;
             _userManager = userManager;
@@ -112,7 +112,7 @@ namespace Adbp.Zero.MVC.Controllers
         public async Task<ActionResult> AgentLogin(long agentId, string returnUrl = "")
         {
             var loginId = AbpSession.GetUserId();
-            var userAgent = await _userAgentRepository.FirstOrDefaultAsync(x => x.PrincipalId == loginId && x.AgentId == agentId);
+            var userAgent = await _loginAgentRepository.FirstOrDefaultAsync(x => x.PrincipalId == loginId && x.AgentId == agentId);
             await SignInAsync(userAgent.Agent);
             
             if (!string.IsNullOrWhiteSpace(returnUrl) && Request.Url != null && AbpUrlHelper.IsLocalUrl(Request.Url, returnUrl))

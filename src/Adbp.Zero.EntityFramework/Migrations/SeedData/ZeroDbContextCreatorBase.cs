@@ -180,9 +180,9 @@ namespace Adbp.Zero.Migrations.SeedData
         #region organizationUnits
         protected void AddOrganizationIfNotExists(int? tenantId, string groupCode, string displayName, bool isStatic, params int[] numbers)
         {
-            if (!Context.AdbpOrganizationUnits.Any(x => x.GroupCode == groupCode && x.DisplayName == displayName))
+            if (!Context.ZeroOrganizationUnits.Any(x => x.GroupCode == groupCode && x.DisplayName == displayName))
             {
-                Context.AdbpOrganizationUnits.Add(new Adbp.Zero.OrganizationUnits.ZeroOrganizationUnit
+                Context.ZeroOrganizationUnits.Add(new Adbp.Zero.OrganizationUnits.ZeroOrganizationUnit
                 {
                     TenantId = tenantId,
                     GroupCode = groupCode,

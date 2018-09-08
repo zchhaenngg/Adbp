@@ -15,5 +15,6 @@ namespace Adbp.Zero.OrganizationUnits.Dto
         public string Name { get; set; }
         public string Surname { get; set; }
         public string DisplayName { get; set; }
+        public bool? IsStatic { get; set; }
     }
 }

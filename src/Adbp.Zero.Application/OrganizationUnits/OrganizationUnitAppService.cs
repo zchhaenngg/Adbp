@@ -14,6 +14,8 @@ using Adbp.Zero.OrganizationUnits.Dto;
 using Adbp.Paging.Dto;
 using Adbp.Zero.Authorization;
 using Adbp.Zero.SysObjectSettings;
+using Adbp.Zero.Configuration;
+using Abp.Configuration;
 
 namespace Adbp.Zero.OrganizationUnits
 {
@@ -21,46 +23,33 @@ namespace Adbp.Zero.OrganizationUnits
     public class OrganizationUnitAppService : ZeroAppServiceBase, IOrganizationUnitAppService
     {
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
+        private readonly IRepository<ZeroUserOrganizationUnit, long> _zeroUserOrganizationUnitRepository;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<UserOrganizationUnit, long> _userOrganizationUnitRepository;
         private readonly OrganizationUnitManager _organizationUnitManager;
+        private readonly ZeroOrganizationUnitManager _zeroOrganizationUnitManager;
         private readonly UserManager _userManager;
 
         public OrganizationUnitAppService(
             IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<ZeroUserOrganizationUnit, long> zeroUserOrganizationUnit,
             IRepository<User, long> userRepository,
             IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
             OrganizationUnitManager organizationUnitManager,
+            ZeroOrganizationUnitManager zeroOrganizationUnitManager,
             UserManager userManager,
             SysObjectSettingManager sysObjectSettingManager
             ) : base(sysObjectSettingManager)
         {
             _organizationUnitRepository = organizationUnitRepository;
+            _zeroUserOrganizationUnitRepository = zeroUserOrganizationUnit;
             _userRepository = userRepository;
             _userOrganizationUnitRepository = userOrganizationUnitRepository;
             _organizationUnitManager = organizationUnitManager;
+            _zeroOrganizationUnitManager = zeroOrganizationUnitManager;
             _userManager = userManager;
         }
-
-        /// <summary>
-        /// 是否支持写入
-        /// </summary>
-        /// <param name="ouId"></param>
-        /// <returns></returns>
-        protected virtual async Task<bool> IsWiteableAsync(long ouId)
-        {//ou不是ZeroOrganizationUnit，即原生的支持写入。
-            var entity = await _organizationUnitRepository.GetAsync(ouId);
-            var zeroOrganizationUnit = entity as ZeroOrganizationUnit;
-            if (zeroOrganizationUnit == null)
-            {
-                return true;
-            }
-            else
-            {
-                return !zeroOrganizationUnit.IsStatic;
-            }
-        }
-
+        
         protected OrganizationUnitOutput Converter(OrganizationUnit organizationUnit)
         {
             var output = Map<OrganizationUnitOutput>(organizationUnit);
@@ -85,18 +74,27 @@ namespace Adbp.Zero.OrganizationUnits
         [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Create)]
         public virtual async Task<OrganizationUnitOutput> CreateOrganizationUnitAsync(CreateOrganizationUnitInput input)
         {
-            if (input.ParentId != null && !await IsWiteableAsync(input.ParentId.Value))
+            await _zeroOrganizationUnitManager.CheckEnableOrganizationUnitManagement();
+            if (input.ParentId == null)
             {
-                throw new Exception("Illegal creation of organizations!");
+                await _zeroOrganizationUnitManager.CheckCanAddRootOrganizationUnitAsync();
+            }
+            else
+            {
+                var parent = await _organizationUnitRepository.GetAsync(input.ParentId.Value);
+
+                await _zeroOrganizationUnitManager.CheckCanAddChildOrganizationUnitInStaticOrganizationUnitAsync(parent);
+                await _zeroOrganizationUnitManager.CheckMaxOrganizationUnitDepthAsync(parent);
             }
 
             var displayName = input.DisplayName.Trim();
-            if (_organizationUnitRepository.GetAll().Any(o => o.DisplayName == displayName && o.ParentId == input.ParentId))
+            var entity = await _organizationUnitRepository.FirstOrDefaultAsync(o => o.DisplayName == displayName && o.ParentId == input.ParentId);
+            if (entity != null)
             {
-                throw new UserFriendlyException("The organization already exists！");
+                throw new UserFriendlyException($"The suborganization { displayName } is duplicate!");
             }
 
-            var entity = new OrganizationUnit { DisplayName = displayName, ParentId = input.ParentId };
+            entity = new OrganizationUnit { DisplayName = displayName, ParentId = input.ParentId };
             await _organizationUnitManager.CreateAsync(entity);
             await CurrentUnitOfWork.SaveChangesAsync();
             return Map<OrganizationUnitOutput>(entity);
@@ -105,12 +103,11 @@ namespace Adbp.Zero.OrganizationUnits
         [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Update)]
         public virtual async Task<OrganizationUnitOutput> UpdateOrganizationUnitAsync(UpdateOrganizationUnitInput input)
         {
-            if (!await IsWiteableAsync(input.Id))
-            {
-                throw new Exception("Illegal modification of the organization!");
-            }
-
             var entity = _organizationUnitRepository.Get(input.Id);
+            if (entity.IsStatic())
+            {
+                throw new Exception("The display name of static organizations are not modifiable!");
+            }
             entity.DisplayName = input.DisplayName.Trim();
             await _organizationUnitManager.UpdateAsync(entity);
             return Map<OrganizationUnitOutput>(entity);
@@ -119,11 +116,11 @@ namespace Adbp.Zero.OrganizationUnits
         [AbpAuthorize(ZeroPermissionNames.Permissions_OrganizationUnit_Delete)]
         public virtual async Task DeleteOrganizationUnitAsync(long Id)
         {
-            if (!await IsWiteableAsync(Id))
+            var entity = _organizationUnitRepository.Get(Id);
+            if (entity.IsStatic())
             {
-                throw new Exception("Illegal removal of organization!");
+                throw new Exception("The static organizations can not be deleted!");
             }
-
             await _organizationUnitManager.DeleteAsync(Id);
         }
         
@@ -156,14 +153,13 @@ namespace Adbp.Zero.OrganizationUnits
         [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Create)]
         public virtual async Task AddOrganizationUnitUserAsync(long organizationUnitId, long userid)
         {
-            if (!await IsWiteableAsync(organizationUnitId))
-            {
-                throw new Exception("Illegal add user to organization!");
-            }
+            var ouEntity = await _organizationUnitRepository.GetAsync(organizationUnitId);
+            await _zeroOrganizationUnitManager.CheckCanAddUserInStaticOrganizationUnitAsync(ouEntity);
+
             var entity = await _userOrganizationUnitRepository.FirstOrDefaultAsync(x => x.OrganizationUnitId == organizationUnitId && x.UserId == userid);
             if (entity == null)
             {
-                await _userOrganizationUnitRepository.InsertAsync(new UserOrganizationUnit
+                await _userOrganizationUnitRepository.InsertAsync(new ZeroUserOrganizationUnit
                 {
                     UserId = userid,
                     OrganizationUnitId = organizationUnitId
@@ -178,10 +174,6 @@ namespace Adbp.Zero.OrganizationUnits
             {
                 foreach (var item in list)
                 {
-                    if (!await IsWiteableAsync(item.OrganizationUnitId))
-                    {
-                        throw new Exception("Illegal add user to organization!");
-                    }
                     await AddOrganizationUnitUserAsync(item.OrganizationUnitId, item.UserId);
                 }
             }
@@ -190,9 +182,10 @@ namespace Adbp.Zero.OrganizationUnits
         [AbpAuthorize(ZeroPermissionNames.Permissions_OuUser_Delete)]
         public virtual async Task DeleteOrganizationUnitUserAsync(long organizationUnitId, long userid)
         {
-            if (!await IsWiteableAsync(organizationUnitId))
+            var entity = await _userOrganizationUnitRepository.SingleAsync(x => x.OrganizationUnitId == organizationUnitId && x.UserId == userid);
+            if (entity.IsStatic())
             {
-                throw new Exception("Illegal remove user from organization!");
+                throw new Exception("The static UserOrganizationUnit can not be deleted!");
             }
             await _userOrganizationUnitRepository.DeleteAsync(x => x.OrganizationUnitId == organizationUnitId && x.UserId == userid);
         }
@@ -204,16 +197,11 @@ namespace Adbp.Zero.OrganizationUnits
             {
                 foreach (var item in list)
                 {
-                    if (!await IsWiteableAsync(item.OrganizationUnitId))
-                    {
-                        throw new Exception("Illegal remove user from organization!");
-                    }
                     await DeleteOrganizationUnitUserAsync(item.OrganizationUnitId, item.UserId);
                 }
             }
         }
         
-       
         /// <summary>
         /// 内部调用，不加权限控制
         /// </summary>
@@ -225,6 +213,8 @@ namespace Adbp.Zero.OrganizationUnits
             var queryable = from user in _userRepository.GetAll()
                             join uou in _userOrganizationUnitRepository.GetAll() on user.Id equals uou.UserId
                             join ou in _organizationUnitRepository.GetAll() on uou.OrganizationUnitId equals ou.Id
+                            join zuou in _zeroUserOrganizationUnitRepository.GetAll() on uou.Id equals zuou.Id into zuouInto
+                            from zuou in zuouInto.DefaultIfEmpty() //连接zou表, 如果zou没匹配上时, 使用默认值代替
                             select new OrganizationUnitUserDto
                             {
                                 Id = user.Id,
@@ -234,13 +224,15 @@ namespace Adbp.Zero.OrganizationUnits
                                 CreationTime = uou.CreationTime,
                                 CreatorUserId = uou.CreatorUserId,
                                 OrganizationUnitId = ou.Id,
-                                OrganizationUnitName = ou.DisplayName
+                                OrganizationUnitName = ou.DisplayName,
+                                IsStatic = zuou.IsStatic
                             };
             if (organizationUnitId != null)
             {
                 queryable = queryable.Where(x => x.OrganizationUnitId == organizationUnitId);
             }
             return await GetAll<OrganizationUnitUserDto, long, GenericPagingInput, OrganizationUnitUserDto>(queryable, input);
+
         }
     }
 }

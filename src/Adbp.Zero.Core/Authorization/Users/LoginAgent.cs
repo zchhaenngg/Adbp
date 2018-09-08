@@ -7,7 +7,7 @@ using Adbp.Domain.Entities;
 
 namespace Adbp.Zero.Authorization.Users
 {
-    public class UserAgent : FullAuditedTOEntity<long, User>
+    public class LoginAgent : FullAuditedTOEntity<long, User>
     {
         public virtual long AgentId { get; set; }
         public virtual User Agent { get; set; }

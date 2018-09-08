@@ -15,6 +15,12 @@
     <text name="SettingNames_TimeFormatting" value="时间格式" />
     <text name="SettingNames_DateTimeFormatting" value="日期带时间格式" />
 
+    <text name="SettingNames_EnableOrganizationUnitManagement" value="启用组织管理" />
+    <text name="SettingNames_CanAddRootOrganizationUnit" value="允许添加根组织" />
+    <text name="SettingNames_CanAddChildOrganizationUnitInStaticOrganizationUnit" value="允许添加Static组织的子组织" />
+    <text name="SettingNames_MaxOrganizationUnitDepth" value="允许添加的组织的最大层级数" />
+    <text name="SettingNames_CanAddUserInStaticOrganizationUnit" value="允许向Static组织中添加用户" />
+    
     <text name="SettingNames_EmailWorkerTimerPeriodSeconds" value="邮箱工作间隔时间"/>
     
     <!--角色赋予权限时，权限的displayName-->

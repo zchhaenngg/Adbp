@@ -4,28 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Abp.Organizations;
+using Abp.Authorization.Users;
 using Adbp.Domain.Entities;
 
 namespace Adbp.Zero.OrganizationUnits
 {
-    public class ZeroOrganizationUnit : OrganizationUnit, IReserveFields
+    public class ZeroUserOrganizationUnit: UserOrganizationUnit, IReserveFields
     {
-        /// <summary>
-        /// 分组代码，如普通的用户组，OA的组织用户组
-        /// </summary>
-        [StringLength(50)]
-        public virtual string GroupCode { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        [StringLength(500)]
-        public virtual string Comments { get; set; }
-
-        /// <summary>
-        /// Static的组织不可以删除
-        /// </summary>
         public virtual bool IsStatic { get; set; }
 
         [StringLength(255)]

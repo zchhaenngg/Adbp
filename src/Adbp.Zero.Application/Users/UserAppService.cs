@@ -29,12 +29,12 @@ namespace Adbp.Zero.Users
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly INotificationPublisher _notiticationPublisher;
-        private readonly IRepository<UserAgent, long> _userAgentRepository;
+        private readonly IRepository<LoginAgent, long> _loginAgentRepository;
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<Role> _roleRepository;
 
         public UserAppService(
-            IRepository<UserAgent, long> userAgentRepository,
+            IRepository<LoginAgent, long> loginAgentRepository,
             IRepository<User, long> userRepository,
             IRepository<Role> roleRepository,
             UserManager userManager,
@@ -44,7 +44,7 @@ namespace Adbp.Zero.Users
             SysObjectSettingManager sysObjectSettingManager
             ) : base(sysObjectSettingManager)
         {
-            _userAgentRepository = userAgentRepository;
+            _loginAgentRepository = loginAgentRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _userManager = userManager;
@@ -116,7 +116,7 @@ namespace Adbp.Zero.Users
         [AbpAuthorize(ZeroPermissionNames.Permissions_UserAgent_Upsert)]
         public async Task AddAgentAsync(long principalId, long agentId)
         {
-            await _userAgentRepository.InsertAsync(new UserAgent
+            await _loginAgentRepository.InsertAsync(new LoginAgent
             {
                 AgentId = agentId,
                 PrincipalId = principalId
@@ -131,7 +131,7 @@ namespace Adbp.Zero.Users
         [AbpAuthorize(ZeroPermissionNames.Permissions_UserAgent_Upsert)]
         public async Task RemoveAgentAsync(long principalId, long agentId)
         {
-            await _userAgentRepository.DeleteAsync(x => x.PrincipalId == principalId && x.AgentId == agentId);
+            await _loginAgentRepository.DeleteAsync(x => x.PrincipalId == principalId && x.AgentId == agentId);
         }
 
         public async Task RemoveAgentAsync(long agentId)
@@ -143,7 +143,7 @@ namespace Adbp.Zero.Users
         public async Task<List<UserDto>> GetAgentsAsync()
         {
             var userId = AbpSession.GetUserId();
-            var users = await AsyncQueryableExecuter.ToListAsync(_userAgentRepository.GetAll().Where(x => x.PrincipalId == userId).Select(x => x.Agent));
+            var users = await AsyncQueryableExecuter.ToListAsync(_loginAgentRepository.GetAll().Where(x => x.PrincipalId == userId).Select(x => x.Agent));
             return users.Select(Map<UserDto>).ToList();
         }
     }

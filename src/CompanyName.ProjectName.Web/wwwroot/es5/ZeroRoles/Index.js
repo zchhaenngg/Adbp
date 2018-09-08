@@ -16,6 +16,9 @@
             }
         }, {
             data: 'name', render: function render(data, type, full, meta) {
+                if (full.isStatic) {
+                    data += "<span class=\"badge badge-danger ml-2\">Static</span>";
+                }
                 return "<a href=\"/zeroroles/details?roleId=" + full.id + "\">" + data + "</a>";
             }
         }, { data: 'displayName' }, {

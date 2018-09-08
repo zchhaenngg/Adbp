@@ -16,6 +16,9 @@
             },
             {
                 data: 'name', render: function (data, type, full, meta) {
+                    if (full.isStatic) {
+                        data += `<span class="badge badge-danger ml-2">Static</span>`;
+                    }
                     return `<a href="/zeroroles/details?roleId=${full.id}">${data}</a>`;
                 }
             },
@@ -24,7 +27,7 @@
                 data: 'lastModificationTime', render: function (data, type, full, meta) {
                     return abp.timing.datetimeStr(data);
                 }
-            },
+            }
         ]
     }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-roleIndex_edit", function (e, dt, type, indexes) {
         if (dt.isSingleSelected()) {

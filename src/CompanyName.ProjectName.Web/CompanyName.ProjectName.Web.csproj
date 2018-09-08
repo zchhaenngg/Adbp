@@ -683,12 +683,10 @@
     <Content Include="wwwroot\libs\jstree\themes\default-dark\32px.png" />
     <Content Include="wwwroot\libs\jstree\themes\default-dark\40px.png" />
     <Content Include="wwwroot\libs\jstree\themes\default-dark\style.css" />
-    <Content Include="wwwroot\libs\jstree\themes\default-dark\style.min.css" />
     <Content Include="wwwroot\libs\jstree\themes\default-dark\throbber.gif" />
     <Content Include="wwwroot\libs\jstree\themes\default\32px.png" />
     <Content Include="wwwroot\libs\jstree\themes\default\40px.png" />
     <Content Include="wwwroot\libs\jstree\themes\default\style.css" />
-    <Content Include="wwwroot\libs\jstree\themes\default\style.min.css" />
     <Content Include="wwwroot\libs\jstree\themes\default\throbber.gif" />
     <Content Include="wwwroot\libs\material-icons\material-icons.css" />
     <Content Include="wwwroot\libs\material-icons\MaterialIcons-Regular.svg" />
@@ -899,6 +897,7 @@
     <Content Include="wwwroot\libs\handsontable\handsontable.css.map" />
     <Content Include="wwwroot\libs\handsontable\Adbp.md" />
     <Content Include="Views\ZeroLayout\_AgentSelection.cshtml" />
+    <Content Include="Views\ZeroLayout\_Nav.cshtml" />
     <None Include="wwwroot\libs\jquery\jquery-3.3.1.intellisense.js" />
     <Content Include="wwwroot\libs\jquery\jquery-3.3.1.js" />
     <Content Include="wwwroot\libs\jquery\jquery-3.3.1.min.js" />

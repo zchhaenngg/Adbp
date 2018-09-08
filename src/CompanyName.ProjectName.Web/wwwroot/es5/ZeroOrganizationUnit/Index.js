@@ -1,15 +1,92 @@
-'use strict';
+"use strict";
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _configs = {
+    canAddRootOrganizationUnit: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.CanAddRootOrganizationUnit"),
+    canAddUserInStaticOrganizationUnit: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.CanAddUserInStaticOrganizationUnit"),
+    canAddChildOrganizationUnitInStaticOrganizationUnit: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.CanAddChildOrganizationUnitInStaticOrganizationUnit"),
+    enableOrganizationUnitManagement: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.EnableOrganizationUnitManagement")
+};
+
+var _controller = function () {
+    var canAddRootOrganizationUnit = _configs.canAddRootOrganizationUnit,
+        canAddUserInStaticOrganizationUnit = _configs.canAddUserInStaticOrganizationUnit,
+        enableOrganizationUnitManagement = _configs.enableOrganizationUnitManagement;
+
+    return {
+        doInit: function doInit() {
+            var enableButton = enableOrganizationUnitManagement ? canAddRootOrganizationUnit ? true : false : false;
+            if (enableButton) {
+                $("#btn-root_add").removeAttr("disabled");
+            } else {
+                $("#btn-root_add").attr("disabled", "disabled");
+            }
+        },
+        toggleOrganizationPanel: function toggleOrganizationPanel() {
+            var tree = $('#organization-jstree').data("adbp_jstree");
+            if (tree.isSingleSelected()) {
+                $(".organization-deselect").addClass("d-none");
+                $(".organization-select").removeClass("d-none");
+            } else {
+                $(".organization-deselect").removeClass("d-none");
+                $(".organization-select").addClass("d-none");
+            }
+        },
+        toggle_addUserButton: function toggle_addUserButton() {
+            var enableButton = true;
+            if (!enableOrganizationUnitManagement) {
+                enableButton = false;
+            } else {
+                if (canAddUserInStaticOrganizationUnit) {
+                    enableButton = true; //无论ou是否为静态, 都将启用
+                } else {
+                    //单选,非静态才启用
+                    var tree = $('#organization-jstree').data("adbp_jstree");
+                    enableButton = tree.isSingleSelected && tree.singleSelected().isStatic === true;
+                }
+            }
+            if (enableButton) {
+                $("#btn-organization_addUser").removeAttr("disabled");
+            } else {
+                $("#btn-organization_addUser").attr("disabled", "disabled");
+            }
+        }
+    };
+}();
+_controller.doInit();
 
 (function () {
+    var canAddChildOrganizationUnitInStaticOrganizationUnit = _configs.canAddChildOrganizationUnitInStaticOrganizationUnit,
+        enableOrganizationUnitManagement = _configs.enableOrganizationUnitManagement;
 
     //init tree
-    var tree = new abp.jstree('#organization-jstree').useDefaultContextmenuItems();
+
+    var tree = new abp.jstree('#organization-jstree');
     tree.data = function () {
         return abp.ajax({
             url: '/api/services/app/organizationUnit/GetOrganizationUnits'
         });
     };
+    tree.getTreeItem = function (dto) {
+        var text = dto.displayName;
+        if (dto.isStatic === true) {
+            text += "<span class=\"badge badge-danger ml-2\">Static</span>";
+        }
+        return _extends({}, dto, {
+            id: dto.id,
+            parent: dto.parentId === null ? '#' : dto.parentId,
+            text: text
+
+        });
+    };
     tree.createNode = function (obj, parentId, newName) {
+        if (obj.instance.get_node(obj.parent).original.isStatic && !canAddChildOrganizationUnitInStaticOrganizationUnit) {
+            abp.notify.error("You can not add child OrganizationUnit In Static OrganizationUnit!");
+            return $.Deferred(function ($dfd) {
+                $dfd.reject();
+            });
+        }
         return abp.services.app.organizationUnit.createOrganizationUnit({
             DisplayName: newName,
             ParentId: parentId
@@ -19,31 +96,33 @@
         return abp.services.app.organizationUnit.deleteOrganizationUnit(id);
     };
     tree.renameNode = function (obj, id, newName) {
+        if (isNaN(id)) {
+            return; //不是数字, 则忽略
+        }
+        if (obj.node.original.isStatic) {
+            abp.notify.error("You can not rename Static OrganizationUnit Display Name!");
+            return $.Deferred(function ($dfd) {
+                $dfd.reject();
+            });
+        }
         return abp.services.app.organizationUnit.updateOrganizationUnit({
             DisplayName: newName,
             Id: id
         });
     };
     tree.changeNode = function () {
+        _controller.toggle_addUserButton();
+        _controller.toggleOrganizationPanel();
+
         if (this.isSingleSelected()) {
-            $(".organization-deselect").addClass("d-none");
-            $(".organization-select").removeClass("d-none");
             $("#organization-display").html(this.singleSelected().displayName);
-            if (this.singleSelected().isStatic) {
-                $("#btn-organization_addUser").attr("disabled", "disabled");
-            } else {
-                $("#btn-organization_addUser").removeAttr("disabled");
-            }
             showMembers();
-        } else {
-            $(".organization-deselect").removeClass("d-none");
-            $(".organization-select").addClass("d-none");
         }
     };
     tree.show();
     //init table
     var table_members = new abp.table.server("#table-members", {
-        "order": [[0, "desc"]],
+        "order": [],
         "columnDefs": null,
         'ajax': {
             url: '/zeroorganizationUnit/jsonGetOrganizationUserOuputs',
@@ -55,12 +134,19 @@
         },
         columns: [{
             render: function render(data, type, full, meta) {
-                if ($('#organization-jstree').data("adbp_jstree").singleSelected().isStatic) {
+                if (!enableOrganizationUnitManagement || full.IsStatic === true) {
                     return '';
                 }
-                return '<button class="btn btn-default btn-xs btn-member_remove" title="\u5220\u9664">\n                             <i class="fa fa-times" aria-hidden="true"></i>\n                            </button>';
+                return "<button class=\"btn btn-default btn-xs btn-member_remove\" title=\"\u5220\u9664\">\n                             <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n                            </button>";
             }
-        }, { data: 'UserName' }, { data: 'Name' }, { data: 'Surname' }, {
+        }, {
+            data: 'UserName', render: function render(data, type, full, meta) {
+                if (full.IsStatic === true) {
+                    data += "<span class=\"badge badge-danger ml-2\">Static</span>";
+                }
+                return data;
+            }
+        }, { data: 'Name' }, { data: 'Surname' }, {
             data: 'CreationTime', render: function render(data, type, full, meta) {
                 return abp.timing.datetimeStr(data);
             }
@@ -72,7 +158,7 @@
             $("#table-members .btn-member_remove").off("click").on("click", function () {
                 var data = table_members.find($(this).closest("tr"));
                 console.log(data);
-                abp.message.confirm('\u60A8\u786E\u5B9A\u8981\u5C06\u7528\u6237 ' + data.Surname + data.Name + '(' + data.UserName + ') \u4ECE\u7EC4\u7EC7 ' + data.OrganizationUnitName + ' \u4E2D\u79FB\u9664\u5417\uFF1F').done(function (ok) {
+                abp.message.confirm("\u60A8\u786E\u5B9A\u8981\u5C06\u7528\u6237 " + data.Surname + data.Name + "(" + data.UserName + ") \u4ECE\u7EC4\u7EC7 " + data.OrganizationUnitName + " \u4E2D\u79FB\u9664\u5417\uFF1F").done(function (ok) {
                     if (ok) {
                         abp.services.app.organizationUnit.deleteOrganizationUnitUser(data.OrganizationUnitId, data.Id).done(function (rslt) {
                             abp.notify.success("操作成功");

@@ -27,9 +27,22 @@ namespace Adbp.Zero.Configuration
                 scopes: SettingScopes.Application | SettingScopes.Tenant | SettingScopes.User,
                 isVisibleToClients: true);
 
+            yield return new SettingDefinition(ZeroSettingNames.OrganizationSettings.EnableOrganizationUnitManagement, true.ToString(), L("SettingNames_EnableOrganizationUnitManagement"),
+                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true);
+            yield return new SettingDefinition(ZeroSettingNames.OrganizationSettings.CanAddRootOrganizationUnit, true.ToString(), L("SettingNames_CanAddRootOrganizationUnit"),
+                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true);
+            yield return new SettingDefinition(ZeroSettingNames.OrganizationSettings.CanAddChildOrganizationUnitInStaticOrganizationUnit, true.ToString(), L("SettingNames_CanAddChildOrganizationUnitInStaticOrganizationUnit"),
+                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true);
+            yield return new SettingDefinition(ZeroSettingNames.OrganizationSettings.MaxOrganizationUnitDepth, "16", L("SettingNames_MaxOrganizationUnitDepth"),
+                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true);
+            yield return new SettingDefinition(ZeroSettingNames.OrganizationSettings.CanAddUserInStaticOrganizationUnit, false.ToString(), L("SettingNames_CanAddUserInStaticOrganizationUnit"),
+                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true);
+
             yield return new SettingDefinition(ZeroSettingNames.BackgroundWorkers.EmailWorkerTimerPeriodSeconds, "30", L("SettingNames_EmailWorkerTimerPeriodSeconds"),
-                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients:true);
+                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true);
         }
+
+
         
         private static ILocalizableString L(string name)
         {

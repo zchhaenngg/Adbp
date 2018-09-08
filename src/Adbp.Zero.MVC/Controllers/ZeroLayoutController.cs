@@ -45,6 +45,18 @@ namespace Adbp.Zero.MVC.Controllers
         }
 
         [ChildActionOnly]
+        public PartialViewResult Nav(string activeMenu = "")
+        {
+            var model = new SideBarNavViewModel
+            {
+                MainMenu = AsyncHelper.RunSync(() => _userNavigationManager.GetMenuAsync("MainMenu", AbpSession.ToUserIdentifier())),
+                ActiveMenuItemName = activeMenu
+            };
+
+            return PartialView("_Nav", model);
+        }
+
+        [ChildActionOnly]
         public PartialViewResult LanguageSelection()
         {
             var model = new LanguageSelectionViewModel

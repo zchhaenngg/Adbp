@@ -4,17 +4,34 @@
     }
     function JsTree(selector, options) {
         this.selector = selector;
-        this.options = options || {};
-        this.isUseDefaultContextmenuItems = false;
+        
+        this.options = {
+            plugins: ["contextmenu", "unique", "types"],
+            defaults: {
+                
+                unique: {// plugin unique
+                    trim_whitespace: true,
+                    duplicate: false
+                }
+            },
+            types: {// plugin types
+                "#": {// root of the tree
+                    max_depth: abp.setting.getInt("Adbp.Zero.OrganizationSettings.MaxOrganizationUnitDepth")
+                }                
+            },
+            contextmenu: { //plugin contextmenu
+                items: this.getDefaultContextmenuItems()
+            },
+            core: {
+                 // so contextmenu create works
+                'check_callback': true
+            },
+            ...options
+        };
 
         $(this.selector).data("adbp_jstree", this);
     }
-
-    JsTree.prototype.useDefaultContextmenuItems = function (menuOptions) {
-        this.isUseDefaultContextmenuItems = true;
-        return this;
-    }
-
+    
     JsTree.prototype.getDefaultContextmenuItems = function () {
 
         return {
@@ -66,7 +83,7 @@
                 }
             }
         };
-    }
+    };
 
     JsTree.prototype.show = function () {
         if (this.isInitialised()) {
@@ -74,27 +91,8 @@
         }
         let _this = this;
         this.getData().done(function (data) {
-            $.extend(_this.options, {
-                core: {
-                    'data': data
-                }
-            });
-            if (_this.isUseDefaultContextmenuItems) {
-                $.extend(_this.options, {
-                    'contextmenu': {
-                        items: _this.getDefaultContextmenuItems()
-                    }
-                });
-                $.extend(_this.options.core, {
-                    'check_callback': true
-                });
-                if (_this.options.plugins === undefined) {
-                    _this.options.plugins = [];
-                }
-                if (!_this.options.plugins.includes("contextmenu")) {
-                    _this.options.plugins.push("contextmenu");
-                }
-            }
+            _this.options = { core: {}, ..._this.options };
+            _this.options.core.data = data;
 
             $(_this.selector).jstree(_this.options).on('rename_node.jstree', function (event, obj) {
                 _this.renameNode(obj, obj.node.id, obj.text).fail(function () {
@@ -129,64 +127,64 @@
             }).on("changed.jstree", function (e, data) {
                 _this.changeNode(e, data);
             });
-        })
-    }
+        });
+    };
 
     JsTree.prototype.createNode = function (obj, parentId, newName) {
         //todo return defered;
-    }
+    };
 
     JsTree.prototype.deleteNode = function (obj, id) {
 
-    }
+    };
     JsTree.prototype.renameNode = function (obj, id, newName) {
 
-    }
+    };
 
     JsTree.prototype.destroy = function () {
         $(this.selector).jstree('destroy');
-    }
+    };
     
     JsTree.prototype.changeNode = function (e, data) {
 
-    }
+    };
 
     JsTree.prototype.checkSingleSelected = function () {
         let arr = $("#organization-jstree").jstree(true).get_selected();
-        if (arr.length == 0) {
+        if (arr.length === 0) {
             throw "No selected";
         }
         if (arr.length > 1) {
             throw "Multi selected";
         }
-    }
+    };
 
     JsTree.prototype.isSingleSelected = function () {
         return $(this.selector).jstree(true).get_selected().length === 1;
-    }
+    };
 
     JsTree.prototype.singleSelected = function () {
         this.checkSingleSelected();
 
         return this.allSelected()[0];
-    }
+    };
 
     JsTree.prototype.singleSelectedId = function () {
         this.checkSingleSelected();
         let id = $("#organization-jstree").jstree(true).get_selected()[0];
         return eval(id);
-    }
+    };
 
     JsTree.prototype.allSelected = function () {
         let arr = $("#organization-jstree").jstree(true).get_selected(true);
         return arr.map(x => x.original);
-    }
+    };
 
     
 
     JsTree.prototype.data = function () {
-        
-    }
+
+    };
 
     JsTree.prototype.getData = function () {
         let defered = this.data();
@@ -198,24 +196,24 @@
         return defered.then(function (result) {
             return result.map(x => _this.getTreeItem(x));
         });
-    }
+    };
     //如果返回值不是parentId,displayName则重写此方法即可
     JsTree.prototype.getTreeItem = function (dto) {
         return {
             ...dto,
             id: dto.id,
             parent: dto.parentId === null ? '#' : dto.parentId,
-            text: dto.displayName,
+            text: dto.displayName
         };
-    }
+    };
 
     JsTree.prototype.jstree = function () {
         //// get an existing instance (will not create new instance)
         return $(this.selector).jstree(true);
-    }
+    };
 
     JsTree.prototype.isInitialised = function () {
         return $(this.selector).jstree(true) !== false;
-    }
+    };
     return JsTree;
 })(jQuery);

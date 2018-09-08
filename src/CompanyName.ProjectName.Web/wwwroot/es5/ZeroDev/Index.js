@@ -80,20 +80,32 @@ adbp.templates = {
             adbp.templates.utilities.setSelect(this._options.component.id);
 
             adbp.templates.utilities.bindClick();
+
+            this.$component().data("adbp_templates", this);
+        };
+
+        Component.prototype.$component = function () {
+            return $('#' + this._options.component.id).closest(".component");
+        };
+
+        //根据options 修改属性栏
+        Component.prototype.render = function () {
+            var $current = $('#' + this._options.component.id);
+            var newHtml = this.getTemplate();
+
+            $(newHtml).insertAfter($current);
+            $current.remove();
         };
 
         return Component;
     }(),
     utilities: {
-        getComponentId: function getComponentId(componentElement) {
-            if (!$(componentElement).hasClass("component")) {
-                throw "it is not componentElement";
-            }
-            return $(componentElement).find("[id^=Component__]").attr("id");
+        getComponentId: function getComponentId(container) {
+            return $(container).find("[id^=Component__]").attr("id");
         },
         setSelect: function setSelect(componentId) {
-            $("#design").find(".border-primary").removeClass("border-primary");
-            $('#' + componentId).closest(".component").addClass("border-primary");
+            $("#design").find(".border-primary").removeClass("border-primary").removeClass("selected");
+            $('#' + componentId).closest(".component").addClass("border-primary").addClass("selected");
         },
         bindClick: function bindClick() {
             $("#design .component").off("click").on("click", function () {
@@ -103,3 +115,11 @@ adbp.templates = {
         }
     }
 };
+
+//events  每个都要单独处理,并更新 对应的修改项
+$("#area_properties").find("input, select").on("change", function () {
+
+    var component = $("#design .component.selected").data("adbp_templates");
+    component._options.label.display = this.value;
+    component.render();
+});

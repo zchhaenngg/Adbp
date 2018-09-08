@@ -39,6 +39,8 @@
                         <a class="dropdown-item" href="https://getbootstrap.com/2.3.2/" target="_Blank">v2.3.2</a>
                     </div>
                 </li>
+
+                @Html.Action("Nav", "ZeroLayout", new { activeMenu = ViewBag.ActiveMenu })
             </ul>
         </div>
 
@@ -112,7 +114,8 @@
         //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
         var abp = abp || {}; abp.appPath = '@ApplicationPath';
     </script>
-    @Scripts.Render("~/bundles/js", "~/signalr/hubs")
+    @*@Scripts.Render("~/bundles/js", "~/signalr/hubs")*@
+    @Scripts.Render("~/bundles/js")
     @Scripts.Render("~/bundles/js2")
 
     <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->

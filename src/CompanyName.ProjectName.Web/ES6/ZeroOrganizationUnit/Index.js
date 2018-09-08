@@ -1,14 +1,91 @@
-﻿(function () {
+﻿var _configs = {
+    canAddRootOrganizationUnit: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.CanAddRootOrganizationUnit"),
+    canAddUserInStaticOrganizationUnit: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.CanAddUserInStaticOrganizationUnit"),
+    canAddChildOrganizationUnitInStaticOrganizationUnit: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.CanAddChildOrganizationUnitInStaticOrganizationUnit"),
+    enableOrganizationUnitManagement: abp.setting.getBoolean("Adbp.Zero.OrganizationSettings.EnableOrganizationUnitManagement")
+};
+
+var _controller = (function () {
+    let { canAddRootOrganizationUnit, canAddUserInStaticOrganizationUnit, enableOrganizationUnitManagement } = _configs;
+    return {
+        doInit: function () {
+            let enableButton = enableOrganizationUnitManagement ?
+                canAddRootOrganizationUnit ? true : false
+                : false;
+            if (enableButton) {
+                $("#btn-root_add").removeAttr("disabled");
+            }
+            else {
+                $("#btn-root_add").attr("disabled", "disabled");
+            }
+        },
+        toggleOrganizationPanel: function () {
+            var tree = $('#organization-jstree').data("adbp_jstree");
+            if (tree.isSingleSelected()) {
+                $(".organization-deselect").addClass("d-none");
+                $(".organization-select").removeClass("d-none");
+            }
+            else {
+                $(".organization-deselect").removeClass("d-none");
+                $(".organization-select").addClass("d-none");
+            }
+        },
+        toggle_addUserButton: function () {
+            let enableButton = true;
+            if (!enableOrganizationUnitManagement) {
+                enableButton = false; 
+            }
+            else {
+                if (canAddUserInStaticOrganizationUnit) {
+                    enableButton = true; //无论ou是否为静态, 都将启用
+                }
+                else {
+                    //单选,非静态才启用
+                    var tree = $('#organization-jstree').data("adbp_jstree");
+                    enableButton = tree.isSingleSelected && tree.singleSelected().isStatic === true;
+                }
+            }
+            if (enableButton) {
+                $("#btn-organization_addUser").removeAttr("disabled");
+            }
+            else {
+                $("#btn-organization_addUser").attr("disabled", "disabled");
+            }
+        }
+    };
+})();
+_controller.doInit();
+
+(function () {
+    let { canAddChildOrganizationUnitInStaticOrganizationUnit, enableOrganizationUnitManagement } = _configs;
 
     //init tree
-    let tree = new abp.jstree('#organization-jstree')
-        .useDefaultContextmenuItems();
+    let tree = new abp.jstree('#organization-jstree');
     tree.data = function () {
         return abp.ajax({
             url: '/api/services/app/organizationUnit/GetOrganizationUnits'
         });
-    }
+    };
+    tree.getTreeItem = function (dto) {
+        let text = dto.displayName;
+        if (dto.isStatic === true) {
+            text += `<span class="badge badge-danger ml-2">Static</span>`;
+        }
+        return {
+            ...dto,
+            id: dto.id,
+            parent: dto.parentId === null ? '#' : dto.parentId,
+            text: text
+
+        };
+    };
     tree.createNode = function (obj, parentId, newName) {
+        if (obj.instance.get_node(obj.parent).original.isStatic && !canAddChildOrganizationUnitInStaticOrganizationUnit) {
+            abp.notify.error("You can not add child OrganizationUnit In Static OrganizationUnit!");
+            return $.Deferred(function ($dfd) {
+                $dfd.reject();
+            });
+        }
         return abp.services.app.organizationUnit.createOrganizationUnit({
             DisplayName: newName,
             ParentId: parentId
@@ -18,33 +95,33 @@
         return abp.services.app.organizationUnit.deleteOrganizationUnit(id);
     };
     tree.renameNode = function (obj, id, newName) {
+        if (isNaN(id)) {
+            return;//不是数字, 则忽略
+        }
+        if (obj.node.original.isStatic) {
+            abp.notify.error("You can not rename Static OrganizationUnit Display Name!");
+            return $.Deferred(function ($dfd) {
+                $dfd.reject();
+            });
+        }
         return abp.services.app.organizationUnit.updateOrganizationUnit({
             DisplayName: newName,
             Id: id
         });
     };
     tree.changeNode = function () {
+        _controller.toggle_addUserButton();
+        _controller.toggleOrganizationPanel();
+
         if (this.isSingleSelected()) {
-            $(".organization-deselect").addClass("d-none");
-            $(".organization-select").removeClass("d-none");
             $("#organization-display").html(this.singleSelected().displayName);
-            if (this.singleSelected().isStatic) {
-                $("#btn-organization_addUser").attr("disabled", "disabled");
-            }
-            else {
-                $("#btn-organization_addUser").removeAttr("disabled");
-            }
             showMembers();
         }
-        else {
-            $(".organization-deselect").removeClass("d-none");
-            $(".organization-select").addClass("d-none");
-        }
-    }
+    };
     tree.show();
     //init table
     let table_members = new abp.table.server("#table-members", {
-        "order": [[0, "desc"]],
+        "order": [],
         "columnDefs": null,
         'ajax': {
             url: '/zeroorganizationUnit/jsonGetOrganizationUserOuputs',
@@ -57,7 +134,7 @@
         columns: [
             {
                 render: function (data, type, full, meta) {
-                    if ($('#organization-jstree').data("adbp_jstree").singleSelected().isStatic) {
+                    if (!enableOrganizationUnitManagement || full.IsStatic === true) {
                         return '';
                     }
                     return `<button class="btn btn-default btn-xs btn-member_remove" title="删除">
@@ -65,14 +142,21 @@
                             </button>`;
                 }
             },
-            { data: 'UserName' },
+            {
+                data: 'UserName', render: function (data, type, full, meta) {
+                    if (full.IsStatic === true) {
+                        data += `<span class="badge badge-danger ml-2">Static</span>`;
+                    }
+                    return data;
+                }
+            },
             { data: 'Name' },
             { data: 'Surname' },
             {
                 data: 'CreationTime', render: function (data, type, full, meta) {
                     return abp.timing.datetimeStr(data);
                 }
-            },
+            }
         ]
     }).setStyle("rtip");
 
@@ -112,7 +196,7 @@
             },
             { data: 'UserName' },
             { data: 'Name' },
-            { data: 'Surname' },
+            { data: 'Surname' }
         ]
     }).setStyle("rtip");
 
@@ -157,5 +241,5 @@ abp.event.on('adbp.formsubmitInitialized', function () {
     s.afterSubmit = function () {
         let tree = $("#organization-jstree").data("adbp_jstree");
         tree.show();
-    }
+    };
 });
