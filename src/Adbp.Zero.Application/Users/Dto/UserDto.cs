@@ -14,21 +14,12 @@ namespace Adbp.Zero.Users.Dto
     [AutoMapFrom(typeof(User))]
     public class UserDto : EntityDto<long>
     {
-        [Required]
-        [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
-
-        [Required]
-        [StringLength(AbpUserBase.MaxNameLength)]
+        
         public string Name { get; set; }
-
-        [Required]
-        [StringLength(AbpUserBase.MaxSurnameLength)]
+        
         public string Surname { get; set; }
-
-        [Required]
-        [EmailAddress]
-        [StringLength(AbpUserBase.MaxEmailAddressLength)]
+        
         public string EmailAddress { get; set; }
 
         public bool IsActive { get; set; }
@@ -40,5 +31,28 @@ namespace Adbp.Zero.Users.Dto
         public DateTime CreationTime { get; set; }
 
         public int[] RoleIds { get; set; }
+
+        public bool IsStatic { get; set; }
+
+        public DateTime? LastModificationTime { get; set; }
+
+
+        #region reserve fields
+        public virtual string Field1 { get; set; }
+        public virtual string Field2 { get; set; }
+        public virtual string Field3 { get; set; }
+        public virtual string Field4 { get; set; }
+        public virtual string Field5 { get; set; }
+        public virtual string Field6 { get; set; }
+        public virtual string Field7 { get; set; }
+        public virtual string Field8 { get; set; }
+        public virtual string Field9 { get; set; }
+        public virtual string Field10 { get; set; }
+        public virtual string Field11 { get; set; }
+        public virtual string Field12 { get; set; }
+        public virtual string Field13 { get; set; }
+        public virtual string Field14 { get; set; }
+        public virtual string Field15 { get; set; }
+        #endregion
     }
 }

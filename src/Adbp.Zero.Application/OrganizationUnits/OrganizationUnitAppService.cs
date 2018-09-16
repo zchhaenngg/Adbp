@@ -94,7 +94,7 @@ namespace Adbp.Zero.OrganizationUnits
                 throw new UserFriendlyException($"The suborganization { displayName } is duplicate!");
             }
 
-            entity = new OrganizationUnit { DisplayName = displayName, ParentId = input.ParentId };
+            entity = new ZeroOrganizationUnit { DisplayName = displayName, ParentId = input.ParentId };
             await _organizationUnitManager.CreateAsync(entity);
             await CurrentUnitOfWork.SaveChangesAsync();
             return Map<OrganizationUnitOutput>(entity);

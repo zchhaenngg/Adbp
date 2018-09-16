@@ -15,7 +15,14 @@
             render: function render(data, type, full, meta) {
                 return '';
             }
-        }, { data: 'UserName' }, { data: 'Surname' }, { data: 'Name' }, {
+        }, {
+            data: 'UserName', render: function render(data, type, full, meta) {
+                if (full.IsStatic) {
+                    data += "<span class=\"badge badge-danger ml-2\">Static</span>";
+                }
+                return data;
+            }
+        }, { data: 'Surname' }, { data: 'Name' }, {
             data: 'IsActive', render: function render(data, type, full, meta) {
                 return data ? "是" : "否";
             }
@@ -24,15 +31,9 @@
                 return abp.timing.datetimeStr(data);
             }
         }]
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_edit", function (e, dt, type, indexes) {
+    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_edit, #btn-userIndex_delete", function (e, dt, type, indexes) {
         if (dt.isSingleSelected()) {
-            $(this).removeAttr("disabled");
-        } else {
-            $(this).attr("disabled", true);
-        }
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_delete", function (e, dt, type, indexes) {
-        if (dt.isSingleSelected()) {
-            if (!dt.singleSelected().isStatic) {
+            if (!dt.singleSelected().IsStatic) {
                 $(this).removeAttr("disabled");
             } else {
                 $(this).attr("disabled", true);

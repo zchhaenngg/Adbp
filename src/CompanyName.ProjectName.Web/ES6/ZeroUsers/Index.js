@@ -15,7 +15,14 @@
                     return '';
                 }
             },
-            { data: 'UserName' },
+            {
+                data: 'UserName', render: function (data, type, full, meta) {
+                    if (full.IsStatic) {
+                        data += `<span class="badge badge-danger ml-2">Static</span>`;
+                    }
+                    return data;
+                }
+            },
             { data: 'Surname' },
             { data: 'Name' },
             {
@@ -27,18 +34,11 @@
                 data: 'CreationTime', render: function (data, type, full, meta) {
                     return abp.timing.datetimeStr(data);
                 }
-            },
+            }
         ]
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_edit", function (e, dt, type, indexes) {
+    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_edit, #btn-userIndex_delete", function (e, dt, type, indexes) {
         if (dt.isSingleSelected()) {
-            $(this).removeAttr("disabled");
-        }
-        else {
-            $(this).attr("disabled", true);
-        }
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_delete", function (e, dt, type, indexes) {
-        if (dt.isSingleSelected()) {
-            if (!dt.singleSelected().isStatic) {
+            if (!dt.singleSelected().IsStatic) {
                 $(this).removeAttr("disabled");
             }
             else {
@@ -91,6 +91,6 @@
                     table.show();
                 });
             }
-        })
+        });
     });
 })();

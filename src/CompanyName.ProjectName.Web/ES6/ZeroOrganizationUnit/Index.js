@@ -36,13 +36,12 @@ var _controller = (function () {
                 enableButton = false; 
             }
             else {
-                if (canAddUserInStaticOrganizationUnit) {
-                    enableButton = true; //无论ou是否为静态, 都将启用
-                }
-                else {
-                    //单选,非静态才启用
+                //不允许添加Static组织的用户时,有且仅有ou是Static时, 才禁用添加用户功能
+                if (!canAddUserInStaticOrganizationUnit) {
                     var tree = $('#organization-jstree').data("adbp_jstree");
-                    enableButton = tree.isSingleSelected && tree.singleSelected().isStatic === true;
+                    if (tree.isSingleSelected() && tree.singleSelected().isStatic === true) {
+                        enableButton = false;
+                    }
                 }
             }
             if (enableButton) {

@@ -1,9 +1,18 @@
-####【声明】本项目特别参考了[ABP](https://github.com/aspnetboilerplate/aspnetboilerplate)
-##### 在使用中发现了很多不理解以及一些实现不符合我期望的...所以开发了此项目...当然今后会继续参考的...
-
 # ASP.NET Dilrba Boilerplate
-### Theme http://themes.getbootstrap.com/preview/?theme_id=1696&show_new=
-### 导航菜单 https://ant.design/components/menu-cn/
+This is an ASP.NET Boilerplate module integrated with [ABP Module Zero](https://github.com/aspnetboilerplate/aspnetboilerplate)
+
+## Features
+- [Organization Unit](./doc/OrganizationUnit.md)
+- [Ldap](./doc/Ldap.md)
+- [Configuration](./doc/Configuration.md)
+- [Localization](./doc/Localization.md)
+- [Background Workers](./doc/Background-Wokers.md)
+- [Permission](./doc/Permission.md)
+- [Cron Expression](./doc/Cron.md)
+- [Init data](./doc/Init-data.md)
+- [Application Services](./doc/Application-Services.md)
+- [Notification](./doc/notification.md)
+- [js](./doc/adbp-js.md)
 
 #### API 
 #### $("#roleEditForm").resetForm() //清空表单
@@ -38,21 +47,18 @@
 1. 用户输入的业务数据, 只能逻辑删除不能物理删除
 2. 非业务数据, 如SysObjectSetting,管理员配置用户的数据访问条件, 应当物理删除, 反正有审计功能! 
 3. 搜索框支持个性化的命令操作  尚未实现！
-   自定义命令如：*@001* *@002*
    取值函数命令：
 	*>5* 
 	*<7* 
 	*>2017-05-01* 
 	*<2018-06-17*
 
-#### 第一阶段是自定义审批流程
-1. 组织结构 85% 排序等  业务，一个人只有一个组织结构和一个人可以有多个组织结构
-
-#### 第二阶段
-1. 菜单栏打开新页，应该是打开新的标签页，而不是修改本地页面
+# 自定义审批流程
+1. 组织结构的设计已完成
+2. 汇报关系的设定  0%
 
 
-#### 总结创建一个新的页面需要的操作步骤，以管理联系人为例。
+## 总结创建一个新的页面需要的操作步骤，以管理联系人为例。
 1. **...Core** Create Entity
   （实现统一接口FullAuditedTOEntity<long, User> 有租户有最终负责人）
 1. **...EntityFramework** 
@@ -65,14 +71,8 @@
 1. **...Web** Index View Create/edit/delete/Search 
 
 
-#### 产品
-1. 邮件告警  做的是产品
-1. 短信告警  做的是产品
-1. 微信告警  做的是产品
-
 #### todo
 1. 对日历控件的使用以及封装  
 1. 对时间控件的使用以及封装
 1. **...Web** Index View Create/edit/delete/Search  利用T4模板自动生成大部分代码，T4文件在/Models/T4
 1. 企业微信推送消息
-1. ISMonitor表设计

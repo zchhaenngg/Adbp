@@ -64,17 +64,23 @@
     </header>
 
     <div class="adbp-body">
-        <section class="adbp-body-left adbp-background">
-            <aside class="border-right">
-                @Html.Action("SideBarNav", "ZeroLayout", new { activeMenu = ViewBag.ActiveMenu })
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - CHENG.ZHANG</p>
-                </footer>
-            </aside>
-        </section>
-        <div class="adbp-body-content">
-            <div class="w-100">
-                @RenderBody()
+        <div class="d-flex flex-row">
+            <div class="p-2 adbp-background">
+                <section class="adbp-body-left">
+                    <aside>
+                        @Html.Action("SideBarNav", "ZeroLayout", new { activeMenu = ViewBag.ActiveMenu })
+                        <footer>
+                            <p>&copy; @DateTime.Now.Year - CHENG.ZHANG</p>
+                        </footer>
+                    </aside>
+                </section>
+            </div>
+            <div class="p-2 flex-fill">
+                <div class="adbp-body-content">
+                    <div class="w-100">
+                        @RenderBody()
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -123,6 +129,7 @@
     <script src="~/AbpScripts/GetScripts?v=@(Clock.Now.Ticks)" type="text/javascript"></script>
 
     <script type="text/javascript">
+        abp.libs.moment.useUtc = true;
         abp.localization.defaultSourceName = "ProjectName";
         window.L = abp.localization.localize;
     </script>

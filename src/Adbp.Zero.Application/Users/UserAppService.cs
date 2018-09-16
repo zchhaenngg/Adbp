@@ -143,7 +143,8 @@ namespace Adbp.Zero.Users
         public async Task<List<UserDto>> GetAgentsAsync()
         {
             var userId = AbpSession.GetUserId();
-            var users = await AsyncQueryableExecuter.ToListAsync(_loginAgentRepository.GetAll().Where(x => x.PrincipalId == userId).Select(x => x.Agent));
+            //`x.Agent != null`, to fix if the agent user is deleted.
+            var users = await AsyncQueryableExecuter.ToListAsync(_loginAgentRepository.GetAll().Where(x => x.PrincipalId == userId && x.Agent != null).Select(x => x.Agent));
             return users.Select(Map<UserDto>).ToList();
         }
     }

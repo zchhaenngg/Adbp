@@ -39,3 +39,10 @@ body {
 .adbp-date {
     cursor:pointer;
 }
+.navbar-dark .navbar-brand {
+    width: 200px;
+    text-align: center;
+}
+.bd-navbar.navbar-dark .navbar-nav .nav-link label {
+    margin-bottom: auto;
+}

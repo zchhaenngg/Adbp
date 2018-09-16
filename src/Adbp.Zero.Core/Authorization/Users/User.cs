@@ -27,7 +27,9 @@ namespace Adbp.Zero.Authorization.Users
             return Guid.NewGuid().ToString("N").Truncate(16);
         }
 
-        public string UserStr => $"{FullName}({UserName})";
+        public virtual bool IsStatic { get; set; } 
+
+        public virtual string UserStr => $"{FullName}({UserName})";
 
         [StringLength(255)]
         public virtual string Field1 { get; set; }

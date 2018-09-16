@@ -75,6 +75,7 @@
     <script src="~/AbpScripts/GetScripts?v=@(Clock.Now.Ticks)" type="text/javascript"></script>
 
     <script type="text/javascript">
+        abp.libs.moment.useUtc = true;
         abp.localization.defaultSourceName = "ProjectName";
         window.L = abp.localization.localize;
     </script>

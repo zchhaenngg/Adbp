@@ -1,20 +1,16 @@
-﻿.adbp-body {
+﻿/*.adbp-body {
     padding-right: 15px;
     position: relative;
     height: 100%;
-}
+}*/
 
 .adbp-body-left {
-    padding-left: 15px;
-    position: relative;
-    width: 250px;
-    height: 100%;
-    float: left;
+    min-width: 200px;
 }
 /*正文区域*/
-.adbp-body-content {
+/*.adbp-body-content {
     margin-left: 280px;
     padding-top: 30px;
     padding-left: 0;
     position: relative;
-}
+}*/
