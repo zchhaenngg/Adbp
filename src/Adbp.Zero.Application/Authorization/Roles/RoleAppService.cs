@@ -15,6 +15,7 @@ using Adbp.Zero.Users.Dto;
 using Abp.Authorization;
 using Adbp.Paging.Dto;
 using Adbp.Zero.SysObjectSettings;
+using Abp.Authorization.Roles;
 
 namespace Adbp.Zero.Authorization.Roles
 {
@@ -24,6 +25,7 @@ namespace Adbp.Zero.Authorization.Roles
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<UserRole, long> _userRoleRepository;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<RolePermissionSetting, long> _rolePermissionSettingRepository;
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
 
@@ -31,6 +33,8 @@ namespace Adbp.Zero.Authorization.Roles
             IRepository<User, long> userRepository,
             IRepository<UserRole, long> userRoleRepository,
             IRepository<Role> roleRepository,
+           IRepository<RolePermissionSetting, long> rolePermissionSettingRepository,
+
             UserManager userManager,
             RoleManager roleManager,
             SysObjectSettingManager sysObjectSettingManager
@@ -39,6 +43,7 @@ namespace Adbp.Zero.Authorization.Roles
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _roleRepository = roleRepository;
+            _rolePermissionSettingRepository = rolePermissionSettingRepository;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -55,15 +60,6 @@ namespace Adbp.Zero.Authorization.Roles
         {
             var role = ObjectMapper.Map<Role>(input);
             CheckErrors(await _roleManager.CreateAsync(role));
-
-            UnitOfWorkManager.Current.SaveChanges();
-
-            var grantedPermissions = PermissionManager
-               .GetAllPermissions()
-               .Where(p => input.Permissions?.Contains(p.Name) == true)
-               .ToList();
-
-            await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
         }
         
         protected virtual void CheckErrors(IdentityResult identityResult)
@@ -90,20 +86,8 @@ namespace Adbp.Zero.Authorization.Roles
         public virtual async Task UpdateRoleAsync(UpdateRoleDto input)
         {
             var role = await _roleManager.GetRoleByIdAsync(input.Id);
-            var name = role.Name;
             Map(input, role);
-            role.Name = name;
-
             CheckErrors(await _roleManager.UpdateAsync(role));
-            if (!role.IsStatic)
-            {
-                var grantedPermissions = PermissionManager
-                .GetAllPermissions()
-                .Where(p => input.Permissions?.Contains(p.Name) == true)
-                .ToList();
-
-                await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
-            }
         }
 
         [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Delete)]
@@ -155,6 +139,30 @@ namespace Adbp.Zero.Authorization.Roles
         public virtual async Task RemoveFromRoleAsync(long userId, int roleId)
         {
             await _userManager.RemoveFromRoleAsync(userId, roleId);
+        }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_Role_Update)]
+        public virtual async Task SetPermissionsAsync(SetPermissionsInput input)
+        {
+            var role = await _roleManager.GetRoleByIdAsync(input.Id);
+
+            var grantedPermissions = PermissionManager
+              .GetAllPermissions()
+              .Where(p => input.Permissions?.Contains(p.Name) == true)
+              .ToList();
+            await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
+        }
+
+        public async Task<List<RolePermissionDto>> GetRolePermissionDtosAsync(int roleId)
+        {
+            var entities = await _rolePermissionSettingRepository.GetAllListAsync(x => x.RoleId == roleId);
+            return entities.ConvertAll(x => new RolePermissionDto
+            {
+                RoleId = x.RoleId,
+                PermissionName = x.Name,
+                IsGranted = x.IsGranted,
+                IsStatic = (x as ZeroRolePermissionSetting).IsStatic
+            }).ToList();
         }
     }
 }

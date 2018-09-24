@@ -50,7 +50,7 @@
                 type: 'POST',
                 data: JSON.stringify(params)
             }).done(function () {
-                abp.notify.success("操作成功！");
+                abp.notify.success(L("SavedSuccessfully"));
                 $(_this._formSelector).resetForm();
                 _this.hideModal();
                 _this.refreshTable();

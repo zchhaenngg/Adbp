@@ -27,7 +27,5 @@ namespace Adbp.Zero.Authorization.Roles.Dto
         public bool IsStatic { get; set; }
 
         public DateTime? LastModificationTime { get; set; }
-
-        public List<string> Permissions { get; set; }
     }
 }

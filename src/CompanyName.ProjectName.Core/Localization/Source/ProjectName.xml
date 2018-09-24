@@ -15,66 +15,118 @@
     <!--bool类型的displayName-->
     <text name="BOOL_ISFEMALE_TRUE" value="Female" />
     <text name="BOOL_ISFEMALE_FALSE" value="Male" />
-    
-    <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
-    <text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
 
-   
+    <!--PermissionGroup-->
+    <text name="PERMISSIONGROUP_BUSINESS" value="Businesses"/>
+    <text name="PERMISSIONGROUP_SECURITY" value="Securities"/>
+    <text name="PERMISSIONGROUP_OU_USER" value="Organizations"/>
+    <text name="PERMISSIONGROUP_LOCALIZATION" value="Localizations"/>
+    <text name="PERMISSIONGROUP_NOTIFICATION" value="Notifications"/>
+    <text name="PERMISSIONGROUP_SETTING_LOG" value="Logs &amp; Settings"/>
 
-    <text name="NameSurname" value="Name surname" />
-    <text name="UserName" value="User name" />
-    <text name="Name" value="Name" />
-    <text name="Surname" value="Surname" />
-    <text name="EmailAddress" value="Email address" />
+    <!--操作-->
+    <text name="Actions" value="Actions" />
+    <text name="Create" value="New" />
+    <text name="Edit" value="Edit" />
+    <text name="Delete" value="Delete" />
 
-    <text name="Tenants" value="Tenants" />
-    <text name="SavedSuccessfully" value="Saved successfully" />
-    <text name="CreateNewTenant" value="Create new tenant" />
-    <text name="AdminEmailAddress" value="Admin email address" />
+    <!--Buttons-->
+    <text name="Back" value="Back"/>
     <text name="Save" value="Save" />
-    <text name="Cancel" value="Cancel" />
-    <text name="TenantName_Regex_Description" value="Tenant name must be at least 2 chars, starts with a letter and continue with letter, number, dash or underscore." />
-    <text name="DefaultPasswordIs" value="Default password is {0}" />
-    <text name="CanBeEmptyToLoginAsHost" value="Can be empty to login as host." />
-    <text name="Register" value="Register" />
-    <text name="OrLoginWith" value="Or login with" />
-    <text name="WaitingForActivationMessage" value="Your account is waiting to be activated by system admin." />
-    <text name="TenantSelection" value="Tenant Selection" />
-    <text name="TenantSelection_Detail" value="Please select one of the following tenants." />
+    <text name="Cancel" value="Cancel"/>
+    <text name="Change" value="Change" />
+    <text name="ChangeTenant" value="Change tenant" />
     <text name="Logout" value="Logout" />
+    <text name="Register" value="Register" />
 
-    <text name="RegisterFormUserNameInvalidMessage">Please dont enter an email address for username.</text>
-
-    <text name="DatabaseConnectionString" value="Database connection string" />
-    <text name="Users" value="Users" />
-    <text name="IsActive" value="Is active" />
-    <text name="FullName" value="Full name" />
-    <text name="CreateNewUser" value="Create new user" />
+    <!--通用-->
     <text name="Yes" value="Yes" />
     <text name="No" value="No" />
     <text name="Optional" value="Optional" />
-    <text name="LeaveEmptyToSwitchToHost">Leave empty to switch to the host</text>
-
-    <text name="CurrentTenant">Current tenant</text>
-    <text name="NotSelected">Not selected</text>
-    <text name="Change">Change</text>
-    <text name="ChangeTenant">Change tenant</text>
-
-    <text name="MultiLevelMenu">Multi Level Menu</text>
-    <text name="Back">Back</text>
-    <text name="SuccessfullyRegistered">Successfully registered</text>
-    <text name="WaitingForEmailActivation">Your email address should be activated</text>
-    <text name="Roles">Roles</text>
-
-    <text name="Actions">Actions</text>
-    <text name="RoleName">Role Name</text>
-    <text name="DisplayName">Display Name</text>
-    <text name="CreateNewRole">Create New Role</text>
-    <text name="EditRole">Edit Role</text>
-    <text name="EditUser">Edit User</text>
-    <text name="Edit">Edit</text>
-    <text name="Delete">Delete</text>
-
+    <text name="DisplayName" value="Display Name"/>
+    <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
+    <text name="SavedSuccessfully" value="Saved successfully" />
+    <text name="NotSelected" value="Not selected"/>
+    <text name="CreationTime" value="Creation Time"/>
+    <text name="LastModificationTime" value="Last Modification Time"/>
+    <text name="Description" value="Description"/>
+    <text name="AreYouSureToDelete" value="Are you sure to delete?"/>
+    <text name="OccurrenceTime" value="Occurrence Time"/>
+    <text name="Operator" value="Operator"/>
+    <text name="Result" value="Result"/>
     
+    <!--配置-->
+    <text name="DatabaseConnectionString" value="Database connection string" />
+    
+    <!--租户-->
+    <text name="Tenants" value="Tenants" />
+    <text name="CreateNewTenant" value="Create new tenant" />
+    <text name="CurrentTenant" value="Current tenant" />
+    <text name="SuccessfullyRegistered" value="Successfully registered"/>
+    <text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
+    <text name="TenantName_Regex_Description" value="Tenant name must be at least 2 chars, starts with a letter and continue with letter, number, dash or underscore." />
+    <text name="TenantSelection" value="Tenant Selection" />
+    <text name="TenantSelection_Detail" value="Please select one of the following tenants." />
+    <text name="LeaveEmptyToSwitchToHost" value="Leave empty to switch to the host"/>
+
+    <!--用户-->
+    <text name="Users" value="Users" />
+    <text name="Name" value="First Name" />
+    <text name="IsActive" value="Is active" />
+    <text name="FullName" value="Full name" />
+    <text name="NameSurname" value="Name surname" />
+    <text name="UserName" value="User name" />
+    <text name="Surname" value="Last Name" />
+    <text name="EmailAddress" value="Email address" />
+    
+    <text name="ChangePassword" value="Change password"/>
+    <text name="CurrentPassword" value="Current password"/>
+    <text name="NewPassword" value="New password"/>
+    <text name="LoginHistory" value="Login History"/>
+    <text name="UserDetails" value="User Details" />
+    <text name="UserRoles" value="User Roles" />
+    <text name="RegisterFormUserNameInvalidMessage" vaule="Please dont enter an email address for username."/>
+    <text name="WaitingForEmailActivation" value="Your email address should be activated" />
+    <text name="AdminEmailAddress" value="Admin email address" />
+    <text name="DefaultPasswordIs" value="Default password is {0}" />
+    <text name="CanBeEmptyToLoginAsHost" value="Can be empty to login as host." />
+    <text name="OrLoginWith" value="Or login with" />
+    <text name="WaitingForActivationMessage" value="Your account is waiting to be activated by system admin." />
+    
+    <!--角色-->
+    <text name="Roles" value="Roles" />
+    <text name="RoleName" value="Role Name" />
+    <text name="RoleMember" value="Member Of Role" />
+    <text name="SelectARole" value="Select a Role" />
+    
+    <!--组织机构-->
+    <text name="OrganizationUnit" value="Organization"/>
+    <text name="OrganizationUnitOrUserGroup" value="Org. or User Group"/>
+    <text name="OrganizationUnitTree" value="Organization Tree"/>
+    <text name="AddRootOrganizationUnit" value="Add root OrganizationUnit"/>
+    <text name="OrganizationUnitMember" value="Org. Member"/>
+    <text name="SelectAOrganizationUnit" value="Select an Org."/>
+    <text name="AddAMemberOfOrganizationUnit" value="add a member Of Org."/>
+    <text name="AddMemberTime" value="Adding Time"/>
+    <text name="MoveUserFromOrganizationUnit" value="Are you sure to remove user {0} from org {1}?" />
+    <text name="SelectUsersToAddInOrg" value="Select Users"/>
+    
+    <!--通知-->
+    <text name="Notifications" value="Notifications"/>
+    
+    <!--审计日志-->
+    <text name="Service" value="Service"/>
+    <text name="Method" value="Method"/>
+    <text name="Params" value="Params"/>
+    <text name="Duration" value="Duration"/>
+    <text name="IpAddress" value="Ip"/>
+    <text name="Client" value="Client"/>
+    <text name="Browser" value="Browser"/>
+    <text name="Exception" value="Exception"/>
+
+    <!--系统设置-->
+    <text name="Settings" value="Settings"/>
+    <text name="Securities" value="Securities"/>
+    <text name="LDAPMail" value="LDAP &amp; Mail"/>
   </texts>
 </localizationDictionary>

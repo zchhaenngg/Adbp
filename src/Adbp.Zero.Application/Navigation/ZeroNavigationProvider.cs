@@ -23,7 +23,6 @@ namespace Adbp.Zero.Navigation
         protected virtual IEnumerable<MenuItemDefinition> GetPersonalPortalMenuItemDefinitions()
         {
             yield return new MenuItemDefinition(ZeroPageNames.Home, L("MENU_HomePage"), url: "", icon: "home", requiredPermissionName: ZeroPermissionNames.Permissions_Home);
-            yield return new MenuItemDefinition(ZeroPageNames.Dev, L("MENU_Dev"), url: "/ZeroDev/index", icon: "code");
         }
 
         protected virtual IEnumerable<MenuItemDefinition> GetAdministrationMenuItemDefinitions()

@@ -16,42 +16,117 @@
     <text name="BOOL_ISFEMALE_TRUE" value="女" />
     <text name="BOOL_ISFEMALE_FALSE" value="男" />
 
-    <text name="FormIsNotValidMessage" value="部分输入信息不符合要求,请检查并改正." />
-    <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
+    <!--PermissionGroup-->
+    <text name="PERMISSIONGROUP_BUSINESS" value="业务"/>
+    <text name="PERMISSIONGROUP_SECURITY" value="安全性"/>
+    <text name="PERMISSIONGROUP_OU_USER" value="组织"/>
+    <text name="PERMISSIONGROUP_LOCALIZATION" value="本地化"/>
+    <text name="PERMISSIONGROUP_NOTIFICATION" value="通知"/>
+    <text name="PERMISSIONGROUP_SETTING_LOG" value="日志 &amp; 设置"/>
 
+    <!--操作-->
+    <text name="Actions" value="操作" />
+    <text name="Create" value="新建" />
+    <text name="Edit" value="编辑" />
+    <text name="Delete" value="删除" />
 
-
-    <text name="NameSurname" value="名 姓" />
-    <text name="UserName" value="用户名" />
-    <text name="Name" value="名" />
-    <text name="Surname" value="姓" />
-    <text name="EmailAddress" value="邮箱地址" />
-
-    <text name="Tenants" value="租户" />
-    <text name="SavedSuccessfully" value="保存成功" />
-    <text name="CreateNewTenant" value="创建新租户" />
-    <text name="AdminEmailAddress" value="管理员邮箱地址" />
+    <!--Buttons-->
+    <text name="Back" value="退回"/>
     <text name="Save" value="保存" />
-    <text name="Cancel" value="取消" />
-    <text name="TenantName_Regex_Description" value="租户名至少2个字符,以字母开头后跟字母,数字,横线或下划线." />
-    <text name="DefaultPasswordIs" value="默认密码为 {0}" />
-    <text name="CanBeEmptyToLoginAsHost" value="留空以主租户登录." />
-    <text name="Register" value="注册" />
-    <text name="OrLoginWith" value="其他登录方式" />
-    <text name="WaitingForActivationMessage" value="你的帐户正在等待管理员激活." />
-    <text name="TenantSelection" value="租户选择" />
-    <text name="TenantSelection_Detail" value="请选择其中一个租户." />
+    <text name="Cancel" value="取消"/>
+    <text name="Change" value="切换"/>
+    <text name="ChangeTenant" value="切换租户" />
     <text name="Logout" value="注销" />
+    <text name="Register" value="注册" />
 
-    <text name="RegisterFormUserNameInvalidMessage">请不要在用户名中输入邮箱地址.</text>
-
-    <text name="DatabaseConnectionString" value="数据库连接串" />
-    <text name="Users" value="用户" />
-    <text name="IsActive" value="是否激活" />
-    <text name="FullName" value="姓名" />
-    <text name="CreateNewUser" value="创建新用户" />
+    <!--通用-->
     <text name="Yes" value="是" />
     <text name="No" value="否" />
     <text name="Optional" value="可选的" />
+    <text name="DisplayName" value="显示名称"/>
+    <text name="FormIsNotValidMessage" value="部分输入信息不符合要求,请检查并改正." />
+    <text name="SavedSuccessfully" value="保存成功" />
+    <text name="NotSelected" value="没选中"/>
+    <text name="CreationTime" value="创建时间"/>
+    <text name="LastModificationTime" value="最近修改时间"/>
+    <text name="Description" value="备注"/>
+    <text name="AreYouSureToDelete" value="您确定执行删除操作吗?"/>
+    <text name="OccurrenceTime" value="发生时间"/>
+    <text name="Operator" value="操作者"/>
+    <text name="Result" value="结果"/>
+    
+    <!--配置-->
+    <text name="DatabaseConnectionString" value="数据库连接串" />
+
+    <!--租户-->
+    <text name="Tenants" value="租户" />
+    <text name="CreateNewTenant" value="创建新租户" />
+    <text name="CurrentTenant" value="当前租户" />
+    <text name="SuccessfullyRegistered" value="成功注册"/>
+    <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
+    <text name="TenantName_Regex_Description" value="租户名至少2个字符,以字母开头后跟字母,数字,横线或下划线." />
+    <text name="TenantSelection" value="租户选择" />
+    <text name="TenantSelection_Detail" value="请选择其中一个租户." />
+    <text name="LeaveEmptyToSwitchToHost" value="Leave empty to switch to the host"/>
+
+    <!--用户-->
+    <text name="Users" value="用户" />
+    <text name="Name" value="名" />
+    <text name="IsActive" value="是否激活" />
+    <text name="FullName" value="姓名" />
+    <text name="NameSurname" value="名 姓" />
+    <text name="UserName" value="用户名" />
+    <text name="Surname" value="姓" />
+    <text name="EmailAddress" value="邮箱地址" />
+
+    <text name="ChangePassword" value="修改密码"/>
+    <text name="CurrentPassword" value="旧密码"/>
+    <text name="NewPassword" value="新密码"/>
+    <text name="LoginHistory" value="登陆历史"/>
+    <text name="UserDetails" value="用户信息" />
+    <text name="UserRoles" value="用户角色" />
+    <text name="RegisterFormUserNameInvalidMessage" vaule="请不要在用户名中输入邮箱地址"/>
+    <text name="WaitingForEmailActivation" value="您的邮箱需要激活" />
+    <text name="AdminEmailAddress" value="管理员邮箱地址" />
+    <text name="DefaultPasswordIs" value="默认密码为 {0}" />
+    <text name="CanBeEmptyToLoginAsHost" value="留空以主租户登录." />
+    <text name="OrLoginWith" value="其他登录方式" />
+    <text name="WaitingForActivationMessage" value="你的帐户正在等待管理员激活." />
+
+    <!--角色-->
+    <text name="Roles" value="角色" />
+    <text name="RoleName" value="角色名称" />
+    <text name="RoleMember" value="角色成员" />
+    <text name="SelectARole" value="选择一个角色" />
+
+    <!--组织机构-->
+    <text name="OrganizationUnit" value="组织机构"/>
+    <text name="OrganizationUnitOrUserGroup" value="组织机构或用户组"/>
+    <text name="OrganizationUnitTree" value="组织机构树"/>
+    <text name="AddRootOrganizationUnit" value="添加根组织"/>
+    <text name="OrganizationUnitMember" value="组织成员"/>
+    <text name="SelectAOrganizationUnit" value="选择一个组织成员"/>
+    <text name="AddAMemberOfOrganizationUnit" value="添加成员"/>
+    <text name="AddMemberTime" value="添加时间"/>
+    <text name="MoveUserFromOrganizationUnit" value="您确定从组织机构 {1} 中移除用户 {0}?" />
+    <text name="SelectUsersToAddInOrg" value="选择用户"/>
+
+    <!--通知-->
+    <text name="Notifications" value="通知"/>
+
+    <!--审计日志-->
+    <text name="Service" value="服务"/>
+    <text name="Method" value="方法"/>
+    <text name="Params" value="参数"/>
+    <text name="Duration" value="持续时间"/>
+    <text name="IpAddress" value="Ip"/>
+    <text name="Client" value="客户端"/>
+    <text name="Browser" value="浏览器"/>
+    <text name="Exception" value="异常"/>
+
+    <!--系统设置-->
+    <text name="Settings" value="设置"/>
+    <text name="Securities" value="安全"/>
+    <text name="LDAPMail" value="域账户 &amp; 邮箱"/>
   </texts>
 </localizationDictionary>

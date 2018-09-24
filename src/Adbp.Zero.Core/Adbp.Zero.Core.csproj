@@ -188,6 +188,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authorization\Roles\ZeroRolePermissionSetting.cs" />
     <Compile Include="Authorization\Users\LoginAgent.cs" />
     <Compile Include="Emails\Email.cs" />
     <Compile Include="Notifications\ZeroNotificationNames.cs" />

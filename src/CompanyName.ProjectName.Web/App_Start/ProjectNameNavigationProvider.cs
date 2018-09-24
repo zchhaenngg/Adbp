@@ -16,10 +16,6 @@ namespace CompanyName.ProjectName.Web.App_Start
         {
             foreach (var item in base.GetPersonalPortalMenuItemDefinitions())
             {
-                if (item.Name == ZeroPageNames.Dev)
-                {
-                    continue;
-                }
                 yield return item;
             }
             yield return new MenuItemDefinition(ProjectNamePageNames.Guests, L("MENU_Guests"), url: "/guests/index", icon: "people", requiredPermissionName: ProjectNamePermissionNames.Permissions_Guest);

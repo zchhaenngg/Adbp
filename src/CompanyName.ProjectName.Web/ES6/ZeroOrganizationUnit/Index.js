@@ -136,7 +136,7 @@ _controller.doInit();
                     if (!enableOrganizationUnitManagement || full.IsStatic === true) {
                         return '';
                     }
-                    return `<button class="btn btn-default btn-xs btn-member_remove" title="删除">
+                    return `<button class="btn btn-default btn-xs btn-member_remove" title="${L("Delete")}">
                              <i class="fa fa-times" aria-hidden="true"></i>
                             </button>`;
                 }
@@ -164,10 +164,11 @@ _controller.doInit();
             $("#table-members .btn-member_remove").off("click").on("click", function () {
                 let data = table_members.find($(this).closest("tr"));
                 console.log(data);
-                abp.message.confirm(`您确定要将用户 ${data.Surname}${data.Name}(${data.UserName}) 从组织 ${data.OrganizationUnitName} 中移除吗？`).done(function (ok) {
+                let msg = L("MoveUserFromOrganizationUnit", abp.localization.defaultSourceName, `${data.Surname}${data.Name}(${data.UserName})`, data.OrganizationUnitName);
+                abp.message.confirm(msg).done(function (ok) {
                     if (ok) {
                         abp.services.app.organizationUnit.deleteOrganizationUnitUser(data.OrganizationUnitId, data.Id).done(function (rslt) {
-                            abp.notify.success("操作成功");
+                            abp.notify.success(L("SavedSuccessfully"));
                             showMembers();
                         });
                     }
@@ -210,7 +211,7 @@ _controller.doInit();
             };
         });
         abp.services.app.organizationUnit.addOrganizationUnitUsers(data).done(function (rslt) {
-            abp.notify.success("操作成功");
+            abp.notify.success(L("SavedSuccessfully"));
             $("#organization-modal_addUser").modal("hide");
             showMembers();
         });

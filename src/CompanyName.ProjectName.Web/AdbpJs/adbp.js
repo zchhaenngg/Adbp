@@ -34,11 +34,11 @@
          */
         FormSubmit.prototype.data = function (params) {
 
-        }
+        };
 
         FormSubmit.prototype.afterSubmit = function () {
 
-        }
+        };
 
         FormSubmit.prototype.submit = function (action) {
             if (this._beforeSubmit() === false) {
@@ -52,25 +52,25 @@
                 type: 'POST',
                 data: JSON.stringify(params)
             }).done(function () {
-                abp.notify.success("操作成功！");
+                abp.notify.success(L("SavedSuccessfully"));
                 $(_this._formSelector).resetForm();
                 _this.hideModal();
                 _this.refreshTable();
             }).done(function () {
                 _this.afterSubmit();
             });
-        }
+        };
 
         FormSubmit.prototype.hideModal = function () {
             $(this._formSelector).closest(".modal").modal("hide");
-        }
+        };
 
         FormSubmit.prototype._showBsModal = function () {
             //let _this = this;
             //$(this._formSelector).closest(".modal").on("show.bs.modal", function () {
             //    $(_this._formSelector).resetForm();
             //});
-        }
+        };
 
         FormSubmit.prototype.refreshTable = function () {
             if (!this._dtSelector) {
@@ -78,7 +78,7 @@
             }
             var dt = abp.table.datatable(this._dtSelector);//根据selector获取dt
             dt.show();
-        }
+        };
 
         return FormSubmit;
     })();
@@ -149,16 +149,16 @@
         return String(str).replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/[<>"'\/ &]/g, function (s) {
             return entityMap[s];
         });
-    }
+    };
 
     abp.maxDisplay = function (str, maxLength, suffix) {
         if (!str) {
             return "";
         }
-        suffix = suffix || ""; 
+        suffix = suffix || "";
         return str.length <= maxLength ? str :
             str.substring(0, maxLength - suffix.length) + suffix;
-    }
+    };
 
 })(jQuery);
 /*
@@ -198,7 +198,7 @@ $(function () {
                     params[name] = params[name][0];
                 }
             });
-        }
+        };
     });
 
     $(".adbp-formSubmit").on("click", function () {

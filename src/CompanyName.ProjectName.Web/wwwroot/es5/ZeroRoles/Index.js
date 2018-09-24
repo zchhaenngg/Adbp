@@ -1,14 +1,31 @@
 "use strict";
 
 (function () {
-    //index页面
-    var selector = {
-        roleTable: "#rolesIndex-table",
-        createModal: "#RoleCreateModal",
-        createForm: "#roleCreateForm"
-    };
 
-    window.table = new abp.table.client(selector.roleTable, {
+    function initEditModal(_ref) {
+        var id = _ref.id,
+            name = _ref.name,
+            displayName = _ref.displayName,
+            description = _ref.description,
+            isStatic = _ref.isStatic;
+
+        $("#roleEditForm").resetForm();
+
+        $("#roleEditForm [name=Id]").val(id);
+        $("#roleEditForm [name=IsStatic]").val(isStatic);
+
+        $("#roleEditForm [name=Name]").val(name);
+        $("#roleEditForm [name=DisplayName]").val(displayName);
+        $("#roleEditForm [name=Description]").val(description);
+
+        if (isStatic) {
+            $("#roleEditForm [name=Name]").prop("disabled", true);
+        } else {
+            $("#roleEditForm [name=Name]").removeAttr("disabled");
+        }
+    }
+
+    var table = new abp.table.client("#rolesIndex-table", {
         "order": [[3, "desc"]],
         columns: [{
             render: function render(data, type, full, meta) {
@@ -26,101 +43,106 @@
                 return abp.timing.datetimeStr(data);
             }
         }]
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-roleIndex_edit", function (e, dt, type, indexes) {
-        if (dt.isSingleSelected()) {
-            $(this).removeAttr("disabled");
-        } else {
-            $(this).attr("disabled", true);
-        }
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-roleIndex_delete", function (e, dt, type, indexes) {
-        if (dt.isSingleSelected()) {
-            if (!dt.singleSelected().isStatic) {
-                $(this).removeAttr("disabled");
-            } else {
-                $(this).attr("disabled", true);
-            }
-        } else {
-            $(this).attr("disabled", true);
-        }
+    }).contact(["draw.dt", "select.dt", "deselect.dt"], "", function (e, dt, type, indexes) {
+        controllers.edit(e, dt, type, indexes);
+        controllers.delete(e, dt, type, indexes);
+        controllers.toggle(e, dt, type, indexes);
+        controllers.permissions(e, dt, type, indexes);
     });
     table.data = function () {
         return abp.ajax({
             url: '/zeroRoles/GetRoles'
         });
     };
-    table.show();
 
-    $(selector.createModal).on("show.bs.modal", function () {
-        $(selector.createForm).resetForm();
-    });
+    var controllers = {
+        doInit: function doInit() {
+            //render table
+            table.show();
 
-    $('#table-search').on('keyup', function () {
-        table.search(this.value);
-    });
+            $("#RoleCreateModal").on("show.bs.modal", function () {
+                $(this).resetForm();
+            });
 
-    function initEditModal(_ref) {
-        var id = _ref.id,
-            name = _ref.name,
-            displayName = _ref.displayName,
-            description = _ref.description,
-            permissions = _ref.permissions,
-            isStatic = _ref.isStatic;
+            $("#RoleEditModal").on("show.bs.modal", function () {
+                $(this).resetForm();
 
-        $("#roleEditForm").resetForm();
+                var dt = $("#rolesIndex-table").data("adbp_dt");
+                var row = dt.singleSelected();
+                initEditModal(row);
+            });
 
-        $("#roleEditForm [name=Id]").val(id);
-        $("#roleEditForm [name=Name]").val(name);
-        $("#roleEditForm [name=DisplayName]").val(displayName);
-        $("#roleEditForm [name=Description]").val(description);
-        if (permissions != null) {
-            for (var i in permissions) {
-                $("#roleEditForm [name=Permissions][value='" + permissions[i] + "']").prop("checked", true);
+            $('#table-search').on('keyup', function () {
+                table.search(this.value);
+            });
+
+            $("#btn-roleIndex_delete").on("click", function () {
+                abp.message.confirm('', L("AreYouSureToDelete")).done(function (value) {
+                    if (value) {
+                        var dt = $("#rolesIndex-table").data("adbp_dt");
+                        var row = dt.singleSelected();
+                        abp.services.app.role.delete(row.id).done(function () {
+                            abp.notify.success(L("SavedSuccessfully"));
+                            table.show();
+                        });
+                    }
+                });
+            });
+        },
+        disable: function disable(dt, selector, permission) {
+            if (abp.auth.isGranted(permission) && dt.isSingleSelected()) {
+                $(selector).removeAttr("disabled");
+            } else {
+                $(selector).attr("disabled", true);
             }
-        }
-        if (isStatic) {
-            $("#roleEditForm [name=Permissions]").attr("disabled", true);
-        } else {
-            $("#roleEditForm [name=Permissions]").removeAttr("disabled");
-        }
-    }
+        },
+        edit: function edit(e, dt, type, indexes) {
+            controllers.disable(dt, "#btn-roleIndex_edit", "Permissions.Role.Update");
+        },
+        delete: function _delete(e, dt, type, indexes) {
+            controllers.disable(dt, "#btn-roleIndex_delete", "Permissions.Role.Delete");
+        },
+        toggle: function toggle(e, dt, type, indexes) {
+            if (dt.isSingleSelected()) {
+                $(".role-select").removeClass("d-none");
+                $(".role-deselect").addClass("d-none");
+            } else {
+                $(".role-select").addClass("d-none");
+                $(".role-deselect").removeClass("d-none");
+            }
+        },
+        permissions: function permissions(e, dt, type, indexes) {
+            var $container = $(".accordionPermissions");
+            $container.resetForm();
+            $container.find("[name=Permissions]").removeAttr("disabled");
+            $container.find("span.badge").html("");
 
-    $("#btn-roleIndex_edit").on("click", function () {
-        var row = window.table.singleSelected();
-        initEditModal(row);
-        $("#RoleEditModal").modal("show");
-    });
+            if (dt.isSingleSelected()) {
+                var _dt$singleSelected = dt.singleSelected(),
+                    id = _dt$singleSelected.id;
 
-    $("#btn-roleIndex_delete").on("click", function () {
-        abp.message.confirm('', "确认删除角色！").done(function (value) {
-            if (value) {
-                var row = window.table.singleSelected();
-                abp.services.app.role.delete(row.id).done(function () {
-                    abp.notify.success("操作成功！");
-                    table.show();
+                $container.find("[name=Id]").val(id);
+
+                abp.services.app.role.getRolePermissionDtos(id).done(function (items) {
+                    for (var i in items) {
+                        var _items$i = items[i],
+                            isGranted = _items$i.isGranted,
+                            isStatic = _items$i.isStatic,
+                            permissionName = _items$i.permissionName;
+
+                        var $permission = $container.find("[name=Permissions][value='" + permissionName + "']");
+                        if (isGranted) {
+                            $permission.prop("checked", true);
+                        }
+                        if (isStatic) {
+                            $permission.prop("disabled", true);
+                            $permission.next().find("span.badge").html("Static");
+                        }
+                    }
                 });
             }
-        });
-    });
-
-    $(selector.createForm).abpAjaxForm(function () {
-        $(selector.createForm).resetForm();
-        $(selector.createModal).modal("hide");
-
-        abp.notify.success("操作成功！");
-        table.show();
-    });
-    $("#btn-editForm_submit").on("click", function () {
-        if (abp.isDispatched(this, "click")) {
-            return;
         }
-        if (abp.validate("#roleEditForm") === false) {
-            return false;
-        }
-        var role = $("#roleEditForm").deserialize();
-        abp.services.app.role.updateRole(role).done(function () {
-            $("#RoleEditModal").modal("hide");
-            abp.notify.success("操作成功！");
-            table.show();
-        });
-    });
+    };
+
+    controllers.doInit();
 })();

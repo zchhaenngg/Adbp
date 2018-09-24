@@ -34,11 +34,8 @@ namespace Adbp.Zero.MVC.Controllers
         }
 
         [ChildActionOnly]
-        public async Task<PartialViewResult> PermissionsSelection(string identifier, string[] groupNames)
+        public async Task<PartialViewResult> PermissionsSelection()
         {
-            ViewBag.GroupNames = groupNames;
-            ViewBag.Identifier = identifier;
-
             var list = await _roleAppService.GetAllPermissions();
             return PartialView("_PermissionsSelection", list);
         }

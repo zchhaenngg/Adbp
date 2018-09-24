@@ -49,31 +49,31 @@
             <hr />
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">UserName</label>
+                <label class="col-sm-2 col-form-label">@L("UserName")</label>
                 <div class="col-sm-10">
-                    <input type="text" name="UsernameOrEmailAddress" data-vd="{name:'Username', r:true, maxL:100}" class="form-control" aria-describedby="emailHelp" placeholder="@L("UserNameOrEmail")">
+                    <input type="text" name="UsernameOrEmailAddress" data-vd="{name:'Username', r:true, maxL:100}" class="form-control"  placeholder="@Ls("AdbpZero", "UserNameOrEmail")">
                 </div>
                 <div class="col-sm-12">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Password</label>
+                <label class="col-sm-2 col-form-label">@Ls("AdbpZero", "Password")</label>
                 <div class="col-sm-10">
-                    <input name="Password" type="password" class="form-control" placeholder="@L("Password")">
+                    <input name="Password" type="password" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10 ">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" name="RememberMe" value="true" id="rememberme">
-                        <label class="custom-control-label" for="rememberme">@L("RememberMe")</label>
+                        <label class="custom-control-label" for="rememberme">@Ls("AdbpZero", "RememberMe")</label>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary" style="background-color: #00485E;">@L("LogIn")</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #00485E;">@Ls("AdbpZero", "LogIn")</button>
                 </div>
             </div>
         </form>

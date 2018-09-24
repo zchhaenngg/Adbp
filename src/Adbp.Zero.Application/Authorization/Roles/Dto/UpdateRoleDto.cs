@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization.Roles;
 using Abp.AutoMapper;
+using Abp.Runtime.Validation;
 
 namespace Adbp.Zero.Authorization.Roles.Dto
 {
     [AutoMap(typeof(Role))]
-    public class UpdateRoleDto : EntityDto<int>
+    public class UpdateRoleDto : EntityDto<int>, ICustomValidate
     {
-        [Required]
         [StringLength(AbpRoleBase.MaxNameLength)]
         public string Name { get; set; }
 
@@ -23,6 +23,18 @@ namespace Adbp.Zero.Authorization.Roles.Dto
 
         [StringLength(Role.MaxDescriptionLength)]
         public string Description { get; set; }
-        public List<string> Permissions { get; set; }
+
+        public bool IsStatic { get; set; }
+
+        public void AddValidationErrors(CustomValidationContext context)
+        {
+            if (!IsStatic)
+            {
+                if (string.IsNullOrWhiteSpace(Name))
+                {
+                    context.Results.Add(new ValidationResult("Role name is required!"));
+                }
+            }
+        }
     }
 }

@@ -195,6 +195,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authorization\Roles\Dto\RolePermissionDto.cs" />
+    <Compile Include="Authorization\Roles\Dto\SetPermissionsInput.cs" />
     <Compile Include="BackgroundWorkers\EmailWorker.cs" />
     <Compile Include="Configuration\Dto\SettingDefinitionOutput.cs" />
     <Compile Include="Configuration\Dto\SettingValueInput.cs" />

@@ -17,16 +17,10 @@
     @RenderSection("styles", required: false)
 </head>
 <body>
-    <header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
         <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="ADBP">ADBP</a>
         <div class="navbar-nav-scroll">
             <ul class="navbar-nav bd-navbar-nav flex-row">
-                <li class="nav-item">
-                    <a class="nav-link " href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/">Documentation</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Bootstrap v4.1.x
@@ -53,11 +47,11 @@
                     <i class="material-icons">account_circle</i>
                 </a>
                 <div role="menu" class="dropdown-menu dropdown-menu-right" style="z-index: 99999;">
-                    <a class="dropdown-item" href="/ZeroAnalasy/SelfLogins">登录记录</a>
-                    <a class="dropdown-item" href="/ZeroNotifications/Index">阅读通知</a>
+                    <a class="dropdown-item" href="/ZeroAnalasy/SelfLogins">@L("LoginHistory")</a>
+                    <a class="dropdown-item" href="/ZeroNotifications/Index">@L("Notifications")</a>
                     <hr />
-                    <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#layout-modal_changePassword">修改密码</a>
-                    <a class="dropdown-item" href="/ZeroAccount/Logout">注销</a>
+                    <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#layout-modal_changePassword">@L("ChangePassword")</a>
+                    <a class="dropdown-item" href="/ZeroAccount/Logout">@L("Logout")</a>
                 </div>
             </li>
         </ul>
@@ -90,20 +84,20 @@
                 <form action="api/services/app/account/changePassword">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            <span>修改密码</span>
+                            <span>@L("ChangePassword")</span>
                         </h5>
                     </div>
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label adbp-mask">当前密码</label>
+                            <label class="col-sm-4 col-form-label adbp-mask">@L("CurrentPassword")</label>
                             <div class="col-sm-8">
-                                <input type="password" name="CurrentPassword" data-vd="{name:'password', r:true, minL:6, maxL: 40}" class="form-control" placeholder="当前密码">
+                                <input type="password" name="CurrentPassword" data-vd="{name:'@L("CurrentPassword")', r:true, minL:6, maxL: 32}" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label adbp-mask">新密码</label>
+                            <label class="col-sm-4 col-form-label adbp-mask">@L("NewPassword")</label>
                             <div class="col-sm-8">
-                                <input type="password" name="NewPassword" data-vd="{name:'new password', r:true, minL:6, maxL: 40}" class="form-control" placeholder="新密码">
+                                <input type="password" name="NewPassword" data-vd="{name:'@L("NewPassword")', r:true, minL:6, maxL: 32}" class="form-control">
                             </div>
                         </div>
                     </div>

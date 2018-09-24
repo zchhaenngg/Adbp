@@ -1,39 +1,121 @@
-﻿@using Abp.Application.Services.Dto
+﻿@using Adbp.Zero.Authorization
+@using Abp.Application.Services.Dto
 @using Adbp.Zero.Authorization.Roles.Dto
+@using System.Text
 @model ListResultDto<PermissionDto>
-@{
-    string identifier = ViewBag.Identifier;
-    string[] GroupNames = ViewBag.GroupNames;
-    IEnumerable<List<PermissionDto>> GetPermissionDtosInGroup()
+@{ 
+    bool isStartWith(string source, params string[] strs)
     {
-        if (GroupNames?.Length > 0)
+        return strs.Any(str => source == str || source.Contains(str + "."));
+    }
+
+    foreach (var item in Model.Items.OrderBy(x => x.Name))
+    {
+        if (isStartWith(item.Name, ZeroPermissionNames.Permissions_User, 
+            ZeroPermissionNames.Permissions_UserAgent, 
+            ZeroPermissionNames.Permissions_Role,
+            "Permissions.UserRole",
+            ZeroPermissionNames.Permissions_SysObjectSetting))
         {
-            foreach (var groupName in GroupNames)
-            {
-                yield return Model.Items.Where(x => x.GroupName == groupName).ToList();
-            }
+            item.GroupName = "SECURITY";
+        }
+        else if (isStartWith(item.Name, ZeroPermissionNames.Permissions_OrganizationUnit, "Permissions.OuUser"))
+        {
+            item.GroupName = "OU_USER";
+        }
+        else if (isStartWith(item.Name, ZeroPermissionNames.Permissions_ApplicationLanguageText))
+        {
+            item.GroupName = "LOCALIZATION";
+        }
+        else if (isStartWith(item.Name, "Permissions.Notification"))
+        {
+            item.GroupName = "NOTIFICATION";
+        }
+        else if (isStartWith(item.Name, ZeroPermissionNames.Permissions_AuditLog,
+            ZeroPermissionNames.Permissions_LoginAttemptLog,
+            ZeroPermissionNames.Permissions_SystemSetting))
+        {
+            item.GroupName = "SETTING_LOG";
         }
         else
         {
-            yield return Model.Items.Where(x => string.IsNullOrWhiteSpace(x.GroupName)).ToList();
+            item.GroupName = "BUSINESS";
         }
+    }
+
+    List<PermissionDto> GetPermissionDtosInGroup(string groupName)
+    {
+        return Model.Items.Where(x => x.GroupName == groupName).ToList();
+    }
+
+    HtmlString RenderGroup(string group)
+    {
+        StringBuilder str = new StringBuilder();
+        foreach (var item in GetPermissionDtosInGroup(group))
+        {
+            var permissionId = "permissionId_" + item.Name;
+            str.Append(
+        $"<div class='col-12 col-md-6 col-lg-3'>" +
+            $"<div class='custom-control custom-checkbox'>" +
+                $"<input type='checkbox' name='Permissions' class='custom-control-input' value='{item.Name}' id='{permissionId}'>" +
+                $"<label class='custom-control-label' for='{permissionId}'>{item.DisplayName}<span class='badge badge-danger ml-2'></span></label>" +
+            $"</div>" +
+        $"</div>");
+        }
+        return new HtmlString(str.ToString());
     }
 }
 
-@foreach (var items in GetPermissionDtosInGroup())
-{
-    <div class="form-group row">
-        @foreach (var item in items)
+<input type="hidden" name="Id" />
+<div class="accordion" id="accordionExample">    
+    <div class="card">
+        <div class="card-header bg-white">
+            <div class="float-left">
+                <p class="text-monospace text-info" style="padding-top: .375rem;"><strong>Static</strong> RolePermissionSetting can not be changed.</p>
+            </div>
+            <div class="float-right">
+                <button type="button" class="btn btn-primary adbp-formSubmit" @GetDisabledStrIfNotGranted(ZeroPermissionNames.Permissions_Role_Update)>@L("Save")</button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1">
+                    @L("PERMISSIONGROUP_BUSINESS")
+                </button>
+            </h5>
+        </div>
+        <div id="collapse1" class="collapse show" data-parent="#accordionExample">
+            <div class="card-body">
+                <div class="row">
+                    @RenderGroup("BUSINESS")
+                </div>
+            </div>
+        </div>
+    </div>
+    @{
+        var groups = new string[] { "SECURITY", "OU_USER", "LOCALIZATION", "NOTIFICATION", "SETTING_LOG" };
+        for (int i = 0; i < groups.Length; i++)
         {
-            var permissionId = identifier + "_permission_" + item.Name;
-            <div class="col-sm-3">
-                <div class="form-check">
-                    <input name="Permissions" class="form-check-input adbp-checkbox filled-in" type="checkbox" value="@item.Name" id="@permissionId">
-                    <label class="form-check-label" for="@permissionId">
-                        @item.DisplayName
-                    </label>
+            var collapseId = "collapse" + (i + 2);
+            var group = groups[i];
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#@collapseId">
+                            @L("PERMISSIONGROUP_" + group)
+                        </button>
+                    </h5>
+                </div>
+                <div id="@collapseId" class="collapse" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="row">
+                            @RenderGroup(group)
+                        </div>
+                    </div>
                 </div>
             </div>
         }
-    </div>
-}
+    }
+</div>

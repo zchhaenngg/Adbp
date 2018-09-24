@@ -5,19 +5,19 @@
     
 }
 <h5>
-    组织机构
-    <small class="text-muted">应用组织机构和行政区划到用户和实体</small>
+    @L("OrganizationUnit")
+    <small class="text-muted">@L("OrganizationUnitOrUserGroup")</small>
 </h5>
 <div class="row">
     <div class="col">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
-                    <h4>组织机构树</h4>
+                    <h4>@L("OrganizationUnitTree")</h4>
                 </div>
                 <div class="float-right">
                     <button id="btn-root_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#organization-modal_add" disabled="disabled">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;添加根组织
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;@L("AddRootOrganizationUnit")
                     </button>
                 </div>
             </div>
@@ -32,10 +32,10 @@
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
-                    <h4>组织成员</h4>
+                    <h4>@L("OrganizationUnitMember")</h4>
                 </div>
                 <div class="float-right">
-                    <p>选择一个组织成员</p>
+                    <p>@L("SelectAOrganizationUnit")</p>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="float-right">
                     <button id="btn-organization_addUser" type="button" class="btn btn-default" data-toggle="modal" data-target="#organization-modal_addUser">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;添加成员
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;@L("AddAMemberOfOrganizationUnit")
                     </button>
                 </div>
             </div>
@@ -65,10 +65,10 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>用户名</th>
-                                <th>名字</th>
-                                <th>姓氏</th>
-                                <th>添加时间</th>
+                                <th>@L("UserName")</th>
+                                <th>@L("Name")</th>
+                                <th>@L("Surname")</th>
+                                <th>@L("AddMemberTime")</th>
                             </tr>
                         </thead>
                     </table>
@@ -84,14 +84,14 @@
             <form id="index-form_createOrganizationUnit" action="api/services/app/organizationUnit/createOrganizationUnit">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <span>新建根组织机构</span>
+                        <i class="fas fa-plus fa-sm text-primary"></i><span class="text-muted pl-2">@L("Create")</span>
                     </h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label adbp-mask">@L("DisplayName")</label>
                         <div class="col-sm-10">
-                            <input type="text" name="DisplayName" data-vd="{name:'@L("DisplayName")', r:true, maxL:50}" class="form-control" placeholder="@L("DisplayName")">
+                            <input type="text" name="DisplayName" data-vd="{name:'@L("DisplayName")', r:true, maxL:50}" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <span>Select users</span>
+                    <span>@L("SelectUsersToAddInOrg")</span>
                 </h5>
             </div>
             <div class="modal-body">
@@ -123,9 +123,9 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>用户名</th>
-                            <th>名字</th>
-                            <th>姓氏</th>
+                            <th>@L("UserName")</th>
+                            <th>@L("Name")</th>
+                            <th>@L("Surname")</th>
                         </tr>
                     </thead>
                 </table>

@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    window.table = new abp.table.server("#userIndex-table", {
+    let table = new abp.table.server("#userIndex-table", {
         "order": [[3, "desc"]],
         'ajax': {
             url: '/zerousers/getUsers',
@@ -27,7 +27,7 @@
             { data: 'Name' },
             {
                 data: 'IsActive', render: function (data, type, full, meta) {
-                    return data ? "是" : "否";
+                    return data ? L("Yes") : L("No");
                 }
             },
             {
@@ -36,28 +36,13 @@
                 }
             }
         ]
-    }).contact(["draw.dt", "select.dt", "deselect.dt"], "#btn-userIndex_edit, #btn-userIndex_delete", function (e, dt, type, indexes) {
-        if (dt.isSingleSelected()) {
-            if (!dt.singleSelected().IsStatic) {
-                $(this).removeAttr("disabled");
-            }
-            else {
-                $(this).attr("disabled", true);
-            }
-        }
-        else {
-            $(this).attr("disabled", true);
-        }
-    });
-    table.show();
-
-    $('#table-search').on('change', function () {
-        table.show();
+    }).contact(["draw.dt", "select.dt", "deselect.dt"], "", function (e, dt, type, indexes) {
+        controllers.edit(e, dt, type, indexes);
+        controllers.delete(e, dt, type, indexes);
     });
 
     function initEditModal({ Id, UserName, Name, Surname, EmailAddress, IsActive, RoleIds }) {
         let $form = $("#modal-user_edit").find("form");
-        $form.resetForm();
 
         $form.find("[name=Id]").val(Id);
         $form.find("[name=UserName]").val(UserName);
@@ -70,27 +55,60 @@
         else {
             $form.find("[name=IsActive]").removeAttr("checked");
         }
-        if (RoleIds != null) {
+        if (RoleIds !== null) {
             for (var i in RoleIds) {
                 $form.find(`[name=RoleIds][value='${RoleIds[i]}']`).prop("checked", true);
             }
         }
     }
 
-    $("#modal-user_edit").on("show.bs.modal", function () {
-        var row = window.table.singleSelected();
-        initEditModal(row);
-    });
+    let controllers = {
+        doInit: function () {
+            table.show();
 
-    $("#btn-userIndex_delete").on("click", function () {
-        abp.message.confirm('', "确认删除用户！").done((value) => {
-            if (value) {
-                var row = window.table.singleSelected();
-                abp.services.app.user.delete(row.Id).done(function () {
-                    abp.notify.success("操作成功！");
-                    table.show();
+            $("#modal-user_create").on("show.bs.modal", function () {
+                $(this).resetForm();
+            });
+
+            $("#modal-user_edit").on("show.bs.modal", function () {
+                $(this).resetForm();
+
+                let dt = $("#userIndex-table").data("adbp_dt");
+                let row = dt.singleSelected();
+                initEditModal(row);
+            });
+
+            $('#table-search').on('change', function () {
+                table.show();
+            });
+
+            $("#btn-userIndex_delete").on("click", function () {
+                abp.message.confirm('', L("AreYouSureToDelete")).done((value) => {
+                    if (value) {
+                        let dt = $("#userIndex-table").data("adbp_dt");
+                        let { Id } = dt.singleSelected();
+                        abp.services.app.user.delete(Id).done(function () {
+                            abp.notify.success(L("SavedSuccessfully"));
+                            table.show();
+                        });
+                    }
                 });
+            });
+        },
+        disable: function (dt, selector, permission) {
+            if (abp.auth.isGranted(permission) && dt.isSingleSelected() && !dt.singleSelected().IsStatic) {
+                $(selector).removeAttr("disabled");
             }
-        });
-    });
+            else {
+                $(selector).attr("disabled", true);
+            }
+        },
+        edit: function (e, dt, type, indexes) {
+            controllers.disable(dt, "#btn-userIndex_edit", "Permissions.User.Update");
+        },
+        delete: function (e, dt, type, indexes) {
+            controllers.disable(dt, "#btn-userIndex_delete", "Permissions.User.Delete");
+        }
+    };
+    controllers.doInit();
 })();

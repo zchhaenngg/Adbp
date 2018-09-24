@@ -12,7 +12,7 @@ namespace CompanyName.ProjectName.Api.Models
         public string TenancyName { get; set; }
 
         [Required]
-        public string UsernameOrEmailAddress { get; set; }
+        public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }

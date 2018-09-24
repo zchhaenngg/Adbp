@@ -137,7 +137,7 @@ _controller.doInit();
                 if (!enableOrganizationUnitManagement || full.IsStatic === true) {
                     return '';
                 }
-                return "<button class=\"btn btn-default btn-xs btn-member_remove\" title=\"\u5220\u9664\">\n                             <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n                            </button>";
+                return "<button class=\"btn btn-default btn-xs btn-member_remove\" title=\"" + L("Delete") + "\">\n                             <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n                            </button>";
             }
         }, {
             data: 'UserName', render: function render(data, type, full, meta) {
@@ -158,10 +158,11 @@ _controller.doInit();
             $("#table-members .btn-member_remove").off("click").on("click", function () {
                 var data = table_members.find($(this).closest("tr"));
                 console.log(data);
-                abp.message.confirm("\u60A8\u786E\u5B9A\u8981\u5C06\u7528\u6237 " + data.Surname + data.Name + "(" + data.UserName + ") \u4ECE\u7EC4\u7EC7 " + data.OrganizationUnitName + " \u4E2D\u79FB\u9664\u5417\uFF1F").done(function (ok) {
+                var msg = L("MoveUserFromOrganizationUnit", abp.localization.defaultSourceName, "" + data.Surname + data.Name + "(" + data.UserName + ")", data.OrganizationUnitName);
+                abp.message.confirm(msg).done(function (ok) {
                     if (ok) {
                         abp.services.app.organizationUnit.deleteOrganizationUnitUser(data.OrganizationUnitId, data.Id).done(function (rslt) {
-                            abp.notify.success("操作成功");
+                            abp.notify.success(L("SavedSuccessfully"));
                             showMembers();
                         });
                     }
@@ -199,7 +200,7 @@ _controller.doInit();
             };
         });
         abp.services.app.organizationUnit.addOrganizationUnitUsers(data).done(function (rslt) {
-            abp.notify.success("操作成功");
+            abp.notify.success(L("SavedSuccessfully"));
             $("#organization-modal_addUser").modal("hide");
             showMembers();
         });

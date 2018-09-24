@@ -19,6 +19,12 @@ namespace CompanyName.ProjectName.Web.Views
             LocalizationSourceName = ProjectNameConsts.LocalizationSourceName;
         }
 
+        protected HtmlString GetDisabledStrIfNotGranted(string permissionName)
+        {
+            var disabledStr = IsGranted(permissionName) ? string.Empty :
+                "disabled='disabled'";
 
+            return new HtmlString(disabledStr);
+        }
     }
 }

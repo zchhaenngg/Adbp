@@ -33,6 +33,7 @@ namespace Adbp.Zero.EntityFramework
         where TRole : Role<TUser>
         where TUser : User<TUser>
     {
+        public virtual IDbSet<ZeroRolePermissionSetting> ZeroRolePermissionSettings { get; set; }
         // Add a DbSet for each entity type that you want to include in your model. For more information 
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
         public virtual IDbSet<ZeroOrganizationUnit> ZeroOrganizationUnits { get; set; }
@@ -69,6 +70,8 @@ namespace Adbp.Zero.EntityFramework
 
             // overide all abp
             modelBuilder.ChangeAbpTablePrefix<Tenant, Role, User>("Abp_");
+            //
+            modelBuilder.Entity<ZeroRolePermissionSetting>().ToTable("Abp_Permissions");
             // 和OrganizationUnit表名保持一致
             modelBuilder.Entity<ZeroOrganizationUnit>().ToTable("Abp_OrganizationUnits");
             modelBuilder.Entity<ZeroUserOrganizationUnit>().ToTable("Abp_UserOrganizationUnits");

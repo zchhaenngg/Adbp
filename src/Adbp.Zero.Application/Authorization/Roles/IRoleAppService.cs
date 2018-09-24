@@ -24,5 +24,7 @@ namespace Adbp.Zero.Authorization.Roles
         Task Delete(int roleId);
         Task AddToRoleAsync(long userId, int roleId);
         Task RemoveFromRoleAsync(long userId, int roleId);
+        Task SetPermissionsAsync(SetPermissionsInput input);
+        Task<List<RolePermissionDto>> GetRolePermissionDtosAsync(int roleId);
     }
 }

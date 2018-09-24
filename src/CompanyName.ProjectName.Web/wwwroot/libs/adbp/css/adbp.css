@@ -46,3 +46,10 @@ body {
 .bd-navbar.navbar-dark .navbar-nav .nav-link label {
     margin-bottom: auto;
 }
+header.navbar {
+    background-color: hsla(8, 83%, 53%, 0.89) !important;
+    height: 50px;
+}
+header.navbar .navbar-nav .nav-link {
+    color: #fff;
+}

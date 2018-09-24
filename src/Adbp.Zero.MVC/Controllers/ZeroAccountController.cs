@@ -34,7 +34,7 @@ namespace Adbp.Zero.MVC.Controllers
         private readonly IMultiTenancyConfig _multiTenancyConfig;
         private readonly ITenantCache _tenantCache;
         private readonly UserManager _userManager;
-        private readonly AbpLogInManager<Tenant, Role, User> _logInManager;
+        private readonly LogInManager _logInManager;
         private readonly IAuthenticationManager _authenticationManager;
         
         public ZeroAccountController(
@@ -132,15 +132,8 @@ namespace Adbp.Zero.MVC.Controllers
         #endregion
         private async Task<AbpLoginResult<Tenant, User>> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
         {
-            var loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, tenancyName);
-
-            switch (loginResult.Result)
-            {
-                case AbpLoginResultType.Success:
-                    return loginResult;
-                default:
-                    throw CreateExceptionForFailedLoginAttempt(loginResult.Result, usernameOrEmailAddress, tenancyName);
-            }
+            var loginResult = await _logInManager.LoginWithFriendlyExceptionAsync(usernameOrEmailAddress, password, tenancyName);
+            return loginResult;
         }
 
         private async Task SignInAsync(User user, ClaimsIdentity identity = null, bool rememberMe = false)
@@ -152,31 +145,6 @@ namespace Adbp.Zero.MVC.Controllers
 
             _authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             _authenticationManager.SignIn(new AuthenticationProperties { IsPersistent = rememberMe }, identity);
-        }
-
-        private Exception CreateExceptionForFailedLoginAttempt(AbpLoginResultType result, string usernameOrEmailAddress, string tenancyName)
-        {
-            switch (result)
-            {
-                case AbpLoginResultType.Success:
-                    return new ApplicationException("Don't call this method with a success result!");
-                case AbpLoginResultType.InvalidUserNameOrEmailAddress:
-                case AbpLoginResultType.InvalidPassword:
-                    return new UserFriendlyException(L("LoginFailed"), L("InvalidUserNameOrPassword"));
-                case AbpLoginResultType.InvalidTenancyName:
-                    return new UserFriendlyException(L("LoginFailed"), L("ThereIsNoTenantDefinedWithName{0}", tenancyName));
-                case AbpLoginResultType.TenantIsNotActive:
-                    return new UserFriendlyException(L("LoginFailed"), L("TenantIsNotActive", tenancyName));
-                case AbpLoginResultType.UserIsNotActive:
-                    return new UserFriendlyException(L("LoginFailed"), L("UserIsNotActiveAndCanNotLogin", usernameOrEmailAddress));
-                case AbpLoginResultType.UserEmailIsNotConfirmed:
-                    return new UserFriendlyException(L("LoginFailed"), "UserEmailIsNotConfirmedAndCanNotLogin");
-                case AbpLoginResultType.LockedOut:
-                    return new UserFriendlyException(L("LoginFailed"), L("UserLockedOutMessage"));
-                default: //Can not fall to default actually. But other result types can be added in the future and we may forget to handle it
-                    Logger.Warn("Unhandled login fail reason: " + result);
-                    return new UserFriendlyException(L("LoginFailed"));
-            }
         }
 
         private bool IsSelfRegistrationEnabled()

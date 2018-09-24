@@ -137,17 +137,24 @@ namespace Adbp.Zero.Migrations.SeedData
         {
             foreach (var permission in permissions)
             {
-                if (!Context.RolePermissions.Any(x => x.RoleId == role.Id && x.Name == permission.Name))
+                var entity = Context.RolePermissions.FirstOrDefault(x => x.RoleId == role.Id && x.Name == permission.Name);
+                if (entity == null)
                 {
-                    Context.RolePermissions.Add(new RolePermissionSetting
+                    Context.RolePermissions.Add(new ZeroRolePermissionSetting
                     {
                         TenantId = role.TenantId,
                         Name = permission.Name,
                         IsGranted = true,
-                        RoleId = role.Id
+                        RoleId = role.Id,
+                        IsStatic = true
                     });
                     Context.SaveChanges();
                 }
+                else
+                {
+                    (entity as ZeroRolePermissionSetting).IsStatic = true;
+                }
+                Context.SaveChanges();
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿@using Adbp.Zero.Authorization.Roles.Dto
+@using Adbp.Zero.Authorization
 @{
     ViewBag.Title = "Index";
     ViewBag.ActiveMenu = ZeroPageNames.UserManagement;
@@ -15,13 +16,14 @@
         <div class="bd-highlight adbp-toolbar">
             <div class="float-left">
                 <div class="input-group">
-                    <button type="button" class="btn btn-outline-info adbp-toolbar-btn" data-toggle="modal" data-target="#modal-user_create" title="添加用户">
+                    <button type="button" class="btn btn-outline-info adbp-toolbar-btn" data-toggle="modal" data-target="#modal-user_create" title="@L("Create")"
+                            @GetDisabledStrIfNotGranted(ZeroPermissionNames.Permissions_User_Create)>
                         <i class="fas fa-plus fa-sm"></i>
                     </button>
-                    <button id="btn-userIndex_edit" type="button" class="btn btn-outline-info adbp-toolbar-btn" data-toggle="modal" data-target="#modal-user_edit" title="编辑用户" disabled="disabled">
+                    <button id="btn-userIndex_edit" type="button" class="btn btn-outline-info adbp-toolbar-btn" data-toggle="modal" data-target="#modal-user_edit" title="@L("Edit")" disabled="disabled">
                         <i class="fas fa-pencil-alt fa-sm"></i>
                     </button>
-                    <button id="btn-userIndex_delete" type="button" class="btn btn-outline-info adbp-toolbar-btn" title="删除用户" disabled="disabled">
+                    <button id="btn-userIndex_delete" type="button" class="btn btn-outline-info adbp-toolbar-btn" title="@L("Delete")" disabled="disabled">
                         <i class="fas fa-trash-alt fa-sm"></i>
                     </button>
                 </div>
@@ -37,10 +39,10 @@
                 <tr>
                     <th></th>
                     <th>@L("UserName")</th>
-                    <th>姓</th>
-                    <th>名</th>
-                    <th>激活</th>
-                    <th>创建时间</th>
+                    <th>@L("Surname")</th>
+                    <th>@L("Name")</th>
+                    <th>@L("IsActive")</th>
+                    <th>@L("CreationTime")</th>
                 </tr>
             </thead>
         </table>
@@ -52,48 +54,48 @@
             <form action="api/services/app/user/CreateUser" data-dt="#userIndex-table">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <span>创建用户</span>
+                        <i class="fas fa-plus fa-sm text-primary"></i><span class="text-muted pl-2">@L("Create")</span>
                     </h5>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs mb-3" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#nav-basic">User Details</a>
+                            <a class="nav-link active" data-toggle="tab" href="#nav-basic">@L("UserDetails")</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#nav-role">User Roles</a>
+                            <a class="nav-link" data-toggle="tab" href="#nav-role">@L("UserRoles")</a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="nav-basic" role="tabpanel">
+                        <div class="tab-pane fade show active p-2" id="nav-basic" role="tabpanel">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label adbp-mask">@L("UserName")</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="UserName" data-vd="{name:'@L("UserName")', r:true, maxL:100}" class="form-control" placeholder="@L("UserName")">
+                                    <input type="text" name="UserName" data-vd="{name:'@L("UserName")', r:true, maxL:100}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">First Name</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("Name")</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="Name" data-vd="{name:'firstname', r:true, maxL:20}" class="form-control" placeholder="first name">
+                                    <input type="text" name="Name" data-vd="{name:'@L("Name")', r:true, maxL:32}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">Last Name</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("Surname")</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="Surname" class="form-control" data-vd="{name:'lastname', r:true, maxL:20}" placeholder="last name">
+                                    <input type="text" name="Surname" class="form-control" data-vd="{name:'@L("Surname")', r:true, maxL:32}">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">Email Address</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("EmailAddress")</label>
                                 <div class="input-group col-sm-10">
-                                    <input name="EmailAddress" type="text" data-vd="{name:'@L("EmailAddress")', r:true, maxL:100}" class="form-control" placeholder="email address">
+                                    <input name="EmailAddress" type="text" data-vd="{name:'@L("EmailAddress")', r:true, maxL:100}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">Password</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@Ls("AdbpZero", "Password")</label>
                                 <div class="col-sm-10">
-                                    <input type="password" name="Password" data-vd="{name:'password', r:true, minL:6, maxL:20}" class="form-control" placeholder="Password">
+                                    <input type="password" name="Password" data-vd="{name:'@Ls("AdbpZero", "Password")', r:true, minL:6, maxL:32}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -104,9 +106,8 @@
                                     </label>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="tab-pane fade" id="nav-role" role="tabpanel">
+                        <div class="tab-pane fade p-2" id="nav-role" role="tabpanel">
                             <div class="form-group row">
                                 @foreach (var item in AllRoles)
                                 {
@@ -137,42 +138,42 @@
                 <input type="hidden" name="Id" />
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <span>@L("EditRole")</span>
+                        <i class="fas fa-pencil-alt fa-sm text-primary"></i><span class="text-muted pl-2">@L("Edit")</span>
                     </h5>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs mb-3" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#nav-basic2">User Details</a>
+                            <a class="nav-link active" data-toggle="tab" href="#nav-basic2">@L("UserDetails")</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#nav-role2">User Roles</a>
+                            <a class="nav-link" data-toggle="tab" href="#nav-role2">@L("UserRoles")</a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="nav-basic2" role="tabpanel">
+                        <div class="tab-pane fade show active p-2" id="nav-basic2" role="tabpanel">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label adbp-mask">@L("UserName")</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="UserName" data-vd="{name:'@L("UserName")', r:true, maxL:100}" class="form-control" placeholder="@L("UserName")">
+                                    <input type="text" name="UserName" data-vd="{name:'@L("UserName")', r:true, maxL:100}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">First Name</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("Name")</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="Name" data-vd="{name:'firstname', r:true, maxL:20}" class="form-control" placeholder="first name">
+                                    <input type="text" name="Name" data-vd="{name:'@L("Name")', r:true, maxL:32}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">Last Name</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("Surname")</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="Surname" class="form-control" data-vd="{name:'lastname', r:true, maxL:20}" placeholder="last name">
+                                    <input type="text" name="Surname" class="form-control" data-vd="{name:'@L("Surname")', r:true, maxL:32}">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label adbp-mask">Email Address</label>
+                                <label class="col-sm-2 col-form-label adbp-mask">@L("EmailAddress")</label>
                                 <div class="input-group col-sm-10">
-                                    <input name="EmailAddress" type="text" data-vd="{name:'@L("EmailAddress")', r:true, maxL:100}" class="form-control" placeholder="email address">
+                                    <input name="EmailAddress" type="text" data-vd="{name:'@L("EmailAddress")', r:true, maxL:100}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -185,7 +186,7 @@
                             </div>
 
                         </div>
-                        <div class="tab-pane fade" id="nav-role2" role="tabpanel">
+                        <div class="tab-pane fade p-2" id="nav-role2" role="tabpanel">
                             <div class="form-group row">
                                 @foreach (var item in AllRoles)
                                 {
