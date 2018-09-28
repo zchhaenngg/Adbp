@@ -12,6 +12,7 @@ namespace Adbp.Zero.Users
 {
     public interface IUserAppService : IApplicationService
     {
+        Task<UserDto> GetAsync(long id);
         Task<PagedResultDto<UserDto>> GetUsers(GenericPagingInput input);
         Task CreateUserAsync(CreateUserDto input);
         Task UpdateUserAsync(UpdateUserDto input);

@@ -46,7 +46,7 @@ namespace Adbp.Zero.Localization
             var sources = _localizationManager.GetAllSources().OrderBy(s => s.Name).ToArray();
             foreach (var source in sources)
             {
-                IReadOnlyList<LocalizedString> ens = source.GetAllStrings(new CultureInfo("en-US"), includeDefaults: true);
+                IReadOnlyList<LocalizedString> ens = source.GetAllStrings(new CultureInfo("en"), includeDefaults: true);
                 IReadOnlyList<LocalizedString> zhs = source.GetAllStrings(new CultureInfo("zh-Hans"), includeDefaults: true);
                 foreach (var item in ens)
                 {
@@ -81,7 +81,7 @@ namespace Adbp.Zero.Localization
         [AbpAuthorize(ZeroPermissionNames.Permissions_ApplicationLanguageText_Upsert)]
         public virtual async Task UpdateAsync(UpdateLocalizedStringInput input)
         {
-            await _applicationLanguageTextManager.UpdateStringAsync(AbpSession.GetTenantId(), input.Source, new CultureInfo("en-US"), input.Name,input.EnValue);
+            await _applicationLanguageTextManager.UpdateStringAsync(AbpSession.GetTenantId(), input.Source, new CultureInfo("en"), input.Name,input.EnValue);
             await _applicationLanguageTextManager.UpdateStringAsync(AbpSession.GetTenantId(), input.Source, new CultureInfo("zh-Hans"), input.Name, input.ZhValue);
         }
     }

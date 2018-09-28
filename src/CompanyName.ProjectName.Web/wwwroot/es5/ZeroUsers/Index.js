@@ -20,7 +20,7 @@
                 if (full.IsStatic) {
                     data += "<span class=\"badge badge-danger ml-2\">Static</span>";
                 }
-                return data;
+                return "<a href=\"/zerousers/details/" + full.Id + "\">" + data + "</a>";
             }
         }, { data: 'Surname' }, { data: 'Name' }, {
             data: 'IsActive', render: function render(data, type, full, meta) {

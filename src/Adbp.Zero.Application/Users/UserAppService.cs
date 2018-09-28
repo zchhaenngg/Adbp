@@ -125,7 +125,7 @@ namespace Adbp.Zero.Users
 
         public async Task AddAgentAsync(long agentId)
         {
-            await AddAgentAsync(AbpSession.GetUserId());
+            await AddAgentAsync(AbpSession.GetUserId(), agentId);
         }
 
         [AbpAuthorize(ZeroPermissionNames.Permissions_UserAgent_Upsert)]
@@ -146,6 +146,13 @@ namespace Adbp.Zero.Users
             //`x.Agent != null`, to fix if the agent user is deleted.
             var users = await AsyncQueryableExecuter.ToListAsync(_loginAgentRepository.GetAll().Where(x => x.PrincipalId == userId && x.Agent != null).Select(x => x.Agent));
             return users.Select(Map<UserDto>).ToList();
+        }
+
+        [AbpAuthorize(ZeroPermissionNames.Permissions_User_Retrieve)]
+        public async Task<UserDto> GetAsync(long id)
+        {
+            var entity = await _userRepository.GetAsync(id);
+            return Map<UserDto>(entity);
         }
     }
 }

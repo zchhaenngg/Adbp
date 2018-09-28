@@ -38,6 +38,13 @@ namespace Adbp.Zero.MVC.Controllers
             return View();
         }
 
+        public async Task<ActionResult> Details(long id)
+        {
+            var model = await _userAppService.GetAsync(id);
+            ViewBag.Roles = (await _roleAppService.GetRoles(null)).Items;
+            return View(model);
+        }
+
         [DontWrapResult]
         public async Task<ActionResult> GetUsers(DataTableQuery query)
         {

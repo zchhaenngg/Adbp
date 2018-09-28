@@ -1,0 +1,46 @@
+﻿@using Adbp.Zero.Users.Dto
+@using Adbp.Zero.Authorization.Roles.Dto
+@model UserDto
+@{
+    ViewBag.Title = "Details";
+    var AllRoles = ViewBag.Roles as IReadOnlyList<RoleDto>;
+
+    HtmlString GetWhetherCheckedString(int roleId)
+    {
+        return Model.RoleIds?.Contains(roleId) == true ? new HtmlString("checked='checked'") : new HtmlString(string.Empty);
+    }
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb adbp-breadcrumb-background">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/ZeroUsers">Users</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+</nav>
+
+<div class="card adbp-background m-auto" style="width: 38rem;">
+    <div class="card-body">
+        <h5 class="card-title">
+            @Model.UserName
+        </h5>
+        <p class="card-text">@Model.Surname&nbsp;@Model.Name</p>
+        <p class="card-text">@Model.EmailAddress</p>
+        <div class="custom-control custom-checkbox card-text" style="margin-bottom:1rem;">
+            <input type="checkbox" class="custom-control-input" @(Model.IsActive?"checked='checked'":string.Empty)>
+            <label class="custom-control-label">@L("IsActive")</label>
+        </div>
+        <div class="card-text">
+            <div class="row">
+                @foreach (var item in AllRoles)
+                {
+                    <div class="col-sm-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" @GetWhetherCheckedString(item.Id)>
+                            <label class="custom-control-label">@(item.DisplayName)</label>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
