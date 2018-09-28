@@ -1,6 +1,7 @@
 ﻿@using Abp.Configuration
 @using Adbp.Zero.Configuration.Dto
 @using Adbp.Zero
+@using System.Text;
 @{
     ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,7 +28,7 @@
     string GetValue(string name)
     {
         return TenantId == null ? SettingManager.GetSettingValueForApplication(name)
-                                                : SettingManager.GetSettingValueForTenant(name, TenantId.Value);
+            : SettingManager.GetSettingValueForTenant(name, TenantId.Value);
     }
 
     bool CanChange(SettingDefinitionOutput output)
@@ -44,6 +45,102 @@
     string GetTypeStr(SettingDefinitionOutput output)
     {
         return output.Name.Contains("Password") ? "password" : "text";
+    }
+
+    bool IsCheckBox(SettingDefinitionOutput output)
+    {
+        var arr = new string[]
+        {
+            Abp.Net.Mail.EmailSettingNames.Smtp.EnableSsl,
+            Abp.Net.Mail.EmailSettingNames.Smtp.UseDefaultCredentials,
+            Adbp.Zero.Configuration.ZeroSettingNames.OrganizationSettings.CanAddChildOrganizationUnitInStaticOrganizationUnit,
+            Adbp.Zero.Configuration.ZeroSettingNames.OrganizationSettings.CanAddRootOrganizationUnit,
+            Adbp.Zero.Configuration.ZeroSettingNames.OrganizationSettings.CanAddUserInStaticOrganizationUnit,
+            Adbp.Zero.Configuration.ZeroSettingNames.OrganizationSettings.EnableOrganizationUnitManagement,
+            Abp.Zero.Ldap.Configuration.LdapSettingNames.IsEnabled,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric,
+            Abp.Zero.Configuration.AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase
+        };
+        return arr.Contains(output.Name);
+    }
+
+    string GetChecked(bool? checkedValue)
+    {
+        return checkedValue == true ? "checked='checked'" : string.Empty;
+    }
+    string RenderCheckBox(SettingDefinitionOutput item)
+    {
+        bool? CheckedValue = string.Equals(GetValue(item.Name), "true", StringComparison.InvariantCultureIgnoreCase) ? true:
+            string.Equals(GetValue(item.Name), "false", StringComparison.InvariantCultureIgnoreCase) ? false: (bool?)null;
+
+        string idTrue = "idstr_" + item.Name + "_true";
+        string idFalse = "idstr_" + item.Name + "_false";
+        return "<div class='custom-control custom-radio custom-control-inline'>" +
+           $"<input id='{idTrue}' type='radio' name='Value' class='custom-control-input' value='True' {GetChecked(CheckedValue == true)}>" +
+           $"<label for='{idTrue}' class='custom-control-label'>true</label>" +
+       "</div>" +
+       "<div class='custom-control custom-radio custom-control-inline'>" +
+           $"<input id='{idFalse}' type='radio' name='Value' class='custom-control-input' value='False' {GetChecked(CheckedValue == false)}>" +
+           $"<label for='{idFalse}' class='custom-control-label'>false</label>" +
+        "</div>";
+    }
+
+    string RenderCard(Tuple<SettingGroupOutput, List<SettingDefinitionOutput>> gp)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("<div class='card'>")
+            .Append("<div class='card-body'>")
+            .Append($"<h5 class='card-title'>{gp.Item1.GroupDisplay}</h5>");
+        foreach (var definition in gp.Item2)
+        {
+            sb.Append($"<form class='form-inline card-text adbp-ajaxForm' action='{GetAction(definition)}'>");
+            sb.Append($"<input type='hidden' name='Name' value='{definition.Name}' />");
+            sb.Append($"<div class='form-group mb-2'><input type='text' class='form-control-plaintext' value='{definition.DisplayName}'  style='width:25rem;' readonly='readonly'></div>");
+            sb.Append("<div class='form-group mx-sm-3 mb-2'>");
+            if (CanChange(definition))
+            {
+                if (IsCheckBox(definition))
+                {
+                    sb.Append(RenderCheckBox(definition));
+                }
+                else
+                {
+                    sb.Append($"<input type='text' name='Value' class='form-control' value='{GetValue(definition.Name)}' />");
+                }
+            }
+            else
+            {
+                sb.Append($"<input type='{GetTypeStr(definition)}' class='form-control-plaintext' value='{GetValue(definition.Name)}' readonly='readonly'>");
+            }
+            sb.Append("</div>");
+            if (CanChange(definition))
+            {
+                sb.Append("<button type='submit' class='btn btn-primary mb-2'><i class='fas fa-check'></i></button>");
+            }
+            sb.Append("</form>");
+        }
+        sb.Append("</div>").Append("</div>");
+        return sb.ToString();
+
+
+    }
+
+    HtmlString RenderCards(params string[] groupNames)
+    {
+        string str = string.Empty;
+        foreach (var gp in GroupSettingDefinition(groupNames))
+        {
+            str += RenderCard(gp);
+        }
+        return new HtmlString(str);
     }
 }
 <nav aria-label="breadcrumb">
@@ -68,114 +165,16 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="nav-time_Language" role="tabpanel">
-        @{
-            foreach (var gp in GroupSettingDefinition(
-                ZeroConsts.SettingGroups.SettingGroups_DATETIME,
+        @RenderCards(ZeroConsts.SettingGroups.SettingGroups_DATETIME,
                 ZeroConsts.SettingGroups.SettingGroups_LanguageTimeZone,
                 ZeroConsts.SettingGroups.SettingGroups_BackgroundWorkers,
-               ZeroConsts.SettingGroups.SettingGroups_Others))
-            {
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@gp.Item1.GroupDisplay</h5>
-                        @foreach (var definition in gp.Item2)
-                        {
-                        <form class="form-inline card-text adbp-ajaxForm" action="@GetAction(definition)">
-                            <input type="hidden" name="Name" value="@definition.Name" />
-                            <div class="form-group mb-2">
-                                <input type="text" class="form-control-plaintext" value="@definition.DisplayName" readonly>
-                            </div>
-                            <div class="form-group mx-sm-3 mb-2">
-                                @if (CanChange(definition))
-                                {
-                                    <input type="text" name="Value" class="form-control" value="@GetValue(definition.Name)">
-                                }
-                                else
-                                {
-                                    <input type="@GetTypeStr(definition)" class="form-control-plaintext" value="@GetValue(definition.Name)" readonly>
-                                }
-                            </div>
-                            @if (CanChange(definition))
-                            {
-                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-check"></i></button>
-                            }
-                        </form>
-                        }
-                    </div>
-                </div>
-            }
-        }
+               ZeroConsts.SettingGroups.SettingGroups_Others)
     </div>
     <div class="tab-pane fade" id="nav-security" role="tabpanel">
-        @{
-            foreach (var gp in GroupSettingDefinition(ZeroConsts.SettingGroups.SettingGroups_UserManagement))
-            {
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@gp.Item1.GroupDisplay</h5>
-                        @foreach (var definition in gp.Item2)
-                        {
-                            <form class="form-inline card-text adbp-ajaxForm" action="@GetAction(definition)">
-                                <input type="hidden" name="Name" value="@definition.Name" />
-                                <div class="form-group mb-2">
-                                    <input type="text" class="form-control-plaintext" value="@definition.DisplayName" style="width:450px;" readonly>
-                                </div>
-                                <div class="form-group mx-sm-3 mb-2">
-                                    @if (CanChange(definition))
-                                    {
-                                        <input type="text" name="Value" class="form-control" value="@GetValue(definition.Name)">
-                                    }
-                                    else
-                                    {
-                                        <input type="@GetTypeStr(definition)" class="form-control-plaintext" style="width:450px;" value="@GetValue(definition.Name)" readonly>
-                                    }
-                                </div>
-                                @if (CanChange(definition))
-                                {
-                                    <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-check"></i></button>
-                                }
-                            </form>
-                        }
-                    </div>
-                </div>
-            }
-        }
+        @RenderCards(ZeroConsts.SettingGroups.SettingGroups_UserManagement)
     </div>
     <div class="tab-pane fade" id="nav-services" role="tabpanel">
-        @{
-            foreach (var gp in GroupSettingDefinition(
-                ZeroConsts.SettingGroups.SettingGroups_LDAP,
-                ZeroConsts.SettingGroups.SettingGroups_Mail))
-            {
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@gp.Item1.GroupDisplay</h5>
-                        @foreach (var definition in gp.Item2)
-                        {
-                            <form class="form-inline card-text adbp-ajaxForm" action="@GetAction(definition)">
-                                <input type="hidden" name="Name" value="@definition.Name" />
-                                <div class="form-group mb-2">
-                                    <input type="text" class="form-control-plaintext" value="@definition.DisplayName" readonly>
-                                </div>
-                                <div class="form-group mx-sm-3 mb-2">
-                                    @if (CanChange(definition))
-                                    {
-                                        <input type="text" name="Value" class="form-control" value="@GetValue(definition.Name)">
-                                    }
-                                    else
-                                    {
-                                        <input type="@GetTypeStr(definition)" class="form-control-plaintext" value="@GetValue(definition.Name)" readonly>
-                                    }
-                                </div>
-                                @if (CanChange(definition))
-                                {
-                                    <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-check"></i></button>
-                                }
-                            </form>
-                        }
-                    </div>
-                </div>
-            }
-        }
+        @RenderCards(ZeroConsts.SettingGroups.SettingGroups_LDAP,
+                ZeroConsts.SettingGroups.SettingGroups_Mail)
     </div>
 </div>
